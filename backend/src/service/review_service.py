@@ -9,14 +9,14 @@ class ReviewService:
     @staticmethod
     def add_review(review_data: ReviewModel):
 
-      print("======== Creating review ========")
-
-      review = {
-        "user_name": review_data.user_name,
-        "rating": review_data.rating,
-        "comment": review_data.comment
-      }
-
-      print("======== Done creating review ========")
+      added_review = db_instance.add("reviews", review_data)
       
-      return review
+      return added_review
+    
+    @staticmethod
+    def get_all_reviews():
+      reviews = db_instance.get_all_items("reviews")
+      for review in reviews:
+        review['_id'] = str(review['_id'])
+        
+      return reviews

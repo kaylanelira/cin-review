@@ -11,6 +11,16 @@ from src.schemas.review import (
 
 router = APIRouter()
 
-@router.put("/review", response_model=ReviewModel)
+@router.put("/add",
+            tags=['Review'],
+            summary='Add a review', 
+            response_model=ReviewModel)
 async def add_review(review: ReviewModel):
   return ReviewService.add_review(review)
+
+@router.get("/get_all",
+            tags=['Review'],
+            summary='Get all reviews', 
+            response_model=List[ReviewModel])
+async def get_all_reviews():
+  return ReviewService.get_all_reviews()
