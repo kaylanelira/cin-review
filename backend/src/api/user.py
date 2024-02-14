@@ -8,17 +8,15 @@ from src.schemas.user import (
     UserGet,
     UserModel,
     UserCreate,
-    UserList,
-    # SongDelete,
+    UserCreateModel,
+    UserList
 )
 
 router = APIRouter()
-db_instance = db.Database()
-collection = db_instance.get_db()['users']
 
 @router.get(
-  "/users/{user_id}",
-  response_model=dict,
+  "/user/get_user/{user_id}",
+  response_model=UserModel,
   response_class=JSONResponse,
   summary="Get a specific user",
 )
@@ -39,12 +37,35 @@ def get_all_users():
   return users
   
 @router.post(
-  "/users",
+  "/user/create_user",
   response_model=UserModel,
   response_class=JSONResponse,
   summary="create a user",
 )
-def add_user(user: UserCreate):
-  user_add_response = UserService.add_user(user)
+def create_user(user: UserCreate):
+  new_user = UserService.add_user(user)
 
-  return user_add_response
+  return new_user
+
+@router.put(
+  "/user/update_user/{user_id}",
+  response_model=UserModel,
+  response_class=JSONResponse,
+  summary="Edit a user",
+)
+def update_user(user_id: str, updated_user: UserCreateModel):
+  updated_user = UserService.edit_user(user_id, updated_user)
+  if not updated_user:
+      raise HTTPException(status_code=404, detail="User not found")
+  return updated_user
+  
+@router.delete(
+  "/user/delete_user/{user_id}",
+  response_class=JSONResponse,
+  summary="Delete a user",
+)
+def delete_user(user_id: str):
+  deleted_user = UserService.delete_user(user_id)
+  if not deleted_user:
+      raise HTTPException(status_code=404, detail="User not found")
+  return {"message": "User deleted successfully"}
