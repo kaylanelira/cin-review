@@ -15,7 +15,8 @@ from src.schemas.user import (
 router = APIRouter()
 
 @router.get(
-  "/user/get_user/{user_id}",
+  "/get_user/{user_id}",
+  tags=['User'],
   response_model=UserModel,
   response_class=JSONResponse,
   summary="Get a specific user",
@@ -26,7 +27,8 @@ def get_user(user_id: str):
   return user
 
 @router.get(
-  "/users",
+  "/get_all",
+  tags=['User'],
   response_model=List[dict],
   response_class=JSONResponse,
   summary="Get all users",
@@ -37,7 +39,8 @@ def get_all_users():
   return users
   
 @router.post(
-  "/user/create_user",
+  "/create_user",
+  tags=['User'],
   response_model=UserModel,
   response_class=JSONResponse,
   summary="create a user",
@@ -48,7 +51,8 @@ def create_user(user: UserCreate):
   return new_user
 
 @router.put(
-  "/user/update_user/{user_id}",
+  "/update_user/{user_id}",
+  tags=['User'],
   response_model=UserModel,
   response_class=JSONResponse,
   summary="Edit a user",
@@ -60,7 +64,8 @@ def update_user(user_id: str, updated_user: UserCreateModel):
   return updated_user
   
 @router.delete(
-  "/user/delete_user/{user_id}",
+  "/delete_user/{user_id}",
+  tags=['User'],
   response_class=JSONResponse,
   summary="Delete a user",
 )
