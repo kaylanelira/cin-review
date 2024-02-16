@@ -3,18 +3,21 @@ from uuid import uuid4
 from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
 from src.config.config import env
+from typing import Dict
 from logging import INFO, WARNING, getLogger
+from bson.objectid import ObjectId
+from fastapi import HTTPException
+from pymongo import MongoClient
 
-logger = getLogger('uvicorn')
+logger = getLogger("uvicorn")
 
-class Database():
 
+class Database:
     ID_LENGTH = 8
 
     def __init__(self):
         self.db = None
         self.connect()
-
 
     def connect(self):
         try:
@@ -26,12 +29,11 @@ class Database():
 
             print("--------------------")
             logger.info("MongoDB connected!")
-            logger.info(f"Server Version: {mongo_connection.server_info()['version']}")
+            logger.info(
+                f"Server Version: {mongo_connection.server_info()['version']}")
             print("--------------------")
 
-
         except errors.ServerSelectionTimeoutError as err:
-
             mongo_connection = None
             logger.setLevel(WARNING)
             logger.info(f"MongoDB connection error! {err}")
@@ -45,12 +47,8 @@ class Database():
     def get_db(self):
         return self.db
 
-
     def create_collection(
-        self,
-        name: str,
-        indexes: List[IndexModel] = [],
-        validation_schema: Dict = {}
+        self, name: str, indexes: List[IndexModel] = [], validation_schema: Dict = {}
     ) -> Collection:
         """
         Create a collection
@@ -73,12 +71,10 @@ class Database():
 
         """
 
-        collection_options = { "validator": { "$jsonSchema": validation_schema } }
+        collection_options = {"validator": {"$jsonSchema": validation_schema}}
 
         collection: Collection = self.db.create_collection(
-            name,
-            **collection_options
-        )
+            name, **collection_options)
 
         collection.create_indexes(indexes)
 
@@ -124,8 +120,39 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         items = list(collection.find({}, {"_id": 0}))
+        items = list(collection.find())
 
+        for itm in items:
+            itm["id"] = str(itm["_id"])
+
+        print(items)
         return items
+
+    def get_by_name(self, collection_name: str, item_name: str) -> dict:
+        """
+        Retrieve an item by its ID from a collection
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item will be stored
+        - item_id: str
+            The ID of the item to retrieve
+
+        Returns:
+        - dict or None:
+            The item if found, None otherwise
+
+        """
+        collection: Collection = self.db[collection_name]
+
+        item = collection.find_one({"title": str(item_name)})
+
+        if item is not None:
+            # for itm in item
+            item["id"] = str(item["_id"])
+            del item["_id"]
+
+        return item
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
         """
@@ -144,7 +171,11 @@ class Database():
         """
         collection: Collection = self.db[collection_name]
 
-        item = collection.find_one({"id": str(item_id)}, {"_id": 0})
+        item = collection.find_one({"_id": ObjectId(item_id)})
+        if item is not None:
+            item["id"] = str(item["_id"])
+
+        print(item)
         return item
 
     def insert_item(self, collection_name: str, item: dict) -> dict:
@@ -164,48 +195,91 @@ class Database():
         """
         # TODO: test if this method works
 
-        item["id"] = str(uuid4())[:self.ID_LENGTH]
+        item["id"] = str(uuid4())[: self.ID_LENGTH]
 
         collection: Collection = self.db[collection_name]
 
         item_id = collection.insert_one(item).inserted_id
-        return {
-            "id": str(item_id),
-            **item
-        }
+        return {"id": str(item_id), **item}
 
-    # TODO: implement update_item method
-    # def update_item(self, collection_name: str, item_id: str, item: dict) -> dict:
+    def get_by_id(self, collection_name: str, item_id: str) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        item_id = ObjectId(item_id)
+
+        item = collection.find_one({"_id": item_id})
+
+        if not item:
+            return None
+
+        print(item)
+
+        return item
+
+    def find(self, collection_name: str, filter) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        return collection.find(filter)
+
+    def find_by_id(self, collection_name: str, item_id: str) -> dict:
+        item_id = ObjectId(item_id)
+
+        return self.find_one(collection_name, {"_id": item_id})
+
+    def find_one(self, collection_name: str, filter) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        return collection.find_one(filter)
+
+    def add(self, collection_name: str, item: dict) -> dict:
         """
-        Update an item in a collection
+        Insert an item into a collection
 
         Parameters:
         - collection_name: str
-            The name of the collection where the item is stored
-        - item_id: str
-            The ID of the item to update
+            The name of the collection where the item will be stored
         - item: dict
-            New item data
+            The item to insert
 
         Returns:
         - dict:
-            The updated item
+            The inserted item
 
         """
 
-    # TODO: implement delete_item method
-    # def delete_item(self, collection_name: str, item_id: str) -> list:
-        """
-        Delete an item of a collection
+        collection: Collection = self.db[collection_name]
 
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - item_id: str
-            The ID of the item to delete
+        item = dict(item)
 
-        Returns:
-        - list:
-            A list of all items in the collection.
+        item_id = collection.insert_one(item).inserted_id
+        item["_id"] = str(item["_id"])
+        return {"id": str(item_id), **item}
 
-        """
+    def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
+        collection: Collection = self.db[collection_name]
+        item = dict(item)
+
+        if any(value == "" for value in item.values()):
+            return None
+
+        else:
+            item_id = collection.update_one(
+                {"_id": ObjectId(item_id)}, {"$set": item})
+
+            return {
+                **item
+            }
+
+    def delete(self, collection_name: str, item_id: str) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        item = collection.delete_one({"_id": ObjectId(item_id)})
+
+        if item.deleted_count == 0:
+            return {
+                "id": None
+            }
+
+        return {
+            'id': item_id
+        }
