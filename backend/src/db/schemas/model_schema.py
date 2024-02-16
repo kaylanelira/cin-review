@@ -9,4 +9,3 @@ class ModelSchema(BaseModel):
     bson_type: str
     required: List['str']
     properties: Dict[str, Dict[str, ModelSchemaProperty]]
-

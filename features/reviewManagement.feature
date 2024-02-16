@@ -9,6 +9,7 @@ Scenario: Acessar tela de avaliação
 	When o usuário aperta o botão “Avaliar”
 	Then A tela de “review” é exibida
 
+
 Scenario: Sair da tela de avaliação 
 	Given o usuário “Thiago” está logado e na página da cadeira “Cálculo”
 	And A tela de “review” está sendo exibida
