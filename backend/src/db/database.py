@@ -125,7 +125,7 @@ class Database:
         for itm in items:
             itm["id"] = str(itm["_id"])
 
-        print(items)
+        # print(items)
         return items
 
     def get_by_name(self, collection_name: str, item_name: str) -> dict:

@@ -28,3 +28,10 @@ class ReviewService:
       reviews = [review for review in reviews if review['discipline'] == discipline and review['username'] == username]
 
       return reviews
+    
+    @staticmethod
+    def delete_review(id: str):
+
+      deleted_review_id = db_instance.delete("reviews", id)
+
+      return deleted_review_id
