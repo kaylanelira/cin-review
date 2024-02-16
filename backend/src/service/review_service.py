@@ -20,3 +20,11 @@ class ReviewService:
         review['_id'] = str(review['_id'])
         
       return reviews
+    
+    @staticmethod
+    def get_reviews_by_name_and_discipline(discipline: str, username: str):
+      reviews = db_instance.get_all_items("reviews")
+
+      reviews = [review for review in reviews if review['discipline'] == discipline and review['username'] == username]
+
+      return reviews
