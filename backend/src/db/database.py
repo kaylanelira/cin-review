@@ -283,3 +283,22 @@ class Database:
         return {
             'id': item_id
         }
+        
+    def delete_all_users(self):
+        """
+        Delete all users in the 'users' collection
+
+        Returns
+        - bool
+            True if the 'users' collection was dropped and recreated successfully, False otherwise
+        """
+        users_collection_name = 'users'
+
+        if self.drop_collection(users_collection_name):
+            # Create the 'users' collection again if dropped successfully
+            self.create_collection(users_collection_name)
+
+            logger.info(f"All users deleted from the 'users' collection!")
+            return True
+
+        return False

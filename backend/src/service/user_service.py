@@ -1,6 +1,6 @@
 from pydantic import ValidationError
 from pymongo import IndexModel
-from src.schemas.user import UserCreateModel, UserModel
+from src.schemas.user import UserModel
 from src.db import database as db
 from typing import List
 from unittest.mock import patch
@@ -27,13 +27,8 @@ class UserService:
     return user
 
   @staticmethod
-  def add_user(user: UserCreateModel):
+  def add_user(user: UserModel):
     try:
-      if UserService.email_exists(user.email):
-          raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email indisponivel")
-
-      if UserService.username_exists(user.username):
-          raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Nome de usuário indisponivel")
       if UserService.email_exists(user.email):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email indisponivel")
       elif UserService.username_exists(user.username):
@@ -46,21 +41,29 @@ class UserService:
 
 
   @staticmethod
-  def edit_user(id: str, user: UserCreateModel):
+  def edit_user(id: str, user: UserModel):
     edited_user = db_instance.edit("users", id, user)
+    if edited_user is not None:
+      return edited_user
+    else:
+      raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    return edited_user
 
   @staticmethod
-  def delete_user(id: str):
-    deleted_user = db_instance.delete("users", id)
-
+  def delete_user(id: str, password: str):
+    user = UserService.get_user(id)
+    if user["password"] == password:
+      deleted_user = db_instance.delete("users", id)
+    else:
+      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Senha incorreta. A conta não foi deletada.")
+    if not deleted_user:
+      raise HTTPException(status_code=404, detail="User not found")
+    
     return deleted_user
   
   @staticmethod
   def delete_all_users():
-    db_instance.drop_collection('users')
-    db_instance.create_collection('users', List[IndexModel], UserModel)
+    db_instance.delete_all_users()
   
   @staticmethod
   def get_user_by_username(username: str):

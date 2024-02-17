@@ -6,7 +6,6 @@ from typing import List
 from src.service.user_service import UserService
 from src.schemas.user import (
     UserModel,
-    UserCreateModel,
     UserList
 )
 
@@ -43,7 +42,7 @@ def get_all_users():
   response_class=JSONResponse,
   summary="Create a user",
 )
-def create_user(user: UserCreateModel):
+def create_user(user: UserModel):
   new_user = UserService.add_user(user)
 
   return new_user
@@ -55,10 +54,9 @@ def create_user(user: UserCreateModel):
   response_class=JSONResponse,
   summary="Edit a user",
 )
-def update_user(user_id: str, updated_user: UserCreateModel):
+def update_user(user_id: str, updated_user: UserModel):
   updated_user = UserService.edit_user(user_id, updated_user)
-  if not updated_user:
-      raise HTTPException(status_code=404, detail="User not found")
+  
   return updated_user
   
 @router.delete(
@@ -67,17 +65,15 @@ def update_user(user_id: str, updated_user: UserCreateModel):
   response_class=JSONResponse,
   summary="Delete a user",
 )
-def delete_user(user_id: str):
-  deleted_user = UserService.delete_user(user_id)
-  if not deleted_user:
-      raise HTTPException(status_code=404, detail="User not found")
-  return {"message": "User deleted successfully"}
+def delete_user(user_id: str, password: str):
+  deleted_user = UserService.delete_user(user_id, password)
+  return deleted_user
 
-# @router.delete(
-#   "/delete_all",
-#   tags=['User'],
-#   response_class=JSONResponse,
-#   summary="Delete all users",
-# )
-# def delete_all():
-#   UserService.delete_all_users()
+@router.delete(
+  "/delete_all",
+  tags=['User'],
+  response_class=JSONResponse,
+  summary="Delete all users",
+)
+def delete_all():
+  UserService.delete_all_users()

@@ -89,9 +89,9 @@ Scenario: Cadastrar uma conta com e-mail já existente
 
 Scenario: Deletar uma conta com senha correta
 	Given o usuário com o nome de usuário "bafm" e senha "senha123" está cadastrado no UserService
-	When uma requisição DELETE for enviada para "/user/delete_user/100" com a senha "senha123"
-	Then o status da resposta deve ser "204"
-	And o usuario com ID 100 não deve existir no UserService
+	When uma requisição DELETE for enviada para "/user/delete_user/65d0258be1b30b270d9930af" com a senha "senha123"
+	Then o status da resposta deve ser "200"
+	And o usuario com o nome de usuário "bafm" não está cadastrado no UserService
 
 
 Scenario: Deletar uma conta com senha incorreta
@@ -102,12 +102,12 @@ Scenario: Deletar uma conta com senha incorreta
   And a resposta deve conter a mensagem "Senha incorreta. A conta não foi deletada."
 
 Scenario: Editar o nome de usuário de uma conta com sucesso
-	Given o nome de usuário "bafm" existe no UserService
-	When uma requisição "PUT" for enviada para "/user/get_user/100" com os dados
-		| Nome de Usuário   |
-		| bafm1							|
+	Given o usuário com o nome de usuário "bafm" está cadastrado no UserService
+	When uma requisição PUT é enviada para "/user/update_user/65d0258be1b30b270d9930af" com os dados
+		| id | name   | surname  | username | email               | password | same_password |
+		| 1  | Breno  | Miranda  | bafm1    | bafm@cin.ufpe.br    | senha123 | senha123      |
 	Then o status da resposta deve ser "200"
-	And o JSON da resposta deve conter o usuario com o ID "100" e nome de usuário "bafm1"
+	And o JSON da resposta deve conter o nome de usuário "bafm1" 
 
 Scenario: Editar nome de usuário por um já existente
 		Given um UserService com um usuário existente com os dados
