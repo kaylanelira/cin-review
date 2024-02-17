@@ -25,7 +25,7 @@ async def get_all_reviews():
 async def get_reviews_by_discipline_and_user(discipline: str, username: str):
   return ReviewService.get_reviews_by_name_and_discipline(discipline, username)
 
-@router.put("/add",
+@router.post("/add",
             tags=['Review'],
             summary='Add a review', 
             response_model=ReviewModel)
@@ -37,6 +37,21 @@ async def add_review(new_review: ReviewModel):
     return JSONResponse(status_code=409, content={"message": "User has already reviewed this discipline"})
 
   return ReviewService.add_review(new_review)
+
+@router.put("/edit",
+            tags=['Review'],
+            summary='Edit a review', 
+            response_model=ReviewModel)
+async def edit_review(discipline: str, username: str, new_review: ReviewModel):
+  
+    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
+  
+    if(len(existing_reviews) == 0):
+      return JSONResponse(status_code=404, content={"message": "No review found"})
+  
+    id_to_edit = existing_reviews[0]['_id']
+  
+    return ReviewService.edit_review(id_to_edit, new_review)
 
 @router.delete("/delete",
                 tags=['Review'],

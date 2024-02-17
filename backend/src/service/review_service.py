@@ -35,3 +35,10 @@ class ReviewService:
       deleted_review_id = db_instance.delete("reviews", id)
 
       return deleted_review_id
+
+    @staticmethod
+    def edit_review(id: str, review_data: ReviewModel):
+
+      edited_review = db_instance.edit("reviews", id, review_data)
+
+      return edited_review
