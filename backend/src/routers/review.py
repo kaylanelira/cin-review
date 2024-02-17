@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from starlette.responses import JSONResponse
-from src.db import database as db
+from db import database as db
 from bson import ObjectId
 from typing import List
-from src.service.review_service import ReviewService
+from service.review_service import ReviewService
 
-from src.schemas.review import (
+from schemas.review import (
   ReviewModel,
 )
 

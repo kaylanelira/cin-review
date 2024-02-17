@@ -1,7 +1,7 @@
 from pydantic import ValidationError
 from pymongo import IndexModel
-from src.schemas.user import UserCreateModel, UserModel
-from src.db import database as db
+from schemas.user import UserCreateModel, UserModel
+from db import database as db
 from typing import List
 from unittest.mock import patch
 from pymongo.errors import DuplicateKeyError

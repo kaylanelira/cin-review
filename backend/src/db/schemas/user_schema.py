@@ -1,4 +1,4 @@
-from src.db.schemas.model_schema import ModelSchema
+from db.schemas.model_schema import ModelSchema
 
 class User(ModelSchema):
     bson_type: str = "object"
