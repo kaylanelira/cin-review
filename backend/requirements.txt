@@ -5,3 +5,4 @@ pytest
 pytest-bdd
 httpx
 pymongo
+pydantic[email]

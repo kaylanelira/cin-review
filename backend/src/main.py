@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.routers.review import router as review_router
-from src.routers.user import router as user_router
+from routers.review import router as review_router
+from routers.user import router as user_router
 
 app = FastAPI()
 
@@ -9,7 +9,6 @@ origins = [
     "http://localhost:3000",
     "localhost:3000"
 ]
-
 
 app.add_middleware(
     CORSMiddleware,

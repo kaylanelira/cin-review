@@ -1,5 +1,5 @@
-from src.schemas.review import ReviewModel
-from src.db import database as db
+from schemas.review import ReviewModel
+from db import database as db
 from typing import List
 from unittest.mock import patch
 

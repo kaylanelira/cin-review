@@ -2,7 +2,7 @@ from typing import List, Dict
 from uuid import uuid4
 from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
-from src.config.config import env
+from config.config import env
 from typing import Dict
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
@@ -128,7 +128,7 @@ class Database:
         # print(items)
         return items
 
-    def get_by_name(self, collection_name: str, item_name: str) -> dict:
+    def get_by_username(self, collection_name: str, username: str) -> dict:
         """
         Retrieve an item by its ID from a collection
 
@@ -145,7 +145,7 @@ class Database:
         """
         collection: Collection = self.db[collection_name]
 
-        item = collection.find_one({"title": str(item_name)})
+        item = collection.find_one({"username": str(username)})
 
         if item is not None:
             # for itm in item
