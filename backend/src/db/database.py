@@ -2,7 +2,7 @@ from typing import List, Dict
 from uuid import uuid4
 from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
-from src.config.config import env
+from config.config import env
 from typing import Dict
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
@@ -125,7 +125,7 @@ class Database:
         for itm in items:
             itm["id"] = str(itm["_id"])
 
-        print(items)
+        # print(items)
         return items
 
     def get_by_username(self, collection_name: str, username: str) -> dict:

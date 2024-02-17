@@ -1,7 +1,7 @@
-from src.schemas.response import HTTPResponses, HttpResponseModel
+from schemas.response import HTTPResponses, HttpResponseModel
 from pytest_bdd import parsers, given, when, then, scenario
-from src.service.user_service import UserService, db_instance
-from src.tests.utils.utils import convert_gherkin_string_to_dict
+from service.user_service import UserService, db_instance
+from tests.utils.utils import convert_gherkin_string_to_dict
 
 """ Scenario: Cadastrar uma conta com sucesso """
 @scenario(scenario_name="Cadastrar uma conta com sucesso", feature_name="../features/account.feature")

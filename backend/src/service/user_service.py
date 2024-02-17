@@ -1,7 +1,7 @@
 from pydantic import ValidationError
 from pymongo import IndexModel
-from src.schemas.user import UserModel
-from src.db import database as db
+from schemas.user import UserModel
+from db import database as db
 from typing import List
 from unittest.mock import patch
 from pymongo.errors import DuplicateKeyError
@@ -13,13 +13,13 @@ class UserService:
   @staticmethod
   def get_users():
     users = db_instance.get_all_items("users")
-    user_models = [UserModel(**user) for user in users]
-    return user_models
+    #user_models = [UserModel(id=us**user) for user in users]
+    return users
 
   @staticmethod
   def get_user(user_id: str):
     user = db_instance.find_by_id("users", user_id)
-    user['_id'] = str(user['_id'])
+    #user['_id'] = str(user['_id'])
 
     if not user:
       return None
@@ -68,6 +68,15 @@ class UserService:
   @staticmethod
   def get_user_by_username(username: str):
     user = db_instance.get_by_username("users", username)
+    
+    if not user:
+      return None
+    
+    return user
+  
+  @staticmethod
+  def get_user_by_email(email: str):
+    user = db_instance.get_by_email("users", email)
     
     if not user:
       return None
