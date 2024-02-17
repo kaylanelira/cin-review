@@ -1,4 +1,5 @@
 from pydantic import ValidationError
+from pymongo import IndexModel
 from src.schemas.user import UserCreateModel, UserModel
 from src.db import database as db
 from typing import List
@@ -55,6 +56,11 @@ class UserService:
     deleted_user = db_instance.delete("users", id)
 
     return deleted_user
+  
+  @staticmethod
+  def delete_all_users():
+    db_instance.drop_collection('users')
+    db_instance.create_collection('users', List[IndexModel], UserModel)
   
   @staticmethod
   def get_user_by_username(username: str):

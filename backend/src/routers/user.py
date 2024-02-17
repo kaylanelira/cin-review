@@ -41,7 +41,7 @@ def get_all_users():
   status_code=201,
   response_model=UserModel,
   response_class=JSONResponse,
-  summary="create a user",
+  summary="Create a user",
 )
 def create_user(user: UserCreateModel):
   new_user = UserService.add_user(user)
@@ -72,3 +72,12 @@ def delete_user(user_id: str):
   if not deleted_user:
       raise HTTPException(status_code=404, detail="User not found")
   return {"message": "User deleted successfully"}
+
+# @router.delete(
+#   "/delete_all",
+#   tags=['User'],
+#   response_class=JSONResponse,
+#   summary="Delete all users",
+# )
+# def delete_all():
+#   UserService.delete_all_users()

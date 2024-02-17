@@ -72,8 +72,8 @@ Feature: Administrar uma conta API
 Scenario: Cadastrar uma conta com sucesso
 	Given o nome de usuário "bafm" não existe no UserService
 	When uma requisição POST é enviada para "/user/create_user" com os dados
-		| name   | surname  | username | email               | password | same_password |
-		| Breno  | Miranda  | bafm     | bafm@cin.ufpe.br    | senha123 | senha123      |
+		| id | name   | surname  | username | email               | password | same_password |
+		|  1 | Breno  | Miranda  | bafm     | bafm@cin.ufpe.br    | senha123 | senha123      |
 	Then o status da resposta deve ser "201"
 	And o JSON da resposta deve conter o nome de usuário "bafm" 
 	And o usuário com o nome de usuário "bafm" está cadastrado no UserService
@@ -81,8 +81,8 @@ Scenario: Cadastrar uma conta com sucesso
 Scenario: Cadastrar uma conta com e-mail já existente
 	Given o nome de usuário "bafm" existe no UserService
 	When uma requisição POST é enviada para "/user/create_user" com os dados
-		| name   | surname  | username | email               | password | same_password |
-		| Breno  | Miranda  | bafm     | bafm@cin.ufpe.br    | senha123 | senha123      |
+		| id | name   | surname  | username | email               | password | same_password |
+		| 1  | Breno  | Miranda  | bafm     | bafm@cin.ufpe.br    | senha123 | senha123      |
 	Then o status da resposta deve ser "409"
 	And a resposta deve conter uma mensagem de erro "Email indisponivel"
 	And o usuário com o nome de usuário "bafm" está cadastrado no UserService
