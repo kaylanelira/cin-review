@@ -5,9 +5,7 @@ from bson import ObjectId
 from typing import List
 from src.service.user_service import UserService
 from src.schemas.user import (
-    UserGet,
     UserModel,
-    UserCreate,
     UserCreateModel,
     UserList
 )
@@ -29,23 +27,23 @@ def get_user(user_id: str):
 @router.get(
   "/get_all",
   tags=['User'],
-  response_model=List[dict],
+  response_model=UserList,
   response_class=JSONResponse,
   summary="Get all users",
 )
 def get_all_users():
   users = UserService.get_users()
-  
-  return users
+  return {"users": users}
   
 @router.post(
   "/create_user",
   tags=['User'],
+  status_code=201,
   response_model=UserModel,
   response_class=JSONResponse,
-  summary="create a user",
+  summary="Create a user",
 )
-def create_user(user: UserCreate):
+def create_user(user: UserCreateModel):
   new_user = UserService.add_user(user)
 
   return new_user
@@ -74,3 +72,12 @@ def delete_user(user_id: str):
   if not deleted_user:
       raise HTTPException(status_code=404, detail="User not found")
   return {"message": "User deleted successfully"}
+
+# @router.delete(
+#   "/delete_all",
+#   tags=['User'],
+#   response_class=JSONResponse,
+#   summary="Delete all users",
+# )
+# def delete_all():
+#   UserService.delete_all_users()

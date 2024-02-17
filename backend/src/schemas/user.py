@@ -1,21 +1,14 @@
 from typing import Optional
-from pydantic import BaseModel
-
-class UserCreate(BaseModel):
-  name: str
-  surname: str
-  username: str
-  email: str
-  password: str
-  phone_number: Optional[str] = None
-  field_of_interest: Optional[str] = None
+from fastapi import logger
+from pydantic import BaseModel, EmailStr
+from pydantic import validator
 
 class UserModel(BaseModel):
   id: str
   name: str
-  surname: str
+  surname: Optional[str] = None
   username: str
-  email: str
+  email: EmailStr
   password: str
   phone_number: Optional[str] = None
   field_of_interest: Optional[str] = None
@@ -24,9 +17,9 @@ class UserModel(BaseModel):
 class UserGet(BaseModel):
   id: str
   name: str
-  surname: str
+  surname: Optional[str] = None
   username: str
-  email: str
+  email: EmailStr
   password: str
   phone_number: Optional[str] = None
   field_of_interest: Optional[str] = None
@@ -34,10 +27,11 @@ class UserGet(BaseModel):
 class UserCreateModel(BaseModel):
   id: str
   name: str
-  surname: str
+  surname: Optional[str] = None
   username: str
-  email: str
+  email: EmailStr
   password: str
+  same_password: str
   phone_number: Optional[str] = None
   field_of_interest: Optional[str] = None
 

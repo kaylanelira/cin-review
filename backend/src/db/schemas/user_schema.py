@@ -3,14 +3,10 @@ from src.db.schemas.model_schema import ModelSchema
 class User(ModelSchema):
     bson_type: str = "object"
     required: list = [
-        "id",
         "name",
-        "surname",
         "username",
         "email",
         "password",
-        "phone_number",
-        "field_of_interest",
     ]
     properties: dict = {
         "id": {"bson_type": "string", "description": "The user's unique identifier"},
@@ -21,6 +17,7 @@ class User(ModelSchema):
         "password": {"bson_type": "string", "description": "The user's password"},
         "phone_number": {"bson_type": "string", "description": "The user's phone number"},
         "field_of_interest": {"bson_type": "string", "description": "The user's field of interest"},
+        "image": {"bson_type": "binData", "description": "Binary image data"},
     }
 
     def get(self) -> dict:
