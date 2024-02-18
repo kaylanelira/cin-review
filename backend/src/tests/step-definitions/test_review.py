@@ -1,5 +1,6 @@
 from pytest_bdd import parsers, given, when, then, scenario
 from service.review_service import ReviewService
+from schemas.review import ReviewModel
 
 # Cenario 1
 
@@ -22,7 +23,7 @@ def delete_user(username: str, discipline: str):
 )
 def add_review(client, context, url: str, username: str, discipline: str, rating: int, comment: str):
     # try route
-    response = client.post(url, json={"username": username, "discipline": discipline, "rating": rating, "comment": comment})
+    response = client.post(url, json={"username": username, "discipline": discipline, "rating": rating, "comment": comment, "time": "NULL"})
     context["response"] = response
     
     # remove review if it exists
@@ -69,7 +70,7 @@ def test_cadastrar_um_review_repetido():
 @given(
     parsers.cfparse('o usuário "{username}" já tem um review cadastrado com disciplina "{discipline}", nota "{rating}" e comentário "{comment}"')
 )
-def add_review(client, username: str, discipline: str, rating: int, comment: str):
+def add_previous_review(client, username: str, discipline: str, rating: int, comment: str):
     
     # remove existing review
     existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
@@ -77,12 +78,14 @@ def add_review(client, username: str, discipline: str, rating: int, comment: str
         id_to_delete = existing_reviews[0]['_id']
         removed_id = ReviewService.delete_review(id_to_delete)
     
-    review = {
-        "username": username,
-        "discipline": discipline,
-        "rating": rating,
-        "comment": comment
-    }
+    review = ReviewModel(
+        username=username,
+        discipline=discipline,
+        rating=rating,
+        comment=comment,
+        time=None
+    )
+
     ReviewService.add_review(review)
 
 @then(parsers.cfparse('o JSON da resposta deve conter a mensagem "{message}"'))
@@ -105,7 +108,8 @@ def edit_review(client, context, url: str, username: str, discipline: str, ratin
         "username": username,
         "discipline": discipline,
         "rating": rating,
-        "comment": comment
+        "comment": comment,
+        "time": None
     }
     response = client.put(url, json=new_review)
     context["response"] = response

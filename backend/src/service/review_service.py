@@ -2,12 +2,17 @@ from schemas.review import ReviewModel
 from db import database as db
 from typing import List
 from unittest.mock import patch
+import datetime
 
 db_instance = db.Database()
 
 class ReviewService:
     @staticmethod
     def add_review(review_data: ReviewModel):
+    
+      review_data.time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+      
+      print(review_data)
 
       added_review = db_instance.add("reviews", review_data)
       
@@ -38,6 +43,8 @@ class ReviewService:
 
     @staticmethod
     def edit_review(id: str, review_data: ReviewModel):
+      
+      review_data.time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
       edited_review = db_instance.edit("reviews", id, review_data)
 
