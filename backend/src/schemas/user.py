@@ -6,7 +6,7 @@ class UserModel(BaseModel):
   name: str
   surname: Optional[str] = None
   username: str
-  email: EmailStr
+  email: str
   password: str
   phone_number: Optional[str] = None
   field_of_interest: Optional[str] = None
