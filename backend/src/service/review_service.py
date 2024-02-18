@@ -58,3 +58,26 @@ class ReviewService:
         db_instance.delete("reviews", str(review['_id']))
         
       return  db_instance.get_all_items("reviews")
+    
+    @staticmethod
+    def get_disciplines_by_most_reviews():
+      reviews = db_instance.get_all_items("reviews")
+      
+      discipline_review_count = {}
+      for review in reviews:
+        discipline = review['discipline']
+        discipline_review_count[discipline] = discipline_review_count.get(discipline, 0) + 1
+      
+      sorted_disciplines = sorted(discipline_review_count.items(), key=lambda x: x[1], reverse=True)
+      
+      top_disciplines = [discipline for discipline, _ in sorted_disciplines[:10]]
+      
+      return top_disciplines
+    
+    @staticmethod
+    def get_recent_reviews():
+      reviews = db_instance.get_all_items("reviews")
+      
+      sorted_reviews = sorted(reviews, key=lambda x: x['time'], reverse=True)
+      
+      return sorted_reviews[:10]
