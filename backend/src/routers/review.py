@@ -84,4 +84,4 @@ async def get_all_reviews():
                 summary='Delete all reviews', 
                 response_model=List[ReviewModel])
 async def delete_all_reviews():
-  return ReviewService.delete_all_reviews()
+  return JSONResponse(status_code=200, content=ReviewService.delete_all_reviews())

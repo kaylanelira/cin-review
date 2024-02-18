@@ -49,3 +49,5 @@ class ReviewService:
 
       for review in reviews:
         db_instance.delete("reviews", str(review['_id']))
+        
+      return  db_instance.get_all_items("reviews")
