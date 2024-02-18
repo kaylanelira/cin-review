@@ -255,20 +255,10 @@ class Database:
         item["_id"] = str(item["_id"])
         return {"id": str(item_id), **item}
 
-    def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
-        collection: Collection = self.db[collection_name]
-        item = dict(item)
-
-        if any(value == "" for value in item.values()):
-            return None
-
-        else:
-            item_id = collection.update_one(
-                {"_id": ObjectId(item_id)}, {"$set": item})
-
-            return {
-                **item
-            }
+    def edit(self, collection_name: str, filter_query: dict, update_data: dict):
+        collection = self.db[collection_name]
+        result = collection.update_one(filter_query, update_data)
+        return result
 
     def delete(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
@@ -283,3 +273,4 @@ class Database:
         return {
             'id': item_id
         }
+    

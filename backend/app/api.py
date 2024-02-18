@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.routers.review import router as review_router
 from src.routers.user import router as user_router
+from src.routers.discipline import router as discipline_router
 
 app = FastAPI()
 
@@ -21,3 +22,4 @@ app.add_middleware(
 
 app.include_router(review_router, prefix="/review")
 app.include_router(user_router, prefix="/user")
+app.include_router(discipline_router, prefix="/discipline")
