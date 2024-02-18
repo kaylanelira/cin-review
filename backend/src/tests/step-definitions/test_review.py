@@ -100,3 +100,9 @@ def edit_review(client, context, url: str, username: str, discipline: str, ratin
         removed_id = ReviewService.delete_review(id_to_delete)
 
     return context
+
+# cenário 4 =====================================================================================
+
+@scenario(scenario_name='Editar um review inexistente', feature_name='../features/review.feature')
+def test_editar_um_review_inexistente():
+    pass

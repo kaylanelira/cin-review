@@ -50,7 +50,7 @@ async def edit_review(new_review: ReviewModel):
     existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
   
     if(len(existing_reviews) == 0):
-      return JSONResponse(status_code=404, content={"message": "No review found"})
+      return JSONResponse(status_code=404, content={"message": "Review not found"})
   
     id_to_edit = existing_reviews[0]['_id']
 
