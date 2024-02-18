@@ -1,6 +1,7 @@
 from typing import List, Dict
 from uuid import uuid4
 from pymongo import MongoClient, errors
+import pymongo
 from pymongo.collection import Collection, IndexModel
 from config.config import env
 from typing import Dict
@@ -71,12 +72,17 @@ class Database:
 
         """
 
+        if indexes is None:
+            indexes = []
+
         collection_options = {"validator": {"$jsonSchema": validation_schema}}
 
         collection: Collection = self.db.create_collection(
             name, **collection_options)
 
-        collection.create_indexes(indexes)
+        # Adicione um índice no campo 'username' como exemplo
+        default_index = IndexModel([("username", pymongo.ASCENDING)])
+        collection.create_indexes([default_index] + indexes)
 
         logger.info(f"Collection {name} created!")
 
@@ -119,11 +125,11 @@ class Database:
 
         collection: Collection = self.db[collection_name]
 
-        items = list(collection.find({}, {"_id": 0}))
+        items = list(collection.find({}, {"id": 0}))
         items = list(collection.find())
 
         for itm in items:
-            itm["id"] = str(itm["_id"])
+            itm["id"] = str(itm["id"])
 
         # print(items)
         return items
@@ -147,10 +153,36 @@ class Database:
 
         item = collection.find_one({"username": str(username)})
 
-        if item is not None:
-            # for itm in item
-            item["id"] = str(item["_id"])
-            del item["_id"]
+        # if item is not None:
+        #     # for itm in item
+        #     item["id"] = str(item["_id"])
+        #     del item["_id"]
+
+        return item
+    
+    def get_by_email(self, collection_name: str, email: str) -> dict:
+        """
+        Retrieve an item by its ID from a collection
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item will be stored
+        - item_id: str
+            The ID of the item to retrieve
+
+        Returns:
+        - dict or None:
+            The item if found, None otherwise
+
+        """
+        collection: Collection = self.db[collection_name]
+
+        item = collection.find_one({"email": email})
+
+        # if item is not None:
+        #     # for itm in item
+        #     item["id"] = str(item["_id"])
+        #     del item["_id"]
 
         return item
 
@@ -171,11 +203,8 @@ class Database:
         """
         collection: Collection = self.db[collection_name]
 
-        item = collection.find_one({"_id": ObjectId(item_id)})
-        if item is not None:
-            item["id"] = str(item["_id"])
-
-        print(item)
+        item = collection.find_one({"id": item_id})
+        
         return item
 
     def insert_item(self, collection_name: str, item: dict) -> dict:
@@ -205,14 +234,10 @@ class Database:
     def get_by_id(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
 
-        item_id = ObjectId(item_id)
-
-        item = collection.find_one({"_id": item_id})
+        item = collection.find_one({"id": item_id})
 
         if not item:
             return None
-
-        print(item)
 
         return item
 
@@ -222,9 +247,7 @@ class Database:
         return collection.find(filter)
 
     def find_by_id(self, collection_name: str, item_id: str) -> dict:
-        item_id = ObjectId(item_id)
-
-        return self.find_one(collection_name, {"_id": item_id})
+        return self.find_one(collection_name, {"id": item_id})
 
     def find_one(self, collection_name: str, filter) -> dict:
         collection: Collection = self.db[collection_name]
@@ -252,7 +275,7 @@ class Database:
         item = dict(item)
 
         item_id = collection.insert_one(item).inserted_id
-        item["_id"] = str(item["_id"])
+        item["id"] = str(item["id"])
         return {"id": str(item_id), **item}
 
     def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
@@ -261,11 +284,11 @@ class Database:
 
         if any(value == "" for value in item.values()):
             return None
-
         else:
             item_id = collection.update_one(
-                {"_id": ObjectId(item_id)}, {"$set": item})
+                {"id": item_id}, {"$set": item})
 
+            print(f"Usuário atualizado no banco de dados: {item}")
             return {
                 **item
             }
@@ -273,7 +296,7 @@ class Database:
     def delete(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
 
-        item = collection.delete_one({"_id": ObjectId(item_id)})
+        item = collection.delete_one({"id": item_id})
 
         if item.deleted_count == 0:
             return {
@@ -283,3 +306,22 @@ class Database:
         return {
             'id': item_id
         }
+        
+    def delete_all_users(self):
+        """
+        Delete all users in the 'users' collection
+
+        Returns
+        - bool
+            True if the 'users' collection was dropped and recreated successfully, False otherwise
+        """
+        users_collection_name = 'users'
+
+        if self.drop_collection(users_collection_name):
+            # Create the 'users' collection again if dropped successfully
+            self.create_collection(users_collection_name)
+
+            logger.info(f"All users deleted from the 'users' collection!")
+            return True
+
+        return False
