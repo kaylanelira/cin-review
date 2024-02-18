@@ -42,3 +42,10 @@ class ReviewService:
       edited_review = db_instance.edit("reviews", id, review_data)
 
       return edited_review
+    
+    @staticmethod
+    def delete_all_reviews():
+      reviews = db_instance.get_all_items("reviews")
+
+      for review in reviews:
+        db_instance.delete("reviews", str(review['_id']))

@@ -11,13 +11,6 @@ from schemas.review import (
 
 router = APIRouter()
 
-@router.get("/get_all",
-            tags=['Review'],
-            summary='Get all reviews', 
-            response_model=List[ReviewModel])
-async def get_all_reviews():
-  return ReviewService.get_all_reviews()
-
 @router.get("/get_by_user_discipline",
             tags=['Review'],
             summary='Get reviews by discipline and user', 
@@ -78,3 +71,17 @@ async def delete_review(discipline: str, username: str):
   removed_id = ReviewService.delete_review(id_to_delete)
 
   return JSONResponse(status_code=200, content={"message": "Review deleted"})
+
+@router.get("/get_all",
+            tags=['Review'],
+            summary='Get all reviews', 
+            response_model=List[ReviewModel])
+async def get_all_reviews():
+  return ReviewService.get_all_reviews()
+
+@router.delete("/delete_all",
+                tags=['Review'],
+                summary='Delete all reviews', 
+                response_model=List[ReviewModel])
+async def delete_all_reviews():
+  return ReviewService.delete_all_reviews()
