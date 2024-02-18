@@ -42,16 +42,19 @@ async def add_review(new_review: ReviewModel):
             tags=['Review'],
             summary='Edit a review', 
             response_model=ReviewModel)
-async def edit_review(discipline: str, username: str, new_review: ReviewModel):
+async def edit_review(new_review: ReviewModel):
   
+    discipline = new_review.discipline
+    username = new_review.username
+
     existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
   
     if(len(existing_reviews) == 0):
       return JSONResponse(status_code=404, content={"message": "No review found"})
   
     id_to_edit = existing_reviews[0]['_id']
-  
-    return ReviewService.edit_review(id_to_edit, new_review)
+
+    return JSONResponse(status_code=200, content=ReviewService.edit_review(id_to_edit, new_review))
 
 @router.delete("/delete",
                 tags=['Review'],
