@@ -7,8 +7,8 @@ from service.review_service import ReviewService
 
 from schemas.review import (
   ReviewModel,
-)
 
+)
 router = APIRouter()
 
 @router.get("/get_by_user_discipline",
