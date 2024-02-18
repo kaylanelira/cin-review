@@ -71,4 +71,4 @@ async def delete_review(discipline: str, username: str):
 
   removed_id = ReviewService.delete_review(id_to_delete)
 
-  return JSONResponse(status_code=200, content={"message": "Review with id " + str(removed_id['id']) + " deleted"})
+  return JSONResponse(status_code=200, content={"message": "Review deleted"})

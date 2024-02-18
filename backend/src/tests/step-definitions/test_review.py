@@ -101,8 +101,29 @@ def edit_review(client, context, url: str, username: str, discipline: str, ratin
 
     return context
 
-# cenário 4 =====================================================================================
+# cenario 4 =====================================================================================
 
 @scenario(scenario_name='Editar um review inexistente', feature_name='../features/review.feature')
 def test_editar_um_review_inexistente():
+    pass
+
+# cenario 5 =====================================================================================
+
+@scenario(scenario_name='Deletar um review com sucesso', feature_name='../features/review.feature')
+def test_deletar_um_review_com_sucesso():
+    pass
+
+@when(
+    parsers.cfparse('uma requisição DELETE é enviada "{url}" com username "{username}" e disciplina "{discipline}"'),
+    target_fixture="context"
+)
+def delete_review(client, context, url: str, username: str, discipline: str):
+    response = client.delete(url, params={"username": username, "discipline": discipline})
+    context["response"] = response
+    return context
+
+# cenario 6 =====================================================================================
+
+@scenario(scenario_name='Deletar um review inexistente', feature_name='../features/review.feature')
+def test_deletar_um_review_inexistente():
     pass
