@@ -18,11 +18,17 @@ router = APIRouter()
 async def get_all_reviews():
   return ReviewService.get_all_reviews()
 
-@router.get("/get_by_discipline_and_user",
+@router.get("/get_by_user_discipline",
             tags=['Review'],
             summary='Get reviews by discipline and user', 
             response_model=List[ReviewModel])
 async def get_reviews_by_discipline_and_user(discipline: str, username: str):
+
+  reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
+
+  if(len(reviews) == 0):
+    return JSONResponse(status_code=404, content={"message": "Review not found"})
+
   return ReviewService.get_reviews_by_name_and_discipline(discipline, username)
 
 @router.post("/add",

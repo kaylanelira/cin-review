@@ -44,11 +44,21 @@ def check_response_status_code(context, response_code: str):
     parsers.cfparse('o JSON da resposta deve conter username "{username}", disciplina "{discipline}", nota "{rating}" e comentário "{comment}"')
 )
 def response_json(context, username: str, discipline: str, rating: str, comment: str):
+
     response_json = context["response"].json()
-    assert response_json["username"] == username
-    assert response_json["discipline"] == discipline
-    assert response_json["rating"] == int(rating)
-    assert response_json["comment"] == comment
+
+    if isinstance(response_json, list):
+        for review in response_json:
+            assert review["username"] == username
+            assert review["discipline"] == discipline
+            assert review["rating"] == int(rating)
+            assert review["comment"] == comment
+    else:
+        assert response_json["username"] == username
+        assert response_json["discipline"] == discipline
+        assert response_json["rating"] == int(rating)
+        assert response_json["comment"] == comment
+
 
 # Cenario 2 =====================================================================================
 
@@ -60,6 +70,13 @@ def test_cadastrar_um_review_repetido():
     parsers.cfparse('o usuário "{username}" já tem um review cadastrado com disciplina "{discipline}", nota "{rating}" e comentário "{comment}"')
 )
 def add_review(client, username: str, discipline: str, rating: int, comment: str):
+    
+    # remove existing review
+    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
+    if(len(existing_reviews) != 0):
+        id_to_delete = existing_reviews[0]['_id']
+        removed_id = ReviewService.delete_review(id_to_delete)
+    
     review = {
         "username": username,
         "discipline": discipline,
@@ -126,4 +143,33 @@ def delete_review(client, context, url: str, username: str, discipline: str):
 
 @scenario(scenario_name='Deletar um review inexistente', feature_name='../features/review.feature')
 def test_deletar_um_review_inexistente():
+    pass
+
+# cenario 7 =====================================================================================
+
+@scenario(scenario_name='Listar reviews de um usuário para uma cadeira', feature_name='../features/review.feature')
+def test_listar_reviews_de_um_usuario_para_uma_cadeira():
+    pass
+
+@when(
+    parsers.cfparse('uma requisição GET é enviada "{url}" com username "{username}" e disciplina "{discipline}"'),
+    target_fixture="context"
+)
+def get_reviews_by_discipline_and_user(client, context, url: str, username: str, discipline: str):
+    # try route
+    response = client.get(url, params={"username": username, "discipline": discipline})
+    context["response"] = response
+
+    # remove review if it exists
+    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
+    if(len(existing_reviews) != 0):
+        id_to_delete = existing_reviews[0]['_id']
+        removed_id = ReviewService.delete_review(id_to_delete)
+
+    return context
+
+# cenario 8 =====================================================================================
+
+@scenario(scenario_name='Listar reviews inexistentes de um usuário para uma cadeira', feature_name='../features/review.feature')
+def test_listar_reviews_inexistentes_de_um_usuario_para_uma_cadeira():
     pass
