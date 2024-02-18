@@ -1,8 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from starlette.responses import JSONResponse
-from db import database as db
-from bson import ObjectId
-from typing import List
 from service.user_service import UserService
 from schemas.user import (
     UserModel,
