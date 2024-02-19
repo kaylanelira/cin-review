@@ -26,20 +26,20 @@ def add_review(client, context, url: str, username: str, discipline: str, rating
     response = client.post(url, json={"username": username, "discipline": discipline, "rating": rating, "comment": comment, "time": "NULL"})
     context["response"] = response
     
-    # remove review if it exists
-    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
-    if(len(existing_reviews) != 0):
-        id_to_delete = existing_reviews[0]['_id']
-        removed_id = ReviewService.delete_review(id_to_delete)
-
     return context
 
 @then(
     parsers.cfparse('o código da resposta é "{response_code}"'),
-    target_fixture="response_code"
+    target_fixture="context"
 )
 def check_response_status_code(context, response_code: str):
+    # Check response status code
     assert context["response"].status_code == int(response_code)
+    
+    # Clear database
+    ReviewService.delete_all_reviews()
+    
+    return context
 
 @then(
     parsers.cfparse('o JSON da resposta deve conter username "{username}", disciplina "{discipline}", nota "{rating}" e comentário "{comment}"')
@@ -59,6 +59,11 @@ def response_json(context, username: str, discipline: str, rating: str, comment:
         assert response_json["discipline"] == discipline
         assert response_json["rating"] == int(rating)
         assert response_json["comment"] == comment
+    
+    # Clear database
+    ReviewService.delete_all_reviews()
+    
+    return context
 
 
 # Cenario 2 =====================================================================================
@@ -72,11 +77,8 @@ def test_cadastrar_um_review_repetido():
 )
 def add_previous_review(client, username: str, discipline: str, rating: int, comment: str):
     
-    # remove existing review
-    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
-    if(len(existing_reviews) != 0):
-        id_to_delete = existing_reviews[0]['_id']
-        removed_id = ReviewService.delete_review(id_to_delete)
+    # Clear database
+    ReviewService.delete_all_reviews()
     
     review = ReviewModel(
         username=username,
@@ -90,8 +92,13 @@ def add_previous_review(client, username: str, discipline: str, rating: int, com
 
 @then(parsers.cfparse('o JSON da resposta deve conter a mensagem "{message}"'))
 def response_json(context, message: str):
-    response_json = context["response"].json()
-    assert response_json["message"] == message
+    # Check response status code
+    assert context["response"].json()["message"] == message
+    
+    # Clear database
+    ReviewService.delete_all_reviews()
+    
+    return context
 
 # Cenario 3 =====================================================================================
 
@@ -114,12 +121,6 @@ def edit_review(client, context, url: str, username: str, discipline: str, ratin
     response = client.put(url, json=new_review)
     context["response"] = response
     
-    # remove review if it exists
-    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
-    if(len(existing_reviews) != 0):
-        id_to_delete = existing_reviews[0]['_id']
-        removed_id = ReviewService.delete_review(id_to_delete)
-
     return context
 
 # cenario 4 =====================================================================================
@@ -163,12 +164,6 @@ def get_reviews_by_discipline_and_user(client, context, url: str, username: str,
     # try route
     response = client.get(url, params={"username": username, "discipline": discipline})
     context["response"] = response
-
-    # remove review if it exists
-    existing_reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
-    if(len(existing_reviews) != 0):
-        id_to_delete = existing_reviews[0]['_id']
-        removed_id = ReviewService.delete_review(id_to_delete)
 
     return context
 
