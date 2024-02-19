@@ -1,12 +1,11 @@
-from schemas.response import HTTPResponses, HttpResponseModel
 from pytest_bdd import parsers, given, when, then, scenario
-from schemas.user import UserModel
 from service.user_service import UserService, db_instance
 from tests.utils import utils
 
-debug = True
+# se verdadeira, printa as respostas do servidor
+debug = False
 
-""" Scenario: Cadastrar uma conta com sucesso """
+# Scenario: Cadastrar uma conta com sucesso =================================================================================
 @scenario(scenario_name="Cadastrar uma conta com sucesso", feature_name="../features/account.feature")
 def test_create_account_sucessfully():
     pass
@@ -30,7 +29,7 @@ def remove_user_from_database(username: str, email:str):
     target_fixture="context"
 )
 def create_account(client, context, req_url: str, data: dict):
-    # ajustando os dados do gherkin para um dict
+    # ajustando os dados do .feature para um dict
     if isinstance(data, str):
         adjusted_data = utils.convert_gherkin_string_to_dict(data)
     elif isinstance(data, dict):
@@ -68,7 +67,7 @@ def check_username_on_UserService(username: str):
     assert user
     return {"user": user}
 
-""" Scenario: Cadastrar uma conta com email já existente """
+# Scenario: Cadastrar uma conta com email já existente =======================================================================
 @scenario(scenario_name="Cadastrar uma conta com e-mail já existente", feature_name="../features/account.feature")
 def test_create_account_existing_email():
     pass
@@ -80,12 +79,17 @@ def response_error_message(context, error_message: str):
     error_detail = response_data.get("detail", "")
     assert error_message in error_detail, f"A mensagem de erro esperada '{error_message}' não foi encontrada na resposta"
 
-""" Cadastrar uma conta sem e-mail """
+# Cadastrar uma conta sem e-mail =============================================================================================
 @scenario(scenario_name="Cadastrar uma conta sem e-mail", feature_name="../features/account.feature")
 def test_create_account_without_email():
     pass
 
-""" Scenario: Deletar uma conta com senha correta """
+# Scenario: Cadastrar uma conta com senhas diferentes ========================================================================
+@scenario(scenario_name="Cadastrar uma conta com senhas diferentes", feature_name="../features/account.feature")
+def test_create_account_different_passwords():
+    pass
+
+# Scenario: Deletar uma conta com senha correta ==============================================================================
 @scenario(scenario_name="Deletar uma conta com senha correta", feature_name="../features/account.feature")
 def test_delete_user_successfuly():
     pass
@@ -111,12 +115,12 @@ def check_username_not_on_UserService(username: str):
     assert not user
     return {"user": user}
 
-""" Scenario: Deletar uma conta com senha incorreta """
+# Scenario: Deletar uma conta com senha incorreta ============================================================================
 @scenario(scenario_name="Deletar uma conta com senha incorreta", feature_name="../features/account.feature")
 def test_delete_user_wrong_password():
     pass
 
-""" Scenario: Editar o nome de usuário de uma conta com sucesso """
+# Scenario: Editar o nome de usuário de uma conta com sucesso ================================================================
 @scenario(scenario_name="Editar o nome de usuário de uma conta com sucesso", feature_name="../features/account.feature")
 def test_edit_username_successfully():
     pass
@@ -126,7 +130,7 @@ def test_edit_username_successfully():
     target_fixture="context"
 )
 def req_put_new_username(client, context, req_url: str, data: dict):
-    # ajustando os dados do Gherkin para um dict
+    # ajustando os dados do .feature para um dict
     if isinstance(data, str):
         adjusted_data = utils.convert_gherkin_string_to_dict(data)
     elif isinstance(data, dict):
@@ -140,7 +144,7 @@ def req_put_new_username(client, context, req_url: str, data: dict):
 
     return context
 
-""" Scenario: Editar nome de usuário por um já existente """
+# Scenario: Editar nome de usuário por um já existente =======================================================================
 @scenario(scenario_name="Editar nome de usuário por um já existente", feature_name="../features/account.feature")
 def test_edit_username_existent():
     pass
@@ -158,8 +162,7 @@ def add_user_to_UserService(client, context, data):
     
     # antes de adicionar, temos que apagar se eles existirem
     for user_data in user_data_list:
-        if UserService.email_exists(user_data["email"]):
-            remove_user_from_database(user_data["username"], user_data["email"])
+        remove_user_from_database(user_data["username"], user_data["email"])
 
     # adicionando cada usuário
     for user_data in user_data_list:
@@ -171,7 +174,7 @@ def add_user_to_UserService(client, context, data):
     context["response"] = response
     return context
 
-""" Scenario: Editar conta sem preencher usuário """
+# Scenario: Editar conta sem preencher usuário ===============================================================================
 @scenario(scenario_name="Editar conta sem preencher usuário", feature_name="../features/account.feature")
 def test_edit_without_username():
     pass
