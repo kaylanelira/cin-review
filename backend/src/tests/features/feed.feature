@@ -79,8 +79,8 @@ Scenario: Sem review cadastradas (Em alta)
     Then o status da resposta deve ser "200"
 	And o JSON da resposta deve estar vazio
 
-#Scenario: Carregamento com sucesso das cadeiras por ordem alfabetica
-    Given o ReviewService possui as cadeiras 
+Scenario: Carregamento com sucesso das disciplinas por ordem alfabetica
+    Given o DisciplineService possui as disciplinas 
         | name                                    | code   | department | semester | professor        | description                      |
         | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
         | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
@@ -90,18 +90,18 @@ Scenario: Sem review cadastradas (Em alta)
         | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
         | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
         | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve conter as disciplinas em ordem alfabetica
+    When uma requisição GET é enviada para "discipline/get_all_alphabetically"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve conter as disciplinas em ordem alfabetica
 
-#Scenario: Sem cadeiras cadastradas
-    #Given que nenhuma cadeira esta cadastrada no sistema
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve estar vazio
+Scenario: Sem disciplinas cadastradas
+    Given o DisciplineService nao possui disciplina
+    When uma requisição GET é enviada para "discipline/get_all"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve estar vazio
 
-#Scenario: Aplicacao do filtro por periodo com sucesso
-    Given o ReviewService possui as cadeiras 
+Scenario: Aplicacao do filtro por periodo com sucesso
+    Given o DisciplineService possui as disciplinas 
         | name                                    | code   | department | semester | professor        | description                      |
         | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
         | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
@@ -111,12 +111,12 @@ Scenario: Sem review cadastradas (Em alta)
         | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
         | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
         | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve conter as disciplinas do periodo "1"
+    When uma requisição GET é enviada para "discipline/by-semester/1"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve conter as disciplinas do periodo "1"
 
-#Scenario: Aplicacao do filtro por periodo sem sucesso
-    Given o ReviewService possui as cadeiras 
+Scenario: Aplicacao do filtro por periodo sem sucesso
+    Given o DisciplineService possui as disciplinas
         | name                                    | code   | department | semester | professor        | description                      |
         | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
         | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
@@ -126,12 +126,12 @@ Scenario: Sem review cadastradas (Em alta)
         | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
         | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
         | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve estar vazio
+    When uma requisição GET é enviada para "discipline/by-semester/5"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve estar vazio
 
-#Scenario: Busca pelo nome da cadeira com sucesso
-Given o ReviewService possui as cadeiras 
+Scenario: Busca pelo nome da disciplina com sucesso
+    Given o DisciplineService possui as disciplinas 
         | name                                    | code   | department | semester | professor        | description                      |
         | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
         | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
@@ -141,12 +141,12 @@ Given o ReviewService possui as cadeiras
         | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
         | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
         | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"/"is"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve conter as disciplina com substring "is"
+    When uma requisição GET é enviada para "discipline/get_disciplines_by_search/"is""
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve conter as disciplina com substring "is"
 
-#Scenario: Busca pelo nome da cadeira sem sucesso
-Given o ReviewService possui as cadeiras 
+Scenario: Busca pelo nome da disciplina sem sucesso
+    Given o DisciplineService possui as disciplinas 
         | name                                    | code   | department | semester | professor        | description                      |
         | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
         | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
@@ -156,6 +156,6 @@ Given o ReviewService possui as cadeiras
         | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
         | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
         | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"/"isa"
-    #Then o status da resposta deve ser "200"
-	#And o JSON da resposta deve estar vazio
+    When uma requisição GET é enviada para "discipline/get_disciplines_by_search/"isa""
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve estar vazio
