@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from starlette.responses import JSONResponse
 from service.user_service import UserService
 from schemas.user import (
+    UserCreateModel,
     UserModel,
     UserList
 )
@@ -35,11 +36,11 @@ def get_all_users():
   "/create_user",
   tags=['User'],
   status_code=201,
-  response_model=UserModel,
+  response_model=UserCreateModel,
   response_class=JSONResponse,
   summary="Create a user",
 )
-def create_user(user: UserModel):
+def create_user(user: UserCreateModel):
   new_user = UserService.add_user(user)
 
   return new_user
@@ -47,11 +48,11 @@ def create_user(user: UserModel):
 @router.put(
   "/update_user/{user_id}",
   tags=['User'],
-  response_model=UserModel,
+  response_model=UserCreateModel,
   response_class=JSONResponse,
   summary="Edit a user",
 )
-def update_user(user_id: str, updated_user: UserModel):
+def update_user(user_id: str, updated_user: UserCreateModel):
   updated_user = UserService.edit_user(user_id, updated_user)
   
   return updated_user
