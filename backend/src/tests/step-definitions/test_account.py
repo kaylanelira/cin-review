@@ -1,10 +1,9 @@
-from schemas.response import HTTPResponses, HttpResponseModel
 from pytest_bdd import parsers, given, when, then, scenario
-from schemas.user import UserModel
 from service.user_service import UserService, db_instance
 from tests.utils import utils
 
-debug = True
+# se verdadeira, printa as respostas do servidor
+debug = False
 
 # Scenario: Cadastrar uma conta com sucesso =================================================================================
 @scenario(scenario_name="Cadastrar uma conta com sucesso", feature_name="../features/account.feature")
@@ -30,7 +29,7 @@ def remove_user_from_database(username: str, email:str):
     target_fixture="context"
 )
 def create_account(client, context, req_url: str, data: dict):
-    # ajustando os dados do gherkin para um dict
+    # ajustando os dados do .feature para um dict
     if isinstance(data, str):
         adjusted_data = utils.convert_gherkin_string_to_dict(data)
     elif isinstance(data, dict):
@@ -131,7 +130,7 @@ def test_edit_username_successfully():
     target_fixture="context"
 )
 def req_put_new_username(client, context, req_url: str, data: dict):
-    # ajustando os dados do Gherkin para um dict
+    # ajustando os dados do .feature para um dict
     if isinstance(data, str):
         adjusted_data = utils.convert_gherkin_string_to_dict(data)
     elif isinstance(data, dict):

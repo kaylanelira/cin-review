@@ -6,8 +6,6 @@ from pymongo.collection import Collection, IndexModel
 from config.config import env
 from typing import Dict
 from logging import INFO, WARNING, getLogger
-from bson.objectid import ObjectId
-from fastapi import HTTPException
 from pymongo import MongoClient
 
 logger = getLogger("uvicorn")
