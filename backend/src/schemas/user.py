@@ -27,3 +27,6 @@ class UserCreateModel(BaseModel):
 # Classe de lista de usuários
 class UserList(BaseModel):
   users: list[UserModel]
+  
+class UserCreateList(BaseModel):
+  users: list[UserCreateModel]
