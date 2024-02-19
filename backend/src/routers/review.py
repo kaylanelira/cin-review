@@ -7,8 +7,8 @@ from service.review_service import ReviewService
 
 from schemas.review import (
   ReviewModel,
-)
 
+)
 router = APIRouter()
 
 @router.get("/get_by_user_discipline",
@@ -85,3 +85,17 @@ async def get_all_reviews():
                 response_model=List[ReviewModel])
 async def delete_all_reviews():
   return JSONResponse(status_code=200, content=ReviewService.delete_all_reviews())
+
+@router.get("/get_disciplines_by_most_reviews",
+            tags=['Review'],
+            summary='Get ten disciplines with most reviews', 
+            response_model=List[str])
+async def get_disciplines_by_most_reviews():
+  return ReviewService.get_disciplines_by_most_reviews()
+
+@router.get("/get_recent_reviews",
+            tags=['Review'],
+            summary='Get ten most recent reviews', 
+            response_model=List[ReviewModel])
+async def get_recent_reviews():
+  return ReviewService.get_recent_reviews()
