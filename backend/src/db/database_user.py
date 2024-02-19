@@ -1,5 +1,8 @@
+from io import BytesIO
 from typing import List, Dict
 from uuid import uuid4
+from fastapi.responses import StreamingResponse
+from gridfs import GridFS
 from pymongo import MongoClient, errors
 import pymongo
 from pymongo.collection import Collection, IndexModel
@@ -7,8 +10,9 @@ from config.config import env
 from typing import Dict
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 from pymongo import MongoClient
+from PIL import Image
 
 logger = getLogger("uvicorn")
 
@@ -19,7 +23,10 @@ class Database:
     def __init__(self):
         self.db = None
         self.connect()
-
+        
+        # inicializando GridFS para imagens
+        self.fs = GridFS(self.db)
+        
     def connect(self):
         try:
             mongo_connection = MongoClient(env.DB_URL)
@@ -325,3 +332,64 @@ class Database:
             return True
 
         return False
+    
+    def save_image(self, collection_name: str, user_id: str, image_data: bytes) -> dict:
+        """
+        Save an image to a MongoDB collection
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the image will be stored
+        - image_data: bytes
+            The binary data of the image
+
+        Returns:
+        - dict:
+            Information about the saved image, including its ID
+
+        """
+        try:
+            image = Image.open(BytesIO(image_data)).convert("RGB")
+
+            # Convert the image data to a bytes buffer
+            image_bytes = BytesIO()
+            image.save(image_bytes, format="JPEG")
+            image_data = image_bytes.getvalue()
+
+            # Generate a unique ID for the image
+            image_id = str(uuid4())[: self.ID_LENGTH]
+
+            # Insert the image into the specified collection
+            collection: Collection = self.db[collection_name]
+            result = collection.insert_one({"_id": image_id, "user_id": user_id, "data": image_data})
+
+            if result.inserted_id:
+                return {"id": str(result.inserted_id)}
+            else:
+                raise Exception("Failed to save image to the database")
+
+        except Exception as e:
+            raise Exception(f"Error saving image to the database: {str(e)}")
+
+    def get_image(self, collection_name: str, user_id: str) -> StreamingResponse:
+        try:
+            # Encontre o documento na coleção com base no user_id
+            collection: Collection = self.db[collection_name]
+            document = collection.find_one({"user_id": user_id})
+
+            if document:
+                # Obtenha os dados da imagem do documento
+                image_data = document.get("data")
+
+                if image_data:
+                    # Crie uma StreamingResponse para retornar a imagem
+                    return StreamingResponse(content=image_data, media_type="image/jpeg")
+
+                else:
+                    raise Exception("Image data not found in the document")
+
+            else:
+                raise Exception("Image not found in the database")
+
+        except Exception as e:
+            raise Exception(f"Error retrieving image from the database: {str(e)}")

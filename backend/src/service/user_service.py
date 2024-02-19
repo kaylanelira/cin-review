@@ -1,7 +1,9 @@
+from fastapi.responses import StreamingResponse
+from schemas.profile_picture import ProfilePicture
 from schemas.user import UserModel
 from db import database_user as db
 from pymongo.errors import DuplicateKeyError
-from fastapi import HTTPException, status
+from fastapi import HTTPException, UploadFile, status
 
 db_instance = db.Database()
 
@@ -107,9 +109,25 @@ class UserService:
     return user
   
   @staticmethod
-  def email_exists(email):
+  def email_exists(email: str):
     return db_instance.find_one("users", {"email": email}) is not None
   
   @staticmethod
-  def username_exists(username):
+  def username_exists(username: str):
     return db_instance.find_one("users", {"username": username}) is not None
+  
+  @staticmethod
+  async def save_profile_picture(user_id: str, profile_picture: UploadFile):
+    contents = await profile_picture.read()
+    # Salvar a foto de perfil no MongoDB
+    result = db_instance.save_image("users", user_id, contents)
+    return result
+  
+  @staticmethod
+  def get_profile_picture(user_id: str) -> StreamingResponse:
+      try:
+          profile_picture = db_instance.get_image("users", user_id)
+          return profile_picture
+
+      except Exception as e:
+          raise HTTPException(status_code=404, detail=f"Image not found: {str(e)}")
