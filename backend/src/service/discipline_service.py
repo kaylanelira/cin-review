@@ -36,7 +36,14 @@ class DisciplineService:
         return discipline_data
     
     @staticmethod
-    def delete_discipline(code: str) -> dict:
+    def get_all_disciplines():
+        disciplines = db_instance.get_all_items("disciplines")
+        for discipline in disciplines:
+            discipline['_id'] = str(discipline['_id'])
+        return disciplines
+    
+    @staticmethod
+    def delete_discipline(code: str):
         collection = db_instance.get_db()["disciplines"]
         delete_result = collection.delete_many({"code": code})
         if delete_result.deleted_count > 0:
@@ -67,3 +74,19 @@ class DisciplineService:
             discipline['id'] = str(discipline['_id'])
             del discipline['_id']
         return disciplines
+    
+    @staticmethod
+    def get_all_disciplines_alphabetically():
+        disciplines = db_instance.get_all_items("disciplines")
+        disciplines = sorted(disciplines, key=lambda x: x['name'])
+        for discipline in disciplines:
+            discipline['_id'] = str(discipline['_id'])
+        return disciplines
+    
+    @staticmethod
+    def get_disciplines_by_search(substring: str):
+        disciplines = db_instance.get_all_items("disciplines")
+        matching_disciplines = [discipline for discipline in disciplines if substring.lower() in discipline['name'].lower()]
+        for matching_discipline in matching_disciplines:
+            matching_discipline['_id'] = str(matching_discipline['_id'])
+        return matching_disciplines     
