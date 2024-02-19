@@ -1,65 +1,91 @@
 Feature: Gerenciamento de Cadeiras
-  As a administrador do sistema
+  As a usuário do sistema
   I want to gerenciar as cadeiras no sistema
-  So that eu possa manter as informacoes das cadeiras atualizadas
+  So that eu possa manter as informações das cadeiras atualizadas
 
-  Scenario: Entrar na pagina de cadastro/edicao de cadeiras
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina inicial
-    When o administrador entra em "edicao"
-    Then o administrador esta na pagina "cadastro / edicao de cadeiras"
+Scenario: Adição bem-sucedida de uma nova cadeira
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  When o usuário preenche o formulário de adição de cadeira com os seguintes detalhes:
+    | Campo        | Valor             |
+    | Name         | Matemática Discreta |
+    | Professor    | Anjolina          |
+    | Department | CIn               |
+    | Semester     | 3                 |
+    | Code       | IF123             |
+    | Description    | Muito bom         |
+  And o usuário submete o formulário
+  Then uma mensagem de confirmação é exibida: "Discipline added successfully."
+  And a cadeira "Matemática Discreta" deve estar presente na lista de cadeiras
 
-  Scenario: Entrar na pagina de adicionar cadeira
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "cadastro / edicao de cadeiras"
-    When o administrador entra em "adicionar" da cadeira "Calculo 1"
-    Then entra na pagina "adicionar cadeira"
+Scenario: Falha na adição de uma nova cadeira devido a campo não preenchido
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  When o usuário preenche o formulário de adição de cadeira com os seguintes detalhes:
+    | Campo        | Valor             |
+    | Name         | Matemática Discreta |
+    | Professor    | Anjolina          |
+    | Department | CIn               |
+    | Semester     | 3                 |
+    | Code       |                   | # Campo Code não preenchido
+    | Description    | Muito bom         |
+  And o usuário submete o formulário
+  Then uma mensagem de erro é exibida: "Fill in all the fields."
+  And a cadeira "Matemática Discreta" não deve estar presente na lista de cadeiras
 
-  Scenario: Adicionar cadeira com sucesso
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "adicionar cadeira"
-    When o administrador preenche todos os campos obrigatórios e adiciona uma nova cadeira
-    Then a cadeira é adicionada ao sistema com sucesso
-    And o administrador esta na pagina "cadastro / edicao de cadeiras"
-    And o administrador recebe a mensagem "Cadeira adicionada com sucesso!"
+Scenario: Falha na adição de uma nova cadeira devido a Code e semestre repetidos
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  And o usuário navega até a página de adição de cadeira
+  And a cadeira com Code "IF123" e semestre "3" já existe no sistema
+  When o usuário preenche o formulário de adição de cadeira com os seguintes detalhes:
+    | Campo        | Valor              |
+    | Name         | Matemática Discreta  |
+    | Professor    | Anjolina           |
+    | Department | CIn                |
+    | Semester     | 3                  |
+    | Code       | IF123              |
+    | Description    | Muito bom          |
+  And o usuário submete o formulário
+  Then uma mensagem de erro é exibida: "Discipline already added."
+  And a tentativa de adicionar uma nova cadeira com Code "IF123" e semestre "3" deve ser rejeitada
 
-  Scenario: Tentativa de adicionar cadeira com campo obrigatório nao preenchido
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "adicionar cadeira"
-    When o administrador deixa um campo obrigatório sem preencher ao tentar adicionar uma nova cadeira
-    Then o administrador recebe a mensagem "Preencha todos os campos obrigatórios!"
-    And continua na pagina "adicionar cadeira"
+Scenario: Edição bem-sucedida de uma cadeira pelo Code
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  When o usuário busca pela cadeira utilizando o Code "IF123"
+  And o usuário é direcionado para o formulário de edição da cadeira com Code "IF123"
+  And o usuário atualiza o formulário de cadeira com os seguintes detalhes:
+    | Campo        | Valor               |
+    | Name         | Matemática Aplicada |
+    | Professor    | Anjolina Jolie      |
+    | Department | CIn                 |
+    | Semester     | 4                   |
+    | Description    | Conteúdo atualizado |
+  And o usuário submete o formulário de atualização
+  Then uma mensagem de confirmação é exibida: "Discipline updated successfully."
+  And a cadeira com Code "IF123" deve refletir as novas informações na lista de cadeiras
 
-  Scenario: Adicionar cadeira com código invalido
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "adicionar cadeira"
-    When o administrador adiciona uma cadeira com um código invalido
-    Then o administrador recebe a mensagem "Código da cadeira invalido! Precisa constar no banco de dados"
-    And continua na pagina "adicionar cadeira"
+Scenario: Falha na edição de uma cadeira devido a campo não preenchido
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  When o usuário busca pela cadeira utilizando o Code "IF123"
+  And o usuário é direcionado para o formulário de edição da cadeira com Code "IF123"
+  And o usuário atualiza o formulário de cadeira deixando o campo "Description" vazio:
+    | Campo        | Valor               |
+    | Name         | Matemática Aplicada |
+    | Professor    | Anjolina Jolie      |
+    | Department | CIn                 |
+    | Semester     | 4                   |
+    | Description    |                     | # Campo Description deixado vazio
+  And o usuário submete o formulário de atualização
+  Then uma mensagem de erro é exibida: "Fill in all the fields."
+  And as alterações na cadeira com Code "IF123" não devem ser salvas
 
-  Scenario: Entrar na pagina de edicao de uma cadeira específica
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "cadastro / edicao de cadeiras"
-    When o administrador entra em "editar" de uma cadeira
-    Then entra na pagina "edicao de cadeira" da cadeira escolhida
+Scenario: Falha na edição de cadeira devido a Code inexistente
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  When o usuário busca pela cadeira utilizando o Code "IF999"
+  Then uma mensagem de erro é exibida: "Discipline code does not exist."
+  And a edição da cadeira com Code "IF999" não deve ser permitida
 
-  Scenario: Editar cadeira com sucesso
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "edicao de cadeira"
-    When o administrador edita um campo e salva a cadeira
-    Then recebe a mensagem "Cadeira editada com sucesso!"
-    And esta na pagina "cadastro / edicao de cadeiras"
-
-  Scenario: Tentativa de edicao de cadeira com campo vazio
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "edicao de cadeira"
-    When o administrador deixa um campo obrigatorio vazio e tenta salvar a cadeira
-    Then o administrador recebe a mensagem "Preencha todos os campos obrigatórios!"
-    And continua na pagina "edicao de cadeira"
-
-  Scenario: Tentativa de edicao de cadeira com código invalido
-    Given o administrador esta logado com login "breno" e senha "correctpassword"
-    And esta na pagina "edicao de cadeira"
-    When o administrador muda o código da cadeira para um código invalido e tenta salvar
-    Then o administrador recebe a mensagem "Código da cadeira invalido! Precisa constar no banco de dados"
-    And continua na pagina "edicao de cadeira"
+Scenario: Deletar todas as cadeiras com o mesmo Code
+  Given que o usuário está logado no sistema de gerenciamento acadêmico
+  And existem 3 cadeiras com o Code "IF123" no sistema
+  When o usuário solicita a deleção das cadeiras utilizando o Code "IF123"
+  Then todas as cadeiras com o Code "IF123" são removidas do sistema
+  And uma mensagem é exibida: "3 disciplines deleted successfully."
