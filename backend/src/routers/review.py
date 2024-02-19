@@ -11,18 +11,17 @@ from schemas.review import (
 
 router = APIRouter()
 
-@router.get("/get_all",
-            tags=['Review'],
-            summary='Get all reviews', 
-            response_model=List[ReviewModel])
-async def get_all_reviews():
-  return ReviewService.get_all_reviews()
-
-@router.get("/get_by_discipline_and_user",
+@router.get("/get_by_user_discipline",
             tags=['Review'],
             summary='Get reviews by discipline and user', 
             response_model=List[ReviewModel])
 async def get_reviews_by_discipline_and_user(discipline: str, username: str):
+
+  reviews = ReviewService.get_reviews_by_name_and_discipline(discipline, username)
+
+  if(len(reviews) == 0):
+    return JSONResponse(status_code=404, content={"message": "Review not found"})
+
   return ReviewService.get_reviews_by_name_and_discipline(discipline, username)
 
 @router.post("/add",
@@ -72,3 +71,17 @@ async def delete_review(discipline: str, username: str):
   removed_id = ReviewService.delete_review(id_to_delete)
 
   return JSONResponse(status_code=200, content={"message": "Review deleted"})
+
+@router.get("/get_all",
+            tags=['Review'],
+            summary='Get all reviews', 
+            response_model=List[ReviewModel])
+async def get_all_reviews():
+  return ReviewService.get_all_reviews()
+
+@router.delete("/delete_all",
+                tags=['Review'],
+                summary='Delete all reviews', 
+                response_model=List[ReviewModel])
+async def delete_all_reviews():
+  return JSONResponse(status_code=200, content=ReviewService.delete_all_reviews())

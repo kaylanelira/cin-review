@@ -35,3 +35,15 @@ Scenario: Deletar um review inexistente
     When uma requisição DELETE é enviada "/review/delete" com username "TJAS" e disciplina "Física"
     Then o código da resposta é "404"
     And o JSON da resposta deve conter a mensagem "Review not found"
+
+Scenario: Listar reviews de um usuário para uma cadeira
+    Given o usuário "TJAS" já tem um review cadastrado com disciplina "Cálculo", nota "8" e comentário "muito bom!"
+    When uma requisição GET é enviada "/review/get_by_user_discipline" com username "TJAS" e disciplina "Cálculo"
+    Then o código da resposta é "200"
+    And o JSON da resposta deve conter username "TJAS", disciplina "Cálculo", nota "8" e comentário "muito bom!"
+
+Scenario: Listar reviews inexistentes de um usuário para uma cadeira
+    Given o usuário "TJAS" não tem um review cadastrado para a disciplina "Física"
+    When uma requisição GET é enviada "/review/get_by_user_discipline" com username "TJAS" e disciplina "Física"
+    Then o código da resposta é "404"
+    And o JSON da resposta deve conter a mensagem "Review not found"
