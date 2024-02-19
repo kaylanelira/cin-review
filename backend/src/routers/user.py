@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from starlette.responses import JSONResponse
 from service.user_service import UserService
 from schemas.user import (
+    UserCreateList,
     UserCreateModel,
     UserModel,
     UserList
@@ -31,6 +32,26 @@ def get_user(user_id: str):
 def create_user(user: UserCreateModel):
   new_user = UserService.add_user(user)
   return new_user
+
+@router.post(
+  "/create_users",
+  tags=['User'],
+  status_code=201,
+  response_model=list[UserCreateModel],
+  response_class=JSONResponse,
+  summary="Create some users",
+)
+def create_user_list(users: list[UserCreateModel]):
+  new_users = []
+  for user_data in users:
+    if isinstance(user_data, tuple):
+      user_dict = dict(zip(UserCreateModel.__annotations__, user_data))
+      user = UserCreateModel(**user_dict)
+    else:
+      user = user_data
+    
+    new_users.append(UserService.add_user(user))
+  return new_users
 
 @router.put(
   "/update_user/{user_id}",

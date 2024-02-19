@@ -1,0 +1,101 @@
+[
+    {
+        "id": "f95c2f64-7b8b-4e1d-b738-135c10a53d9d",
+        "name": "John",
+        "surname": "Doe",
+        "username": "john_doe_123",
+        "email": "john.doe@example.com",
+        "password": "password123",
+        "repeated_password": "password123",
+        "phone_number": "1234567890",
+        "field_of_interest": "Technology"
+    },
+    {
+        "id": "6d8e9a58-571a-421c-bf92-eb250f69f92b",
+        "name": "Alice",
+        "surname": "Johnson",
+        "username": "alice_j",
+        "email": "alice.j@example.com",
+        "password": "pass123",
+        "repeated_password": "pass123",
+        "phone_number": null,
+        "field_of_interest": "Science"
+    },
+    {
+        "id": "45f3cf75-7620-4f6b-8c2a-6a9c9e6d96d2",
+        "name": "Bob",
+        "surname": "Smith",
+        "username": "bobsmith",
+        "email": "bob.smith@example.com",
+        "password": "securepass",
+        "repeated_password": "securepass",
+        "phone_number": "9876543210",
+        "field_of_interest": null
+    },
+    {
+        "id": "2d8b4568-9632-49f0-8ec5-9127d4c187bb",
+        "name": "Eva",
+        "surname": "Williams",
+        "username": "eva_w",
+        "email": "eva.w@example.com",
+        "password": "evapassword",
+        "repeated_password": "evapassword",
+        "phone_number": null,
+        "field_of_interest": "Art"
+    },
+    {
+        "id": "7bf8d8cc-1b5d-48d9-ba78-78e48c47c5a3",
+        "name": "Charlie",
+        "surname": "Brown",
+        "username": "charlie_b",
+        "email": "charlie.b@example.com",
+        "password": "brownpass",
+        "repeated_password": "brownpass",
+        "phone_number": "5551234567",
+        "field_of_interest": "Sports"
+    },
+    {
+        "id": "ce59319f-c9a1-4122-b1e6-1accc606d786",
+        "name": "Grace",
+        "surname": "Miller",
+        "username": "grace_m",
+        "email": "grace.m@example.com",
+        "password": "gracepass",
+        "repeated_password": "gracepass",
+        "phone_number": null,
+        "field_of_interest": "Music"
+    },
+    {
+        "id": "871239e1-4f37-491b-a833-84630dcd5906",
+        "name": "David",
+        "surname": "Johnson",
+        "username": "david_j",
+        "email": "david.j@example.com",
+        "password": "davidpass",
+        "repeated_password": "davidpass",
+        "phone_number": "1237894560",
+        "field_of_interest": null
+    },
+    {
+        "id": "4d27050a-6f3e-40a7-bcc6-4d9d0b9062bb",
+        "name": "Olivia",
+        "surname": "Davis",
+        "username": "olivia_d",
+        "email": "olivia.d@example.com",
+        "password": "oliviapass",
+        "repeated_password": "oliviapass",
+        "phone_number": "9870123456",
+        "field_of_interest": "Fashion"
+    },
+    {
+        "id": "e8ee8670-8c24-4f8b-8e91-09d6aa5492e3",
+        "name": "Michael",
+        "surname": "Clark",
+        "username": "michael_c",
+        "email": "michael.c@example.com",
+        "password": "michaelpass",
+        "repeated_password": "michaelpass",
+        "phone_number": null,
+        "field_of_interest": null
+    }
+]
