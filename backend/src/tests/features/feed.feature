@@ -1,80 +1,161 @@
-Feature: P�gina Inicial
-As a usu�rio do sistema
-I want to acessar as cadeiras dispon�veis no sistema
+Feature: Pagina Inicial
+As a usuario do sistema
+I want to acessar as cadeiras disponiveis no sistema
 So that para que eu possa visualizar e postar reviews
 
 Scenario: Carregamento com sucesso das reviews mais recentes
-Given que a �ltima review cadastrada foi a review com conte�do "Muita ML" na cadeira "Ingl�s para Computa��o"
-And que a pen�ltima review cadastrada foi a review com conte�do "T�pica cadeira da �rea 2" na cadeira "F�sica 3"
-And que a antipen�ltima review cadastrada foi a review com conte�do "Trabalhosa, muitas atividades" na cadeira "Engenharia de Software e Sistemas"
-When carrego "p�gina inicial"
-Then visualizo a review com conte�do "Muita ML" na cadeira "Ingl�s para Computa��o"
-And visualizo a review com conte�do "T�pica cadeira da �rea 2" na cadeira "F�sica 3"
-And visualizo a review com conte�do "Trabalhosa, muitas atividades" na cadeira "Engenharia de Software e Sistemas".
+    Given o ReviewService possui as reviews 
+        | username  | discipline    | rating | comment       | time                |
+        | usuario1  | disciplina1   | 5      | Comentário 1  | 2024-02-18 16:41:59 |
+        | usuario2  | disciplina1   | 4      | Comentário 2  | 2024-02-18 16:41:59 |
+        | usuario3  | disciplina2   | 3      | Comentário 3  | 2024-02-18 16:41:59 |
+        | usuario4  | disciplina2   | 4      | Comentário 4  | 2024-02-18 16:41:59 |
+        | usuario5  | disciplina3   | 5      | Comentário 5  | 2024-02-18 16:41:59 |
+        | usuario6  | disciplina3   | 5      | Comentário 5  | 2024-02-18 16:42:42 |
+        | usuario7  | disciplina4   | 5      | Comentário 5  | 2024-02-18 16:43:33 |
+        | usuario8  | disciplina4   | 5      | Comentário 5  | 2024-02-18 16:44:05 |
+        | usuario9  | disciplina5   | 5      | Comentário 5  | 2024-02-18 16:44:20 |
+        | usuario10 | disciplina5   | 5      | Comentário 5  | 2024-02-18 16:44:40 |
+        | usuario11 | disciplina6   | 5      | Comentário 5  | 2024-02-18 16:45:31 |
+        | usuario12 | disciplina6   | 5      | Comentário 5  | 2024-02-18 16:45:56 |
+        | usuario13 | disciplina7   | 5      | Comentário 5  | 2024-02-18 16:47:18 |
+        | usuario14 | disciplina7   | 5      | Comentário 5  | 2024-02-18 16:48:07 |
+        | usuario15 | disciplina8   | 5      | Comentário 5  | 2024-02-18 16:48:41 |
+        | usuario16 | disciplina8   | 5      | Comentário 5  | 2024-02-18 16:49:05 |
+        | usuario17 | disciplina9   | 5      | Comentário 5  | 2024-02-18 16:50:01 |
+        | usuario18 | disciplina9   | 5      | Comentário 5  | 2024-02-18 16:50:38 |
+        | usuario19 | disciplina10  | 5      | Comentário 5  | 2024-02-18 16:51:05 |
+        | usuario20 | disciplina10  | 5      | Comentário 5  | 2024-02-18 16:51:24 |
+        | usuario21 | disciplina11  | 5      | Comentário 5  | 2024-02-18 16:51:48 |
+        | usuario22 | disciplina12  | 5      | Comentário 5  | 2024-02-18 16:52:07 |
+        | usuario23 | disciplina13  | 5      | Comentário 5  | 2024-02-18 16:52:28 |
+        | usuario24 | disciplina14  | 4      | Comentário 4  | 2024-02-18 16:52:49 |
+        | usuario25 | disciplina15  | 5      | Comentário 5  | 2024-02-18 16:53:06 |
+    When uma requisição GET é enviada para "review/get_recent_reviews"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve conter as dez reviews mais recentes
 
-Scenario: Sem review cadastradas
-Given que n�o h� reviews cadastradas no sistema
-When carrego "p�gina inicial"
-Then n�o visualizo nenhum coment�rio
-And n�o visualizo a se��o "Em Alta".
+Scenario: Sem review cadastradas (mais recentes)
+    Given o ReviewService nao possui reviews
+    When uma requisição GET é enviada para "review/get_recent_reviews"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve estar vazio
 
-Scenario: Carregamento com sucesso das cadeiras na se��o Em Alta
-Given que a cadeira "Ingl�s para Computa��o" tem o maior n�mero de reviews
-And que a cadeira "F�sica 3" tem o segundo maior n�mero de reviews 
-And que a cadeira "Engenharia de Software e Sistemas" tem o terceiro maior n�mero de reviews 
-And que a cadeira "C�lculo 1" tem o quarto maior n�mero de reviews 
-When carrego "p�gina inicial"
-Then visualizo as cadeiras "Ingl�s para Computa��o", "F�sica 3", "Engenharia de Software e Sistemas" e "C�lculo 1" na se��o "Em Alta"
+Scenario: Carregamento com sucesso das cadeiras Em Alta
+    Given o ReviewService possui as reviews 
+        | username  | discipline    | rating | comment       | time                |
+        | usuario1  | disciplina1   | 5      | Comentário 1  | 2024-02-18 16:41:59 |
+        | usuario2  | disciplina1   | 4      | Comentário 2  | 2024-02-18 16:41:59 |
+        | usuario3  | disciplina2   | 3      | Comentário 3  | 2024-02-18 16:41:59 |
+        | usuario4  | disciplina2   | 4      | Comentário 4  | 2024-02-18 16:41:59 |
+        | usuario5  | disciplina3   | 5      | Comentário 5  | 2024-02-18 16:41:59 |
+        | usuario6  | disciplina3   | 5      | Comentário 5  | 2024-02-18 16:42:42 |
+        | usuario7  | disciplina4   | 5      | Comentário 5  | 2024-02-18 16:43:33 |
+        | usuario8  | disciplina4   | 5      | Comentário 5  | 2024-02-18 16:44:05 |
+        | usuario9  | disciplina5   | 5      | Comentário 5  | 2024-02-18 16:44:20 |
+        | usuario10 | disciplina5   | 5      | Comentário 5  | 2024-02-18 16:44:40 |
+        | usuario11 | disciplina6   | 5      | Comentário 5  | 2024-02-18 16:45:31 |
+        | usuario12 | disciplina6   | 5      | Comentário 5  | 2024-02-18 16:45:56 |
+        | usuario13 | disciplina7   | 5      | Comentário 5  | 2024-02-18 16:47:18 |
+        | usuario14 | disciplina7   | 5      | Comentário 5  | 2024-02-18 16:48:07 |
+        | usuario15 | disciplina8   | 5      | Comentário 5  | 2024-02-18 16:48:41 |
+        | usuario16 | disciplina8   | 5      | Comentário 5  | 2024-02-18 16:49:05 |
+        | usuario17 | disciplina9   | 5      | Comentário 5  | 2024-02-18 16:50:01 |
+        | usuario18 | disciplina9   | 5      | Comentário 5  | 2024-02-18 16:50:38 |
+        | usuario19 | disciplina10  | 5      | Comentário 5  | 2024-02-18 16:51:05 |
+        | usuario20 | disciplina10  | 5      | Comentário 5  | 2024-02-18 16:51:24 |
+        | usuario21 | disciplina11  | 5      | Comentário 5  | 2024-02-18 16:51:48 |
+        | usuario22 | disciplina12  | 5      | Comentário 5  | 2024-02-18 16:52:07 |
+        | usuario23 | disciplina13  | 5      | Comentário 5  | 2024-02-18 16:52:28 |
+        | usuario24 | disciplina14  | 4      | Comentário 4  | 2024-02-18 16:52:49 |
+        | usuario25 | disciplina15  | 5      | Comentário 5  | 2024-02-18 16:53:06 |
+    When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve conter as dez cadeiras com mais reviews
 
-Scenario: Carregamento com sucesso das cadeiras
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When carrego "p�gina inicial"
-Then visualizo as cadeiras "Ingl�s para Computa��o", "F�sica 3", "Engenharia de Software e Sistemas" e "C�lculo 1" na se��o �Cadeiras�.
+Scenario: Sem review cadastradas (Em alta)
+    Given o ReviewService nao possui reviews
+    When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    Then o status da resposta deve ser "200"
+	And o JSON da resposta deve estar vazio
 
-Scenario: Sem cadeiras cadastradas
-Given que nenhuma cadeira est� cadastrada no sistema
-When carrego "p�gina inicial"
-Then o sistema deve enviar uma mensagem de �nenhumaCadeiraRegistrada�.
+#Scenario: Carregamento com sucesso das cadeiras por ordem alfabetica
+    Given o ReviewService possui as cadeiras 
+        | name                                    | code   | department | semester | professor        | description                      |
+        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
+        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
+        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
+        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
+        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
+        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
+        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
+        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve conter as disciplinas em ordem alfabetica
 
-Scenario: Busca pelo nome da cadeira com sucesso
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When pesquiso "is"
-Then visualizo as cadeiras "F�sica 3" e "Engenharia de Software e Sistemas" na se��o �Cadeiras�.
+#Scenario: Sem cadeiras cadastradas
+    #Given que nenhuma cadeira esta cadastrada no sistema
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve estar vazio
 
-Scenario: Busca pelo nome da cadeira sem sucesso
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When pesquiso "isa"
-Then o sistema deve enviar uma mensagem de �nenhumaCadeiraEncontrada�.
+#Scenario: Aplicacao do filtro por periodo com sucesso
+    Given o ReviewService possui as cadeiras 
+        | name                                    | code   | department | semester | professor        | description                      |
+        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
+        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
+        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
+        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
+        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
+        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
+        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
+        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve conter as disciplinas do periodo "1"
 
-Scenario: Aplica��o do filtro com sucesso
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When aplico o filtro "6� Per�odo"
-Then visualizo as cadeiras "Ingl�s para Computa��o" e "Engenharia de Software e Sistemas" na se��o �Cadeiras�.
+#Scenario: Aplicacao do filtro por periodo sem sucesso
+    Given o ReviewService possui as cadeiras 
+        | name                                    | code   | department | semester | professor        | description                      |
+        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
+        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
+        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
+        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
+        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
+        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
+        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
+        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve estar vazio
 
-Scenario: Aplica��o do filtro sem sucesso
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When aplico o filtro "2� Per�odo"
-Then o sistema deve enviar uma mensagem de �nenhumaCadeiraEncontrada�.
+#Scenario: Busca pelo nome da cadeira com sucesso
+Given o ReviewService possui as cadeiras 
+        | name                                    | code   | department | semester | professor        | description                      |
+        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
+        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
+        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
+        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
+        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
+        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
+        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
+        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"/"is"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve conter as disciplina com substring "is"
 
-Scenario: Aplica��o de ordena��o
-Given que a cadeira "Ingl�s para Computa��o" est� cadastrada no sistema
-And a cadeira "F�sica 3" est� cadastrada no sistema
-And a cadeira "Engenharia de Software e Sistemas" est� cadastrada no sistema
-And a cadeira "C�lculo 1" est� cadastrada no sistema
-When ordeno por "ordem alfab�tica"
-Then visualizo as cadeiras "C�lculo 1", "Engenharia de Software e Sistemas", "F�sica 3" e "Ingl�s para Computa��o" na se��o �Cadeiras� nesta ordem.
+#Scenario: Busca pelo nome da cadeira sem sucesso
+Given o ReviewService possui as cadeiras 
+        | name                                    | code   | department | semester | professor        | description                      |
+        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
+        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
+        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
+        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
+        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
+        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
+        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
+        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
+    #When uma requisição GET é enviada para "review/get_disciplines_by_most_reviews"/"isa"
+    #Then o status da resposta deve ser "200"
+	#And o JSON da resposta deve estar vazio
