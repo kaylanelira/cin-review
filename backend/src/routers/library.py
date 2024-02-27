@@ -19,25 +19,23 @@ router = APIRouter()
 @router.get(
   "/get_all_folders",
   tags=['Library'],
-  response_model=FolderList,
   response_class=JSONResponse,
   summary="Get all folders from the database",
 )
 def get_all_folders():
   folders = LibraryService.get_all()
-  return {"db": folders}
+  return {"detail": folders}
 
 @router.get(
-  "/get_user_library/{user_id}",
+  "/get_user_library",
   tags=['Library'],
-  response_model=FolderList,
   status_code=200,
   response_class=JSONResponse,
   summary="Get all folders from a user's library",
 )
 def get_user_library(user_id: str):
   folders = LibraryService.get_by_userID(user_id)
-  return {"library": folders}
+  return {"detail": folders}
 
 @router.get(
   "/get_folder/{folder_name}",
@@ -50,7 +48,7 @@ def get_user_library(user_id: str):
 def get_folder(folder_name: str, user_id: str):
   folder_name = folder_name.replace('_',' ')
   folder = LibraryService.get_by_name_and_userID(folder_name, user_id)
-  return {"folder": folder}
+  return {"detail": folder}
 
 @router.post(
   "/create_folder",

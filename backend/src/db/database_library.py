@@ -70,20 +70,32 @@ class Database:
 
         return False
 
-    def get_all(self, collection_name: str) -> list[dict]:
+    def get_all(self, collection_name: str) -> dict:
 
         collection: Collection = self.db[collection_name]
-        folders = list(collection.find())
-        return folders
+        folders = collection.find()
 
-    def get_by_userID(self, collection_name: str, user_id: str) -> list[dict] | None:
+        result = []
+        for i in folders:
+            del i["_id"]
+            result.append(i)
+
+        return result
+
+    def get_by_userID(self, collection_name: str, user_id: str) -> dict | None:
         collection: Collection = self.db[collection_name]
 
         library = collection.find({"user_id": user_id})
-        
+
         if not library:
             return None
-        return list(library)
+        
+        result = []
+        for i in library:
+            del i["_id"]
+            result.append(i)
+
+        return result
     
     def get_by_name_and_user(self, collection_name: str, folder_name: str, user_id: str) -> dict | None:
         collection: Collection = self.db[collection_name]
@@ -102,7 +114,6 @@ class Database:
         return {**folder}
 
     def edit(self, collection_name: str, original_name: str, updated_folder: dict) -> dict | None:
-        updated_folder = dict(updated_folder)
         collection: Collection = self.db[collection_name]
 
         if any(value == "" for value in updated_folder.values()):

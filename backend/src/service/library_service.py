@@ -10,12 +10,12 @@ db_instance = db.Database()
 
 class LibraryService:
   @staticmethod
-  def get_all() -> list[dict]:
+  def get_all() -> dict:
     folders = db_instance.get_all("folders")
     return folders
   
   @staticmethod
-  def get_by_userID(user_id: str) -> list[dict]:
+  def get_by_userID(user_id: str) -> dict:
     library = db_instance.get_by_userID("folders", user_id)
       
     if(library is None):

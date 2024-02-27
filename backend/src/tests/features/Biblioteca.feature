@@ -48,7 +48,7 @@ Feature: administrar uma biblioteca de usuario
 		And o JSON da resposta deve conter a mensagem "2o periodo"
 
 	Scenario: Mostrar os dados da biblioteca de um usuario
-		Given um usuario com ID "134340" que possui pastas com nomes "3o periodo"
+		Given um usuario com ID "134340" que possui apenas uma pasta com nome "3o periodo"
 		When uma requisicao GET eh enviada para "/library/get_user_library" com os dados
 			| user_id |
 			| 134340  | 

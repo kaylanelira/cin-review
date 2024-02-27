@@ -82,7 +82,7 @@ def create_folder(client, context, url: str, d_ata:dict):
         'classes_id': toInt(data['classes_id'])
     }
 
-    context["response"] = client.post(url,  json=folder)
+    context["response"] = client.post(url, json=folder)
     return context
 
 @then(
@@ -294,4 +294,47 @@ def response_json(context, folder_name: str, user_id: str):
         if folder["name"] == folder_name and folder["user_id"] == user_id:
             flag = flag + 1
     assert flag == 0
+    return context
+
+# Cenario 6 --------------------------------------------------------------------------------------------------
+
+@scenario(scenario_name='Mostrar os dados da biblioteca de um usuario', feature_name='../features/Biblioteca.feature')
+def test_mostrar_biblioteca_sucesso():
+    pass
+
+@given(parsers.cfparse('um usuario com ID "{user_id}" que possui apenas uma pasta com nome "{folder_name}"'))
+def add_folder(user_id: str, folder_name: str):
+    LibraryService.delete_all()
+    LibraryService.add_folder(FolderModel (user_id = user_id, name = folder_name))
+
+@when(
+    parsers.cfparse('uma requisicao GET eh enviada para "{url}" com os dados\n{d_ata}'),
+    target_fixture="context"
+)
+def delete_folder(client, context, url: str, d_ata:dict):
+    if isinstance(d_ata, str):
+        data = utils.convert_gherkin_string_to_dict(d_ata)
+    elif isinstance(d_ata, dict):
+        data = d_ata
+
+    response = client.get(url, params={"user_id":data["user_id"]})
+    context["response"] = response
+    return context
+
+@then(
+    parsers.cfparse('o status da resposta deve ser "{resp_status}"'),
+    target_fixture="context"
+)
+def check_response_status_code(context, resp_status: str):
+    # context["response"].raise_for_status()
+    assert context["response"].status_code == int(resp_status)
+    return context
+
+@then(
+    parsers.cfparse('o JSON da resposta deve conter as informacões das pastas de nome "{folder_name}"')
+)
+def response_json(context, folder_name: str):
+    response_json = context["response"].json()
+    for f in response_json["detail"]:
+        assert f["name"] == folder_name
     return context
