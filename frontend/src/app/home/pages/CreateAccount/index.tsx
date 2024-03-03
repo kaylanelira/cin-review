@@ -6,8 +6,9 @@ import { HomeContext } from "../../context/HomeContext";
 import { TestFormSchema, TestFormType } from "../../forms/TestForm";
 import { Link } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
+import Input from "../../../../shared/components/Input/input";
 
-const CreateTest = () => {
+const CreateAccount = () => {
   const { state, prevState, service } = useContext(HomeContext);
 
   const {
@@ -35,35 +36,31 @@ const CreateTest = () => {
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>Crie um test</h1>
+      <h1 className={styles.title}>CADASTRO DE USUÁRIO</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInputContainer}>
-          <input
-            data-cy="input-name"
-            {...register("name")}
-            placeholder="Digite o nome"
-            className={styles.formInput}
-          />
-          {errors.name && (
-            <span data-cy="input-name-error" className={styles.formError}>
-              {errors.name.message}
-            </span>
-          )}
+          <Input text="NOME"/>
+          <Input text="SOBRENOME"/>
+          <Input text="NOME DE USUÁRIO"/>
+          <Input text="E-MAIL"/>
+          <Input text="SENHA"/>
+          <Input text="REPITA A SENHA"/>
+          <Input text="NÚMERO DE TELEFONE"/>
+          <Input text="ÁREA DE INTERESSE"/>
         </div>
 
         <Button data-cy="create" type="submit">
-          CRIAR
+          Cadastrar
         </Button>
-
-        <Link data-cy="view-tests" to="/tests">
-          VER TESTS
-        </Link>
-        <Link to="/create-account">
-          Criar conta
-        </Link>
       </form>
+      <p>
+        Já tem uma conta? Faça{' '}
+        <Link data-cy="view-tests" to="/tests">
+          LOGIN
+        </Link>
+      </p>
     </section>
   );
 };
 
-export default CreateTest;
+export default CreateAccount;
