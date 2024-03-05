@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
+import Feed from "./app/home/pages/Feed";
 import DisciplinesPage from "./app/home/pages/Disciplines/DisciplinePage"
 import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
 import AddDisciplinePage from "./app/home/pages/Disciplines/AddDisciplinePage"
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
   {
     path: "/tests",
     Component: ListTests,
-  },  
+  },
+  {
+    path: "/feed",
+    Component: Feed,
+  },
   {
     path: "/disciplines",
     Component: DisciplinesPage,

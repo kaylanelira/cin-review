@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/Navbar/navbar'; 
 import styles from './EditDisciplinePage.module.css'; // Reutilize o estilo existente
 
 const AddDisciplinePage = () => {
@@ -30,6 +31,7 @@ const AddDisciplinePage = () => {
 
   return (
     <div className={styles.container}> {/* Adicionado o container para aplicar o estilo de fundo e altura */}
+    <Navbar/>
       <div className={styles.editCard}>
         <h2>Adicionar Nova Disciplina</h2>
         <form onSubmit={handleSubmit} className={styles.form}>

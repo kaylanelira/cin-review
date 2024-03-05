@@ -52,6 +52,7 @@
     justify-content: flex-start; /* Alinha o conteúdo ao topo */
     background-color: #feefdd; /* Cor de fundo da página */
     padding: 20px;
+    margin-top: 50px;
     min-height: 100vh; /* Garante que o container tenha no mínimo a altura total da viewport */
 }
 

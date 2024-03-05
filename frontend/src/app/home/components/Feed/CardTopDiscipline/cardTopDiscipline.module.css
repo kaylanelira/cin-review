@@ -1,0 +1,19 @@
+.card {
+    width: 21vw;
+    height: 14vw;
+    background-color: var(--red);
+    color: var(--white);
+    border-radius: 5px;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.discipline {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}

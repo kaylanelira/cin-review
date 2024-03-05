@@ -1,0 +1,17 @@
+.filter{
+    position: relative;
+    align-self: start;
+    margin-top: 4vw;
+}
+
+.filterSelect{
+    width: 20vw;
+    height: 3vw;
+    margin: 10px;
+    background-color: var(--red);
+    color: var(--white);
+    border-radius: 0.5vw;
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+}

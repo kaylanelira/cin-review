@@ -1,0 +1,32 @@
+.card {
+    width: 80vw;
+    height: 6vw;
+    margin: 10px;
+    background-color: var(--light-gray);
+    color: var(--gray);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .discipline {
+    font-weight: bold;
+  }
+
+  .cardDisciplineLeft{
+    display: inline-flex;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .semester {
+    margin-right: 25px; 
+    font-weight: bold;
+  }
+  
+  .image {
+    width: 20px;
+    height: 20px;
+  }
+  
