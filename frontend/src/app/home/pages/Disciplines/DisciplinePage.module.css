@@ -1,0 +1,14 @@
+.container {
+    color: #2f2f2f; /* Cor da fonte */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    background-color: #feefdd; /* Cor de fundo da página */
+    padding: 20px;
+    min-height: 100vh; /* Garante que o container tenha no mínimo a altura total da viewport */
+}
+
+.title {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}

@@ -1,0 +1,69 @@
+.editCard {
+    border: 1px solid #2f2f2f; /* Cor da borda */
+    border-radius: 8px; /* Borda arredondada */
+    padding: 32px; /* Aumenta o espaçamento interno */
+    margin: 20px auto; /* Centraliza o card na página */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra mais proeminente */
+    background-color: #b20d30; /* Cor de fundo do card */
+    color: #feefdd; /* Cor do texto */
+    box-sizing: border-box; /* Garante que padding e borda sejam incluídos no cálculo da largura */
+    width: 60%; /* Largura maior para acomodar o formulário */
+    display: flex; /* Adiciona display flex */
+    flex-direction: column; /* Organiza o conteúdo do card em coluna */
+    justify-content: space-between; /* Distribui o espaço dentro do card */
+    align-items: center; /* Centraliza os itens no card */
+}
+
+.formField {
+    margin: 10px 0; /* Espaçamento entre os campos do formulário */
+    width: 100%; /* Faz com que os campos ocupem toda a largura do card */
+}
+
+.formField input,
+.formField textarea {
+    width: 90%; /* Faz com que os inputs e textareas ocupem a maior parte da largura do campo */
+    padding: 8px; /* Espaçamento interno para os inputs e textareas */
+    border-radius: 4px; /* Borda arredondada para os inputs e textareas */
+    border: 1px solid #ddd; /* Cor da borda dos inputs e textareas */
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
+}
+
+.buttonContainer {
+    display: flex; /* Continua usando flexbox para alinhar botões */
+    justify-content: center; /* Centraliza os botões no container */
+    gap: 20px; /* Adiciona espaço entre os botões */
+    width: 100%; /* Continua usando toda a largura do card */
+    margin-top: 20px; /* Mantém o espaçamento acima do container de botões */
+}
+
+.buttonContainer button {
+    padding: 10px 20px; /* Espaçamento interno para botões */
+    border-radius: 5px; /* Borda arredondada para botões */
+    border: none; /* Remove a borda dos botões */
+    cursor: pointer; /* Muda o cursor para indicar interatividade */
+    font-weight: bold; /* Texto em negrito para os botões */
+}
+
+.container {
+    color: #2f2f2f; /* Cor da fonte */
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo seja organizado em coluna */
+    align-items: center; /* Centraliza o conteúdo na direção horizontal */
+    justify-content: flex-start; /* Alinha o conteúdo ao topo */
+    background-color: #feefdd; /* Cor de fundo da página */
+    padding: 20px;
+    min-height: 100vh; /* Garante que o container tenha no mínimo a altura total da viewport */
+}
+
+/* Estilos responsivos para telas menores */
+@media (max-width: 768px) {
+    .editCard {
+        width: 90%; /* Aumenta a largura do card em telas menores para melhor legibilidade */
+        padding: 16px; /* Reduz o espaçamento interno em telas menores */
+    }
+
+    .formField input,
+    .formField textarea {
+        width: 100%; /* Ajusta os inputs e textareas para ocuparem toda a largura do campo em telas menores */
+    }
+}
