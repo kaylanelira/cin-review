@@ -14,6 +14,7 @@
   color: var(--gray);
   border-bottom: 3px solid var(--gray);
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .button{

@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import styles from "./semesterFilter.module.css";
 
-const DropdownMenu = () => {
+const Filter = ({ onSelectChange }) => {
   // Estado para controlar o valor selecionado no dropdown
   const [selectedSemester, setSelectedSemester] = useState('');
 
   // Manipulador de evento para lidar com a mudança de seleção no dropdown
   const handleSelectChange = (event) => {
-    setSelectedSemester(event.target.value);
-    console.log(event.target.value)
+    const selectedValue = event.target.value
+    setSelectedSemester(selectedValue);
+    onSelectChange(selectedValue);
   };
-
+ 
   return (
     <div className={styles.filter}>
       <select id="semester" value={selectedSemester} onChange={handleSelectChange} className={styles.filterSelect}>
@@ -30,4 +31,4 @@ const DropdownMenu = () => {
   );
 };
 
-export default DropdownMenu;
+export default Filter;

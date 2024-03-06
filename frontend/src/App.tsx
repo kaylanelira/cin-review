@@ -5,6 +5,7 @@ import Feed from "./app/home/pages/Feed";
 import DisciplinesPage from "./app/home/pages/Disciplines/DisciplinePage"
 import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
 import AddDisciplinePage from "./app/home/pages/Disciplines/AddDisciplinePage"
+import SearchBar from "./app/home/pages/SearchBar";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/tests",
     Component: ListTests,
+  },
+  {
+    path: "/search/:searchQuery",
+    Component: SearchBar,
   },
   {
     path: "/feed",

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -5,50 +6,59 @@ import styles from "./recentReviewCarousel.module.css";
 import CardRecentReview from '../CardRecentReview/cardRecentReview'; 
 
 const Carousel = () => {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const fetchRecentReviews = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/review/get_recent_reviews'); 
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setReviews(data); 
+        }
+      } catch (error) {
+        console.error('Error fetching recent reviews:', error);
+      }
+    };
+
+    fetchRecentReviews();
+
+    const timer = setInterval(fetchRecentReviews, 30000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  if (reviews.length === 0) {
+    return null; 
+  }
+
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: reviews.length > 1,
     speed: 5000,
-    slidesToShow: window.innerWidth < 900 ? 2 : 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    centerMode: true,
+    variableWidth: true,
   };
 
   return (
     <Slider {...settings} className={styles.carousel}>
-      <div>
-      <CardRecentReview discipline="Turma 1" review="Comentário sobre a turma" student="Nome do Aluno" />
+    {reviews.map((review, index) => (
+      <div key={index}>
+        <CardRecentReview 
+          discipline={review.discipline}
+          review={review.comment}
+          student={review.username}
+        />
       </div>
-      <div>
-      <CardRecentReview discipline="Turma 2" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 3" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 4" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 5" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 6" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 7" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 8" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 9" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-      <div>
-      <CardRecentReview discipline="Turma 10" review="Comentário sobre a turma" student="Nome do Aluno" />
-      </div>
-    </Slider>
+    ))}
+  </Slider>
   );
 };
 

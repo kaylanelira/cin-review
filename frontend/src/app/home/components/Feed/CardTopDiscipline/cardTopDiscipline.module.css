@@ -1,6 +1,6 @@
 .card {
-    width: 21vw;
-    height: 14vw;
+    width: 27vw;
+    height: 16vw;
     background-color: var(--red);
     color: var(--white);
     border-radius: 5px;
@@ -8,6 +8,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    margin-left: 1vw;
 }
 
 .discipline {
