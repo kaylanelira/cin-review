@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+import uuid
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from starlette.responses import JSONResponse
 from service.user_service import UserService
 from schemas.user import (
@@ -9,6 +11,7 @@ from schemas.user import (
 )
 
 router = APIRouter()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @router.get(
   "/get_user/{user_id}",
@@ -30,7 +33,8 @@ def get_user(user_id: str):
   summary="Create a user",
 )
 def create_user(user: UserCreateModel):
-  new_user = UserService.add_user(user)
+  user_id = str(uuid.uuid4())
+  new_user = UserService.add_user(user, user_id)
   return new_user
 
 @router.post(
@@ -74,15 +78,26 @@ def delete_user(user_id: str, password: str):
   deleted_user = UserService.delete_user(user_id, password)
   return deleted_user
 
+@router.get(
+  "/users/me", 
+  tags=['User'])
+async def read_users_me(current_user: UserModel = Depends(oauth2_scheme)):
+    return current_user
+
+@router.post("/login",
+  tags=['User'])
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+  return UserService.login(form_data.username)
+
 # ROTAS CRIADAS PARA FACILITAR TESTES NO FASTAPI DOCS
-# @router.delete(
-#   "/delete_all",
-#   tags=['User'],
-#   response_class=JSONResponse,
-#   summary="Delete all users",
-# )
-# def delete_all():
-#   UserService.delete_all_users()
+@router.delete(
+  "/delete_all",
+  tags=['User'],
+  response_class=JSONResponse,
+  summary="Delete all users",
+)
+def delete_all():
+  UserService.delete_all_users()
 
 @router.get(
   "/get_all",

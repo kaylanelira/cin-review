@@ -1,5 +1,6 @@
+from Authentication.token import create_jwt_token
 from schemas.user import UserCreateModel
-from db import database_user as db
+from db import database as db
 from pymongo.errors import DuplicateKeyError
 from fastapi import HTTPException, status
 
@@ -44,7 +45,7 @@ class UserService:
 
   # Adiciona um user ao banco de dados
   @staticmethod
-  def add_user(user: UserCreateModel):
+  def add_user(user: UserCreateModel, user_id):
     try:
   
       # verificando informações para criar usuário
@@ -140,7 +141,20 @@ class UserService:
       raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Email indisponivel")
     
   # TESTE: Deleta todos os usuários do banco de cados
-  # @staticmethod
-  # def delete_all_users():
-  #   db_instance.delete_all_users()
+  @staticmethod
+  def delete_all_users():
+    db_instance.delete_all("users")
   
+  @staticmethod
+  def login(username: str):
+    user = db_instance.get_by_username("users",username)
+    if user and user["password"] == user["repeated_password"]: 
+        # Criação do token JWT
+        token_data = {"sub": user["username"]}
+        access_token = create_jwt_token(token_data)
+        return {"access_token": access_token, "token_type": "bearer"}
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Credenciais inválidas",
+        headers={"WWW-Authenticate": "Bearer"},
+    )

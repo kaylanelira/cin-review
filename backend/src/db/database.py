@@ -70,6 +70,9 @@ class Database:
         - TypeError: If indexes is not a list of pymongo.IndexModel
 
         """
+        
+        if indexes is None:
+            indexes = []
 
         collection_options = {"validator": {"$jsonSchema": validation_schema}}
 
@@ -283,3 +286,20 @@ class Database:
         return {
             'id': item_id
         }
+        
+    def delete_all(self, collection_name: str):
+        """
+        Delete all collection
+
+        Returns
+        - bool
+            True if the collection was dropped and recreated successfully, False otherwise
+        """
+
+        if self.drop_collection(collection_name):
+            # Create the 'users' collection again if dropped successfully
+            self.create_collection(collection_name)
+            
+            return True
+
+        return False
