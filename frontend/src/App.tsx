@@ -5,6 +5,8 @@ import CreateAccount from "./app/home/pages/CreateAccount";
 import DisciplinesPage from "./app/home/pages/Disciplines/DisciplinePage"
 import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
 import AddDisciplinePage from "./app/home/pages/Disciplines/AddDisciplinePage"
+import EditAccount from "./app/home/pages/EditAccount";
+import Login from "./app/home/pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
   {
     path: "/create-account",
     Component: CreateAccount,
+  },
+  {
+    path: "/edit-account",
+    Component: EditAccount,
+  },
+  {
+    path: "/login",
+    Component: Login,
   },
   {
     path: "/create-test",

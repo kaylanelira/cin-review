@@ -9,6 +9,8 @@ const Input = (InputProps) => {
     <input
       className={styles.formInput}
       placeholder={InputProps.text}
+      value={InputProps.value}
+      onChange={(e) => InputProps.setInfo(e.target.value)}
     />
   );
 };
