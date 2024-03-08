@@ -1,16 +1,39 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
-import Feed from "./app/home/pages/Feed";
+
+import CreateAccount from "./app/home/pages/CreateAccount";
 import DisciplinesPage from "./app/home/pages/Disciplines/DisciplinePage"
 import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
 import AddDisciplinePage from "./app/home/pages/Disciplines/AddDisciplinePage"
+import EditAccount from "./app/home/pages/EditAccount";
+import Login from "./app/home/pages/Login";
+import AccountProfile from "./app/home/pages/AccountProfile";
+import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
+import Feed from "./app/home/pages/Feed";
 import SearchBar from "./app/home/pages/SearchBar";
+
 
 const router = createBrowserRouter([
   {
     path: "*",
     Component: CreateTest,
+  },
+  {
+    path: "/create-account",
+    Component: CreateAccount,
+  },
+  {
+    path: "/edit-account",
+    Component: EditAccount,
+  },
+  {
+    path: "/profile",
+    Component: AccountProfile,
+  },
+  {
+    path: "/login",
+    Component: Login,
   },
   {
     path: "/create-test",
@@ -43,5 +66,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+    </AuthProvider>
+  )
 }

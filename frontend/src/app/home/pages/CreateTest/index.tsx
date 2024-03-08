@@ -58,6 +58,9 @@ const CreateTest = () => {
         <Link data-cy="view-tests" to="/tests">
           VER TESTS
         </Link>
+        <Link to="/create-account">
+          Criar conta
+        </Link>
       </form>
     </section>
   );
