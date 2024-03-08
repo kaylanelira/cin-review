@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         <Link to="/tests" className={styles.tab}>Biblioteca</Link>
       </div>
       <div className={styles.anim}>
-        <Link to="/tests" className={styles.tab}>Perfil</Link>
+        <Link to="/profile" className={styles.tab}>Perfil</Link>
       </div>
     </div>
   </nav>

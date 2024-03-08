@@ -6,9 +6,9 @@
 }
 
 .filterSelect{
-    width: 20vw;
-    height: 3vw;
-    margin: 10px;
+    width: 23.5vw;
+    height: 2.7vw;
+    margin: 5px 0px ;
     background-color: var(--red);
     color: var(--white);
     border-radius: 0.5vw;

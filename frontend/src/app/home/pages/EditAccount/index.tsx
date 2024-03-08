@@ -6,6 +6,7 @@ import Button from "../../../../shared/components/Button";
 import Input from "../../../../shared/components/Input/input";
 import { useNavigate } from "react-router-dom";
 import InputRequired from "../../../../shared/components/InputRequired";
+import Navbar from "../../components/Navbar/navbar";
 
 const EditAccount = () => {
   const token = localStorage.getItem('access_token');
@@ -60,6 +61,7 @@ const EditAccount = () => {
 
   return (
     <section className={styles.container}>
+      <Navbar/>
       <h1 className={styles.title}>Perfil</h1>
       <form className={styles.formContainer}>
         <div className={styles.formInputContainer}>

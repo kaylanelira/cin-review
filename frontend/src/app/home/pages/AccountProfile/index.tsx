@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import LabelValue from '../../../../shared/components/LabelValue';
 import Button from '../../../../shared/components/Button';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/Navbar/navbar';
 
 const AccountProfile = () => {
   const { user, logout } = useAuth();
@@ -46,12 +47,13 @@ const AccountProfile = () => {
   }, [user]);
   // Verificação se as informações do usuário estão disponíveis
   if (!user) {
-    navigate('/create-account')
+    navigate('/login')
     return null
   }
 
   return (
     <section className={styles.container}>
+      <Navbar />
       <h1 className={styles.title}>PERFIL</h1>
       <div className={styles.profileContainer}>
         <LabelValue label="Nome" value={user.name || 'Não informado'} />
