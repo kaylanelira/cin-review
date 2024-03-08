@@ -23,7 +23,7 @@ const CreateAccount = () => {
   const [fieldOfInterest, setFieldOfInterest] = useState("");
   const [error_message, setErrorMessage] = useState("");
   const [success_message, setSuccessMessage] = useState("");
-  const { state, prevState, service } = useContext(HomeContext);
+  const { state, prevState } = useContext(HomeContext);
 
   const navigate = useNavigate();
 

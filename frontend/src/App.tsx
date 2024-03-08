@@ -7,6 +7,8 @@ import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
 import AddDisciplinePage from "./app/home/pages/Disciplines/AddDisciplinePage"
 import EditAccount from "./app/home/pages/EditAccount";
 import Login from "./app/home/pages/Login";
+import AccountProfile from "./app/home/pages/AccountProfile";
+import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/edit-account",
     Component: EditAccount,
+  },
+  {
+    path: "/profile",
+    Component: AccountProfile,
   },
   {
     path: "/login",
@@ -48,5 +54,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+    </AuthProvider>
+  )
 }
