@@ -79,9 +79,9 @@ def delete_user(user_id: str, password: str):
   return deleted_user
 
 @router.get(
-  "/users/me", 
+  "/profile", 
   tags=['User'])
-async def read_users_me(current_user: UserModel = Depends(oauth2_scheme)):
+async def read_users_profile(current_user: UserModel = Depends(oauth2_scheme)):
     return current_user
 
 @router.post("/login",

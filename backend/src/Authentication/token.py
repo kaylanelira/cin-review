@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from fastapi import Depends, HTTPException
 from jose import JWTError, jwt
 
 SECRET_KEY = "c1nRev13w"

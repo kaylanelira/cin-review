@@ -148,13 +148,15 @@ class UserService:
   @staticmethod
   def login(username: str):
     user = db_instance.get_by_username("users",username)
+    
     if user and user["password"] == user["repeated_password"]: 
         # Criação do token JWT
         token_data = {"sub": user["username"]}
         access_token = create_jwt_token(token_data)
-        return {"access_token": access_token, "token_type": "bearer"}
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Credenciais inválidas",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+        return {"access_token": access_token, "token_type": "bearer", "user": user}
+    else:
+      raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
