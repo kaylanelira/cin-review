@@ -10,10 +10,6 @@ type InputProps = {
 
 const InputRequired = (InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible((prev) => !prev);
-  };
   
   return (
     <div>
