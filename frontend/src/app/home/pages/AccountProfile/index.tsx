@@ -1,49 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import styles from "./index.module.css";
-import LabelValue from '../../../../shared/components/LabelValue';
 import Button from '../../../../shared/components/Button';
 import { useNavigate } from 'react-router-dom';
+import ShowLabelValue from '../../../../shared/components/ShowLabelValue';
 
 const AccountProfile = () => {
-  const { user, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   const [userProfile, setUserProfile] = useState(null);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+  }; 
+
+  const fetchUserProfile = async () => {
     const token = localStorage.getItem('access_token');
-    const storedUser = localStorage.getItem('user');
-    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    setUserProfile(parsedUser);
 
     try {
-      console.log(localStorage);
-      if (user) {
-        const response = await fetch('http://localhost:8000/user/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+      const response = await fetch('http://localhost:8000/user/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-        if (response.status === 200) {
-          const userData = await response.json();
-          setUserProfile(userData);
-        } else {
-          console.error('Failed to fetch user profile:', response.statusText);
-        }
+      if (response.status === 200) {
+        const userData = await response.json();
+        setUserProfile(userData);
       } else {
-        console.log('User nulo');
+        console.error('Failed to fetch user profile:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }
   };
 
+  useEffect(() => {
     fetchUserProfile();
+    console.log('User really changed:', user?.phone_number);
   }, [user]);
+
   // Verificação se as informações do usuário estão disponíveis
   if (!user) {
     navigate('/create-account')
@@ -54,21 +53,21 @@ const AccountProfile = () => {
     <section className={styles.container}>
       <h1 className={styles.title}>PERFIL</h1>
       <div className={styles.profileContainer}>
-        <LabelValue label="Nome" value={user.name || 'Não informado'} />
-        <LabelValue label="Sobrenome" value={user.surname || 'Não informado'} />
-        <LabelValue label="Nome de Usuário" value={user.username || 'Não informado'} />
-        <LabelValue label="Email" value={user.email || 'Não informado'} />
-        <LabelValue label="Número de Telefone" value={user.phoneNumber || 'Não informado'} />
-        <LabelValue label="Área de Interesse" value={user.fieldOfInterest || 'Não informado'} />
-        
+        <ShowLabelValue label="Nome" value={user.name || 'Não informado'} />
+        <ShowLabelValue label="Sobrenome" value={user.surname || 'Não informado'} />
+        <ShowLabelValue label="Nome de Usuário" value={user.username || 'Não informado'}/>
+        <ShowLabelValue label="Email" value={user.email || 'Não informado'} />
+        <ShowLabelValue label="Número de Telefone" value={user.phone_number || 'Não informado'} />
+        <ShowLabelValue label="Área de Interesse" value={user.field_of_interest || 'Não informado'} />
+
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Button data-cy="create" onClick={logout}>
+          <Button data-cy="create" onClick={handleLogout}>
             Logout
           </Button>
           <Button data-cy="create" onClick={logout}>
             Deletar Perfil
           </Button>
-          <Button data-cy="create" onClick={logout}>
+          <Button data-cy="create" onClick={() => navigate('/edit-account')}>
             Editar Perfil
           </Button>
         </div>
