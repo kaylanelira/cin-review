@@ -1,0 +1,17 @@
+.carousel {
+    display: flex;
+    justify-content: center;
+    width: 95vw;
+    padding: 4vw 1vw;
+    margin-bottom: 40px;
+  }
+  
+.heading{
+  position: relative;
+  align-self: start;
+  width: 55vw;
+  margin-left: 1vw;
+  color: var(--gray);
+  border-bottom: 3px solid var(--gray);
+  margin-top: 30px;
+}
