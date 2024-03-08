@@ -44,7 +44,7 @@ const CreateTest = () => {
             placeholder="Digite o nome"
             className={styles.formInput}
           />
-          {errors.name && (
+          {errors.name && ( 
             <span data-cy="input-name-error" className={styles.formError}>
               {errors.name.message}
             </span>
