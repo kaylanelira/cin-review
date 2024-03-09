@@ -80,6 +80,7 @@ const Course = () => {
           <h1>Professor: {discipline.professor}</h1>
           <h1>Descrição: {discipline.description}</h1>
         </div>
+
         <MyReviewCard />
 
         {/* Display review form */}
