@@ -11,6 +11,14 @@ const AccountProfile = () => {
   const [userProfile, setUserProfile] = useState(null);
 
   const navigate = useNavigate();
+
+  const openDeleteModal = () => {
+    navigate('/delete-account')
+  };
+
+  const closeModal = () => {
+    navigate('/login')
+  };
   
   const handleLogout = () => {
     logout();
@@ -66,7 +74,7 @@ const AccountProfile = () => {
           <Button data-cy="create" onClick={handleLogout}>
             Logout
           </Button>
-          <Button data-cy="create" onClick={logout}>
+          <Button data-cy="create" onClick={() => openDeleteModal()}>
             Deletar Perfil
           </Button>
           <Button data-cy="create" onClick={() => navigate('/edit-account')}>
