@@ -11,6 +11,7 @@ import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
 import Feed from "./app/home/pages/Feed";
 import SearchBar from "./app/home/pages/SearchBar";
 import DeleteAccount from "./app/home/pages/DeleteAccount";
+import Course from "./app/home/pages/Course";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,11 @@ const router = createBrowserRouter([
   {
     path: "/add-discipline",
     Component: AddDisciplinePage,
-  }
+  },
+  {
+    path: "/course/:code",
+    Component: Course,
+  },
 ]);
 
 export default function App() {
