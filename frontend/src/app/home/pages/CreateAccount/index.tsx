@@ -10,6 +10,7 @@ import Input from "../../../../shared/components/Input/input";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputRequired from "../../../../shared/components/InputRequired";
+import Navbar from "../../components/Navbar/navbar";
 
 const CreateAccount = () => {
 
@@ -81,6 +82,7 @@ const CreateAccount = () => {
 
   return (
     <section className={styles.container}>
+      <Navbar />
       <h1 className={styles.title}>CADASTRO DE USUÁRIO</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formInputContainer}>

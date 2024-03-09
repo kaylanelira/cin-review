@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 import InputRequired from "../../../../shared/components/InputRequired";
 import { useAuth } from "../../context/AuthContext/AuthContext";
+import Navbar from "../../components/Navbar/navbar";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -56,6 +57,7 @@ const Login = () => {
 
   return (
     <section className={styles.container}>
+      <Navbar />
       <h1 className={styles.title}>LOGIN</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formInputContainer}>

@@ -1,0 +1,80 @@
+/* Navbar.module.css */
+
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 5vw;
+    padding: 0px 25px;
+    background-color: var(--red);
+    color: var(--white);
+    margin-bottom: 100px;
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbarCenter{
+    padding: 10px;
+    width: 33%;    
+}
+
+.searchBar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.searchBar input {
+    width: 100%;
+    height: 3vw;
+    background-color: var(--white);
+    border-radius: 0.6vw;
+    border: 1px solid var(--white);
+    padding: 5px;
+}
+    
+.searchBar input:focus {
+    box-shadow: 0 0 5px var(--white);
+    outline: none;
+}
+    
+.searchButton {
+    background-color: transparent;
+    border: none;
+    position: absolute; 
+    right: 0; 
+    z-index: 1;
+    padding: 3px 10px 0px 10px;
+}
+
+.searchIcon{
+    width: 15px;
+    height: 15px;
+}
+
+.navbarRight{
+    display: inline-flex; 
+    align-items: center;
+}
+
+.anim:hover {
+    background: var(--gray);
+}  
+
+.tab {
+    display: flex; 
+    align-items: center;
+    width: 100%;
+    height: 5vw;
+    padding: 0px 10px;
+    text-decoration: none;
+    color: var(--white);
+}

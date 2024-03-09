@@ -1,0 +1,7 @@
+.carousel {
+    display: flex;
+    justify-content: center;
+    width: 95vw;
+    padding: 4vw 1vw;
+    margin-bottom: 30px;
+  }

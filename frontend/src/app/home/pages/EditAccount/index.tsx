@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import styles from "./index.module.css";
-import Button from '../../../../shared/components/Button';
-import { useNavigate } from 'react-router-dom';
 import EditLabelValue from '../../../../shared/components/EditLabelValue';
+import { useEffect, useState } from "react";
+import Button from "../../../../shared/components/Button";
+import Input from "../../../../shared/components/Input/input";
+import { useNavigate } from "react-router-dom";
+import InputRequired from "../../../../shared/components/InputRequired";
+import Navbar from "../../components/Navbar/navbar";
 
 const EditAccount = () => {
   const { user, login } = useAuth();
@@ -104,6 +108,7 @@ const EditAccount = () => {
 
   return (
     <section className={styles.container}>
+      <Navbar/>
       <h1 className={styles.title}>EDITAR PERFIL</h1>
       <div className={styles.profileContainer}>
         <EditLabelValue propertyName="name" label="Nome" value={user.name || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />

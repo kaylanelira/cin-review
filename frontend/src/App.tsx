@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/home/pages/CreateTest";
-import ListTests from "./app/home/pages/ListTests";
+
 import CreateAccount from "./app/home/pages/CreateAccount";
 import DisciplinesPage from "./app/home/pages/Disciplines/DisciplinePage"
 import EditDisciplinePage from "./app/home/pages/Disciplines/EditDisciplinePage"
@@ -9,11 +8,14 @@ import EditAccount from "./app/home/pages/EditAccount";
 import Login from "./app/home/pages/Login";
 import AccountProfile from "./app/home/pages/AccountProfile";
 import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
+import Feed from "./app/home/pages/Feed";
+import SearchBar from "./app/home/pages/SearchBar";
+
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: CreateTest,
+    Component: Login,
   },
   {
     path: "/create-account",
@@ -32,13 +34,13 @@ const router = createBrowserRouter([
     Component: Login,
   },
   {
-    path: "/create-test",
-    Component: CreateTest,
+    path: "/search/:searchQuery",
+    Component: SearchBar,
   },
   {
-    path: "/tests",
-    Component: ListTests,
-  },  
+    path: "/feed",
+    Component: Feed,
+  },
   {
     path: "/disciplines",
     Component: DisciplinesPage,
