@@ -86,12 +86,12 @@ const CreateAccount = () => {
       <h1 className={styles.title}>CADASTRO DE USUÁRIO</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formInputContainer}>
-          <InputRequired text="Nome" value={name} setInfo={setName}/>
+          <Input text="Nome" value={name} setInfo={setName}/>
           <Input text="Sobrenome" value={surname} setInfo={setSurname}/>
-          <InputRequired text="Nome de Usuário" value={username} setInfo={setUsername}/>
-          <InputRequired text="E-mail" value={email} setInfo={setEmail}/>
-          <InputRequired text="Senha" value={password} setInfo={setPassword} type="password"/>
-          <InputRequired text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
+          <Input text="Nome de Usuário" value={username} setInfo={setUsername}/>
+          <Input text="E-mail" value={email} setInfo={setEmail}/>
+          <Input text="Senha" value={password} setInfo={setPassword} type="password"/>
+          <Input text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
           <Input text="Número de Telefone" value={phoneNumber} setInfo={setPhoneNumber}/>
           <Input text="Área de Interesse" value={fieldOfInterest} setInfo={setFieldOfInterest}/>
 

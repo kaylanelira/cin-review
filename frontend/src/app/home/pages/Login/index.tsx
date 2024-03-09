@@ -5,6 +5,7 @@ import Button from "../../../../shared/components/Button";
 import InputRequired from "../../../../shared/components/InputRequired";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import Navbar from "../../components/Navbar/navbar";
+import Input from "../../../../shared/components/Input/input";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -61,8 +62,8 @@ const Login = () => {
       <h1 className={styles.title}>LOGIN</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formInputContainer}>
-          <InputRequired text="NOME DE USUÁRIO" value={username} setInfo={setUsername}/>
-          <InputRequired text="SENHA" type="password" value={password} setInfo={setPassword}/>
+          <Input text="NOME DE USUÁRIO" value={username} setInfo={setUsername}/>
+          <Input text="SENHA" type="password" value={password} setInfo={setPassword}/>
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.success}>{success_message}</p>}
         </div>

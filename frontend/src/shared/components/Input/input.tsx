@@ -5,10 +5,12 @@ type InputProps = {
 }
 
 const Input = (InputProps) => {
+  
   return (
     <input
       className={styles.formInput}
       placeholder={InputProps.text}
+      type={InputProps.isPasswordVisible ? "text" : InputProps.type || "text"}
       value={InputProps.value}
       onChange={(e) => InputProps.setInfo(e.target.value)}
     />
