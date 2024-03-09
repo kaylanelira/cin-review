@@ -5,6 +5,7 @@ import styles from './index.module.css';
 import Button from "../../../../shared/components/Button";
 import Input from "../../../../shared/components/Input/input";
 import MyReviewCard from '../../components/Course/MyReviewCard/MyReviewCard';
+import CourseInfo from "../../components/Course/CourseInfo/CourseInfo";
 
 const Course = () => {
   const { code } = useParams(); // Get the discipline code from the URL params
@@ -72,15 +73,7 @@ const Course = () => {
     <div>
       <section className={styles.container}>
         <Navbar />
-        <div className={styles.disciplineInfo}> {/* Wrapper div for discipline info */}
-          {/* Display discipline information */}
-          <h1>{discipline.name}</h1>
-          <h1>Departamento: {discipline.department}</h1>
-          <h1>Semestre: {discipline.semester}</h1>
-          <h1>Professor: {discipline.professor}</h1>
-          <h1>Descrição: {discipline.description}</h1>
-        </div>
-
+        <CourseInfo discipline={discipline} />
         <MyReviewCard />
 
         {/* Display review form */}

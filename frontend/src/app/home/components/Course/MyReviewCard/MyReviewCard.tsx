@@ -38,7 +38,7 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
             <div className={styles.comment}>{review.comment}</div>
 
             {/* Time in the top right corner */}
-            <div className={styles.time}>{review.time}</div>
+            <div>{review.time}</div>
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
