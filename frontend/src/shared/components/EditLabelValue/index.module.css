@@ -1,0 +1,31 @@
+.labelValue {
+  display: grid;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 1rem;
+  margin-right: 8px;
+}
+
+.value {
+  padding: 0.3rem;
+  width: 350px;
+  border: 1px solid var(--red);
+  border-radius: 5px;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.3rem;
+  border: 1px solid var(--white);
+  background-color: var(--white);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Alegreya SC';
+}

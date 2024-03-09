@@ -12,7 +12,7 @@
 .value {
   padding: 0.5rem;
   width: 350px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--red);
   border-radius: 5px;
   font-size: 1rem;
   overflow: hidden;

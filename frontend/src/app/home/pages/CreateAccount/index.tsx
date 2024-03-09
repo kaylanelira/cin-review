@@ -1,19 +1,14 @@
-import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./index.module.css";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useState } from "react";
-import { HomeContext } from "../../context/HomeContext";
-import { TestFormSchema, TestFormType } from "../../forms/TestForm";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 import Input from "../../../../shared/components/Input/input";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import InputRequired from "../../../../shared/components/InputRequired";
 import Navbar from "../../components/Navbar/navbar";
 
 const CreateAccount = () => {
 
+  // user info
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
@@ -22,20 +17,12 @@ const CreateAccount = () => {
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fieldOfInterest, setFieldOfInterest] = useState("");
+
+  // mensagens
   const [error_message, setErrorMessage] = useState("");
   const [success_message, setSuccessMessage] = useState("");
-  const { state, prevState } = useContext(HomeContext);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (
-      state.createTestRequestStatus !== prevState?.createTestRequestStatus &&
-      state.createTestRequestStatus.isSuccess()
-    ) {
-      alert("Teste criado com sucesso!");
-    }
-  }, [state, prevState]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,7 +54,7 @@ const CreateAccount = () => {
         setErrorMessage('');
 
         // Redirecionamento para outra página
-        navigate("/tests")
+        navigate("/profile");
       } else {
         const errorData = await response.json();
         setErrorMessage(`Erro ao cadastrar usuário: ${errorData.detail}`);
@@ -83,26 +70,29 @@ const CreateAccount = () => {
   return (
     <section className={styles.container}>
       <Navbar />
+
       <h1 className={styles.title}>CADASTRO DE USUÁRIO</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
+
         <div className={styles.formInputContainer}>
-          <InputRequired text="Nome" value={name} setInfo={setName}/>
+          <Input text="Nome" value={name} setInfo={setName}/>
           <Input text="Sobrenome" value={surname} setInfo={setSurname}/>
-          <InputRequired text="Nome de Usuário" value={username} setInfo={setUsername}/>
-          <InputRequired text="E-mail" value={email} setInfo={setEmail}/>
-          <InputRequired text="Senha" value={password} setInfo={setPassword} type="password"/>
-          <InputRequired text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
+          <Input text="Nome de Usuário" value={username} setInfo={setUsername}/>
+          <Input text="E-mail" value={email} setInfo={setEmail}/>
+          <Input text="Senha" value={password} setInfo={setPassword} type="password"/>
+          <Input text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
           <Input text="Número de Telefone" value={phoneNumber} setInfo={setPhoneNumber}/>
           <Input text="Área de Interesse" value={fieldOfInterest} setInfo={setFieldOfInterest}/>
 
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
-          {success_message && <p className={styles.success}>{success_message}</p>}
+          {success_message && <p className={styles.successMessage}>{success_message}</p>}
         
         </div>
 
         <Button data-cy="create" type="submit">
           Cadastrar
         </Button>
+        
       </form>
       <p>
         Já tem uma conta? Faça{' '}

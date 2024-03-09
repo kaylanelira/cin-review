@@ -55,8 +55,8 @@ class UserService:
       
       added_user = db_instance.add("users", user.model_dump())
       return added_user
-    except DuplicateKeyError:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno do servidor")
+    except Exception as e:
+      raise HTTPException(status_code=500, detail=str(e))
 
   # Edita usuário no banco de dados
   @staticmethod
@@ -89,18 +89,21 @@ class UserService:
   # Deleta o user do banco de dados
   @staticmethod
   def delete_user(id: str, password: str):
-    user = UserService.get_user(id)
-    
-    # verifica se as senhas fornecidas são iguais
-    if user["password"] == password:
-      deleted_user = db_instance.delete("users", id)
-    else:
-      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Senha incorreta. A conta não foi deletada.")
-    
-    if not deleted_user:
-      raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    
-    return deleted_user
+    try:
+      user = UserService.get_user(id)
+      
+      # verifica se as senhas fornecidas são iguais
+      if user["password"] == password:
+        deleted_user = db_instance.delete("users", id)
+      else:
+        raise HTTPException(status_code=400, detail="Senha incorreta. A conta não foi deletada.")
+      
+      if not deleted_user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+      
+      return deleted_user
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e.detail))
   
   # verifica se o email existe
   @staticmethod

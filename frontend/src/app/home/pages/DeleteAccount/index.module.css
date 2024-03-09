@@ -7,11 +7,33 @@
   margin-top: 5rem;
 }
 
+.modalContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
   font-family: 'Alegreya SC';
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--red);
+  font-weight: bold;
+  margin-bottom: 3rem;
+  font-family: 'Alegreya SC';
+}
+
+.paragraph {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-family: 'Alegreya SC';
+
 }
 
 .formContainer {
@@ -22,12 +44,6 @@
   border-radius: 5px;
   padding: 2rem;
   gap: 16px;
-}
-
-.formInputContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .errorMessage {
