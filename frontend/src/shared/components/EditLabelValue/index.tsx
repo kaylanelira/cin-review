@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 
 const EditLabelValue = (props) => {
   const isValueEmpty = !props.value && props.value !== 0;
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordVisible] = useState(false);
 
   return (
     <div className={styles.labelValue}>

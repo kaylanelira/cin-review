@@ -9,7 +9,6 @@ import Navbar from "../../components/Navbar/navbar";
 
 const EditAccount = () => {
   const { user, login } = useAuth();
-  const [userProfile, setUserProfile] = useState(null);
 
   // Edição
   const [editedUser, setEditedUser] = useState({ ...user });
@@ -30,9 +29,6 @@ const EditAccount = () => {
         );
 
         const updatedUser = { ...user, ...sanitizedUser };
-
-        // TODO apagar depoiss
-        console.log("updated user: " + updatedUser.phone_number)
         
         const response = await fetch(
           `http://localhost:8000/user/update_user/${user.id}`,
@@ -50,10 +46,12 @@ const EditAccount = () => {
           const updatedUserData = await response.json();
           setEditedUser(updatedUserData);
 
-          setUserProfile(updatedUserData);
           setSuccessMessage('Usuário editado com sucesso!');
           setErrorMessage('');
+
+          // mantém o usuário atualizado
           login(updatedUser);
+
           navigate('/profile')
         } else {
           setSuccessMessage('');
@@ -63,7 +61,7 @@ const EditAccount = () => {
         console.log('Erro: user nulo na edição');
       }
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      console.error('Erro atualizando perfil:', error);
     }
   };
 
@@ -80,17 +78,14 @@ const EditAccount = () => {
           },
         });
 
-        if (response.status === 200) {
-          const userData = await response.json();
-          setUserProfile(userData);
-        } else {
-          console.error('Failed to fetch user profile:', response.statusText);
+        if (response.status !== 200) {
+          console.error('Falha em recuperar usuário:', response.statusText);
         }
       } else {
         console.log('User nulo');
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('Falha em recuperar usuário:', error);
     }
   };
 
@@ -107,12 +102,14 @@ const EditAccount = () => {
   return (
     <section className={styles.container}>
       <Navbar/>
+
       <h1 className={styles.title}>EDITAR PERFIL</h1>
       <div className={styles.profileContainer}>
-        <EditLabelValue propertyName="name" label="Nome" value={user.name || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
+
+        <EditLabelValue propertyName="name" label="Nome" value={user.name} editedUser={editedUser} setEditedUser={setEditedUser} />
         <EditLabelValue propertyName="surname" label="Sobrenome" value={user.surname || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
-        <EditLabelValue propertyName="username" label="Nome de Usuário" value={user.username || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser}/>
-        <EditLabelValue propertyName="email" label="Email" value={user.email || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue propertyName="username" label="Nome de Usuário" value={user.username} editedUser={editedUser} setEditedUser={setEditedUser}/>
+        <EditLabelValue propertyName="email" label="Email" value={user.email} editedUser={editedUser} setEditedUser={setEditedUser} />
         <EditLabelValue propertyName="password" label="Senha" value={user.password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
         <EditLabelValue propertyName="repeated_password" label="Repita a Senha" value={user.repeated_password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
         <EditLabelValue propertyName="phone_number" label="Número de Telefone" value={user.phone_number || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
@@ -129,6 +126,7 @@ const EditAccount = () => {
             Salvar Alterações
           </Button>
         </div>
+        
       </div>
     </section>
   );

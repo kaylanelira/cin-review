@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import styles from "./index.module.css";
 import Button from '../../../../shared/components/Button';
@@ -7,17 +7,12 @@ import ShowLabelValue from '../../../../shared/components/ShowLabelValue';
 import Navbar from '../../components/Navbar/navbar';
 
 const AccountProfile = () => {
-  const { user, login, logout } = useAuth();
-  const [userProfile, setUserProfile] = useState(null);
+  const { user, logout } = useAuth();
 
   const navigate = useNavigate();
 
   const openDeleteModal = () => {
     navigate('/delete-account')
-  };
-
-  const closeModal = () => {
-    navigate('/login')
   };
   
   const handleLogout = () => {
@@ -36,20 +31,16 @@ const AccountProfile = () => {
         },
       });
 
-      if (response.status === 200) {
-        const userData = await response.json();
-        setUserProfile(userData);
-      } else {
-        console.error('Failed to fetch user profile:', response.statusText);
+      if (response.status !== 200) {
+        console.error('Falha em localizar usuário no servidor:', response.statusText);
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('Falha em localizar usuário:', error);
     }
   };
 
   useEffect(() => {
     fetchUserProfile();
-    console.log('User really changed:', user?.phone_number);
   }, [user]);
 
   // Verificação se as informações do usuário estão disponíveis
@@ -60,13 +51,15 @@ const AccountProfile = () => {
 
   return (
     <section className={styles.container}>
-      <Navbar />
+      <Navbar/>
+
       <h1 className={styles.title}>PERFIL</h1>
       <div className={styles.profileContainer}>
-        <ShowLabelValue label="Nome" value={user.name || 'Não informado'} />
+
+        <ShowLabelValue label="Nome" value={user.name} />
         <ShowLabelValue label="Sobrenome" value={user.surname || 'Não informado'} />
-        <ShowLabelValue label="Nome de Usuário" value={user.username || 'Não informado'}/>
-        <ShowLabelValue label="Email" value={user.email || 'Não informado'} />
+        <ShowLabelValue label="Nome de Usuário" value={user.username}/>
+        <ShowLabelValue label="Email" value={user.email} />
         <ShowLabelValue label="Número de Telefone" value={user.phone_number || 'Não informado'} />
         <ShowLabelValue label="Área de Interesse" value={user.field_of_interest || 'Não informado'} />
 
@@ -74,13 +67,14 @@ const AccountProfile = () => {
           <Button data-cy="create" onClick={handleLogout}>
             Logout
           </Button>
-          <Button data-cy="create" onClick={() => openDeleteModal()}>
+          <Button data-cy="create" onClick={openDeleteModal}>
             Deletar Perfil
           </Button>
           <Button data-cy="create" onClick={() => navigate('/edit-account')}>
             Editar Perfil
           </Button>
         </div>
+
       </div>
     </section>
   );

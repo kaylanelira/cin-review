@@ -2,22 +2,21 @@ import Modal from "react-modal";
 
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import styles from "./index.module.css";
-import EditLabelValue from '../../../../shared/components/EditLabelValue';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../../../shared/components/Button";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/navbar";
 import ModalComponent from "../../../../shared/components/Modal";
 import Input from "../../../../shared/components/Input/input";
-import InputRequired from "../../../../shared/components/InputRequired";
 
 Modal.setAppElement('#root');
 
 const DeleteAccount = () => {
-  const { user, login } = useAuth();
+  const { user } = useAuth();
 
   const [error_message, setErrorMessage] = useState("");
   const [success_message, setSuccessMessage] = useState("");
+
   const [passwordInput, setPasswordInput] = useState("");
 
   const navigate = useNavigate();
@@ -66,11 +65,13 @@ const DeleteAccount = () => {
   return (
     <section className={styles.container}>
       <Navbar/>
+
       <div className={styles.modalContainer}>
         <ModalComponent isOpen={true} onRequestClose={() => closeDeleteModal()}>
           <h1 className={styles.title}>Você quer mesmo deletar seu perfil?</h1>
           <h2 className={styles.subtitle}>Não é possível desfazer essa ação</h2>
           <p className={styles.paragraph}>Confirme a exclusão utilizando sua senha</p>
+          
           <Input text="Senha" value={passwordInput} setInfo={setPasswordInput} type="password"/>
           
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}

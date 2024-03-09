@@ -12,19 +12,10 @@
 .value {
   padding: 0.5rem;
   width: 350px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--red);
   border-radius: 5px;
   font-size: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.formInput {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-family: 'Alegreya SC';
 }

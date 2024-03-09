@@ -1,17 +1,19 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./index.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
-import InputRequired from "../../../../shared/components/InputRequired";
 import { useAuth } from "../../context/AuthContext/AuthContext";
 import Navbar from "../../components/Navbar/navbar";
 import Input from "../../../../shared/components/Input/input";
 
 const Login = () => {
+  // user info
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [error_message, setErrorMessage] = useState("");
   const [success_message, setSuccessMessage] = useState("");
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -39,7 +41,6 @@ const Login = () => {
         // Adiciona as informações do usuário ao estado local
         login(user);
 
-        console.log('Login bem-sucedido! Token:', access_token);
         setSuccessMessage('Login bem-sucedido!');
         setErrorMessage('');
         navigate("/profile");
@@ -59,17 +60,21 @@ const Login = () => {
   return (
     <section className={styles.container}>
       <Navbar />
+
       <h1 className={styles.title}>LOGIN</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
+
         <div className={styles.formInputContainer}>
           <Input text="NOME DE USUÁRIO" value={username} setInfo={setUsername}/>
           <Input text="SENHA" type="password" value={password} setInfo={setPassword}/>
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.success}>{success_message}</p>}
         </div>
+
         <Button data-cy="login" type="submit">
           Entrar
         </Button>
+        
       </form>
       <p>
         Não tem uma conta? Faça{' '}

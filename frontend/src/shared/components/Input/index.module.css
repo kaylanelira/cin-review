@@ -1,20 +1,10 @@
-.formInputContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .formInput {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--red);
   background-color: var(--white);
   border-radius: 5px;
   font-size: 1rem;
   font-family: 'Alegreya SC';
 }
 
-.formError {
-  color: red;
-  font-size: 0.8rem;
-}
