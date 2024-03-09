@@ -22,3 +22,13 @@
   padding: 2rem;
   gap: 16px;
 }
+
+.errorMessage {
+  color: var(--red);
+  padding: 5px;
+}
+
+.successMessage {
+  color: green;
+  padding: 5px;
+}

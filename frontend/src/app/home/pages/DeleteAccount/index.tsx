@@ -45,8 +45,9 @@ const DeleteAccount = () => {
           setErrorMessage('');
           navigate('/create-account')
         } else {
+          const errorData = await response.json();
           setSuccessMessage('');
-          setErrorMessage('Erro ao excluir usuário: ' + response.statusText);
+          setErrorMessage(errorData.detail);
         }
       } else {
         console.log('Erro: user nulo na exclusão');

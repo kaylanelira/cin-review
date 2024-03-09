@@ -54,8 +54,9 @@ const EditAccount = () => {
 
           navigate('/profile')
         } else {
+          const errorData = await response.json();
           setSuccessMessage('');
-          setErrorMessage('Erro ao editar usuário: ' + response.statusText);
+          setErrorMessage('Erro ao editar usuário: ' + errorData.detail);
         }
       } else {
         console.log('Erro: user nulo na edição');
