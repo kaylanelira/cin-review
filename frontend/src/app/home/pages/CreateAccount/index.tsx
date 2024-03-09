@@ -96,7 +96,7 @@ const CreateAccount = () => {
           <Input text="Área de Interesse" value={fieldOfInterest} setInfo={setFieldOfInterest}/>
 
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
-          {success_message && <p className={styles.success}>{success_message}</p>}
+          {success_message && <p className={styles.successMessage}>{success_message}</p>}
         
         </div>
 

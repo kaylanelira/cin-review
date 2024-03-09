@@ -7,8 +7,8 @@ type User = {
   username: string;
   email: string;
   password: string;
-  phoneNumber: string | null; 
-  fieldOfInterest: string | null;
+  phone_number: string | null; 
+  field_of_interest: string | null;
 };
 
 
