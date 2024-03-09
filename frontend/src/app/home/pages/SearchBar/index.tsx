@@ -48,7 +48,7 @@ const SearchResults = () => {
         {currentDisciplines.length > 0 ? (
           currentDisciplines.map((discipline, index) => (
           <div key={index}>
-            <Link to={`/${discipline.name}`} style={{ textDecoration: 'none' }}>
+            <Link to={`/discipline/${discipline.code}`} style={{ textDecoration: 'none' }}>
             <CardDiscipline 
               discipline={discipline.name}
               semester={`${discipline.semester}° Período`}
