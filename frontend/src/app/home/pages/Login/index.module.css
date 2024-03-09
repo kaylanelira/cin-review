@@ -29,24 +29,12 @@
   gap: 8px;
 }
 
-.formInput {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+.errorMessage {
+  color: var(--red);
+  padding: 5px;
 }
 
-.formError {
-  color: red;
-  font-size: 0.8rem;
-}
-
-.formButton {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
+.successMessage {
+  color: green;
+  padding: 5px;
 }

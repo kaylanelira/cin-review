@@ -1,20 +1,22 @@
+import { useState } from "react";
 import styles from "./index.module.css";
 
-const EditLabelValue = ({ propertyName, label, value, editedUser, setEditedUser }) => {
-  const isValueEmpty = !value && value !== 0;
+const EditLabelValue = (props) => {
+  const isValueEmpty = !props.value && props.value !== 0;
+  const [isPasswordVisible] = useState(false);
 
   return (
     <div className={styles.labelValue}>
-      <div className={styles.label}>{label}:</div>
+      <div className={styles.label}>{props.label}:</div>
       <div className={styles.value}>
         <input
           className={styles.formInput}
-          type="text"
-          defaultValue={isValueEmpty ? 'Não informado' : editedUser[propertyName]}
+          type={isPasswordVisible ? "text" : props.type || "text"}
+          defaultValue={isValueEmpty ? 'Não informado' : props.editedUser[props.propertyName]}
           onChange={(e) =>
-            setEditedUser({
-              ...editedUser,
-              [propertyName]: e.target.value,
+            props.setEditedUser({
+              ...props.editedUser,
+              [props.propertyName]: e.target.value,
             }) 
           }
         />

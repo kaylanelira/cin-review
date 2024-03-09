@@ -10,7 +10,7 @@ import AccountProfile from "./app/home/pages/AccountProfile";
 import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
 import Feed from "./app/home/pages/Feed";
 import SearchBar from "./app/home/pages/SearchBar";
-
+import DeleteAccount from "./app/home/pages/DeleteAccount";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/edit-account",
     Component: EditAccount,
+  },
+  {
+    path: "/delete-account",
+    Component: DeleteAccount,
   },
   {
     path: "/profile",

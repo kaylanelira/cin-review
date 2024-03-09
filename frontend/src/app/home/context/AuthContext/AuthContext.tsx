@@ -7,6 +7,7 @@ type User = {
   username: string;
   email: string;
   password: string;
+  repeated_password: string;
   phone_number: string | null; 
   field_of_interest: string | null;
 };

@@ -18,11 +18,3 @@
   grid-template-columns: auto 1fr; 
   gap: 8px;
 }
-
-.errorMessage {
-  color: red;
-}
-
-.successMessage {
-  color: green;
-}
