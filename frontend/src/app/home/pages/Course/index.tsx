@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/navbar';
 import styles from './index.module.css';
 import Button from "../../../../shared/components/Button";
 import Input from "../../../../shared/components/Input/input";
+import MyReviewCard from '../../components/Course/MyReviewCard/MyReviewCard';
 
 const Course = () => {
   const { code } = useParams(); // Get the discipline code from the URL params
@@ -73,12 +74,13 @@ const Course = () => {
         <Navbar />
         <div className={styles.disciplineInfo}> {/* Wrapper div for discipline info */}
           {/* Display discipline information */}
-          <h1 className={styles.heading}>{discipline.name}</h1>
-          <h1 className={styles.heading}>Departamento: {discipline.department}</h1>
-          <h1 className={styles.heading}>Semestre: {discipline.semester}</h1>
-          <h1 className={styles.heading}>Professor: {discipline.professor}</h1>
-          <h1 className={styles.heading}>Descrição: {discipline.description}</h1>
+          <h1>{discipline.name}</h1>
+          <h1>Departamento: {discipline.department}</h1>
+          <h1>Semestre: {discipline.semester}</h1>
+          <h1>Professor: {discipline.professor}</h1>
+          <h1>Descrição: {discipline.description}</h1>
         </div>
+        <MyReviewCard />
 
         {/* Display review form */}
         <h1 className={styles.title}>CADASTRO DE REVIEW</h1>
