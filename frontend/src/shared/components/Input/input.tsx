@@ -4,6 +4,7 @@ const Input = (InputProps) => {
   
   return (
     <input
+      id={InputProps.id}
       className={styles.formInput}
       placeholder={InputProps.text}
       type={InputProps.isPasswordVisible ? "text" : InputProps.type || "text"}
