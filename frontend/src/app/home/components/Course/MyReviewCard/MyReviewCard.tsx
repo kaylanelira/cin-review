@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './MyReviewCard.module.css'; // Import CSS module for styling
 
-const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
+const MyReviewCard = ({ course }) => {
   const [reviews, setReviews] = useState([]); // State to hold the fetched reviews
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchReview = async () => {
       try {
-        const response = await fetch('http://localhost:8000/review/get_all');
+        // Get the user ID from local storage
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        // Fetch reviews by user and discipline
+        const response = await fetch(`http://localhost:8000/review/get_by_user_discipline?username=${user.username}&discipline=${course}`);
+
         if (response.ok) {
           const data = await response.json();
           setReviews(data); // Set reviews state with fetched data
@@ -19,8 +24,31 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
       }
     };
 
-    fetchReviews();
-  }, []); // Fetch reviews when component mounts
+    fetchReview();
+  }, [course]); // Fetch reviews when component mounts and when course changes
+
+  // Function to handle delete review action
+  const handleDelete = async (reviewId) => {
+    try {
+      // Get the user ID from local storage
+      const user = JSON.parse(localStorage.getItem('user'));
+      
+      // Send DELETE request to delete the review
+      const response = await fetch(`http://localhost:8000/review/delete?discipline=${course}&username=${user.username}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Refresh reviews after successful deletion
+        const updatedReviews = reviews.filter(review => review.id !== reviewId);
+        setReviews(updatedReviews);
+      } else {
+        console.error('Failed to delete review:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
+  };
 
   return (
     <div>
@@ -38,19 +66,24 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
             <div className={styles.comment}>{review.comment}</div>
 
             {/* Time in the top right corner */}
-            <div>{review.time}</div>
+            <div className={styles.time}>{review.time}</div>
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
-              <button onClick={onDelete} className={styles.deleteButton}>Delete</button>
-              <button onClick={onEdit} className={styles.editButton}>Edit</button>
-              <button onClick={onAdd} className={styles.addButton}>Add</button>
+              <button className={styles.deleteButton} onClick={() => handleDelete(review.id)}>Delete</button>
+              <button className={styles.editButton}>Edit</button>
+              <button className={styles.addButton}>Add</button>
             </div>
           </div>
         ))
       ) : (
         <div className={styles.MyReviewCard}>
           <p>Nenhum review cadastrado ainda</p>
+          <div className={styles.buttonContainer}>
+            <button className={styles.deleteButton} onClick={() => handleDelete(review.id)}>Delete</button>
+            <button className={styles.editButton}>Edit</button>
+            <button className={styles.addButton}>Add</button>
+          </div>
         </div>
       )}
     </div>

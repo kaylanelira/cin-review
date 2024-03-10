@@ -1,17 +1,18 @@
 import React from 'react';
 import styles from './CourseInfo.module.css'; // Import the CSS module
 
-const CourseInfo = ({ discipline }) => {
+const CourseInfo = ({ course }) => {
+
   return (
     <div className={styles.container}>
       {/* Row 1: Basic info and grade */}
       <div className={styles.row}>
         {/* Basic info container */}
         <div className={styles.infoContainer}>
-          <h1>{discipline.name}</h1>
-          <p>Departamento: {discipline.department}</p>
-          <p>Semestre: {discipline.semester}</p>
-          <p>Professor: {discipline.professor}</p>
+          <h1>{course.name}</h1>
+          <p>Departamento: {course.department}</p>
+          <p>Semestre: {course.semester}</p>
+          <p>Professor: {course.professor}</p>
         </div>
 
         {/* Rating container */}
@@ -24,7 +25,7 @@ const CourseInfo = ({ discipline }) => {
       <div className={styles.row}>
         {/* Description container */}
         <div className={styles.descriptionContainer}>
-          <p className={styles.description}>{discipline.description}</p>
+          <p className={styles.description}>{course.description}</p>
         </div>
       </div>
     </div>
