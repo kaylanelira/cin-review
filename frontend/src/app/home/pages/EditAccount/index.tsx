@@ -31,7 +31,7 @@ const EditAccount = () => {
         const updatedUser = { ...user, ...sanitizedUser };
         
         const response = await fetch(
-          `http://localhost:8000/user/update_user/${user.id}`,
+          `http://localhost:8000/user/update_user/${user.username}`,
           {
             method: 'PUT',
             headers: {

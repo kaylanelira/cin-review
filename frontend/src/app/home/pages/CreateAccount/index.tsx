@@ -54,7 +54,7 @@ const CreateAccount = () => {
         setErrorMessage('');
 
         // Redirecionamento para outra página
-        navigate("/profile");
+        navigate("/feed");
       } else {
         const errorData = await response.json();
         setErrorMessage(`Erro ao cadastrar usuário: ${errorData.detail}`);
