@@ -20,7 +20,7 @@ describe('CardDiscipline component', () => {
     
     //Verificar link
     const linkElement = screen.getByRole('link');
-    expect(linkElement).toHaveAttribute('href', `/discipline/${disciplineCode}`);  
+    expect(linkElement).toHaveAttribute('href', `/course/${disciplineCode}`);  
     expect(linkElement).toHaveStyle({ textDecoration: 'none' });
   });
 
@@ -42,7 +42,7 @@ describe('CardDiscipline component', () => {
     
     //Verificar link
     const linkElement = screen.getByRole('link');
-    expect(linkElement).toHaveAttribute('href', `/discipline/${disciplineCode}`);  
+    expect(linkElement).toHaveAttribute('href', `/course/${disciplineCode}`);  
     expect(linkElement).toHaveStyle({ textDecoration: 'none' });
   });
 });
