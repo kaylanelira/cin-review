@@ -3,7 +3,7 @@ from service.user_service import UserService, db_instance
 from tests.utils import utils
 
 # se verdadeira, printa as respostas do servidor
-debug = False
+debug = True
 
 # Scenario: Cadastrar uma conta com sucesso =================================================================================
 @scenario(scenario_name="Cadastrar uma conta com sucesso", feature_name="../features/account.feature")
@@ -23,6 +23,15 @@ def remove_user_from_database(username: str, email:str):
     elif user_by_email:  
         user_id = user_by_email['id']
         db_instance.delete('users', user_id)
+
+@given(
+    parsers.cfparse('o nome de usuário "{username}" não existe no UserService')
+)
+def remove_user_by_username(username:str):
+    user_by_username = UserService.get_user_by_username(username)
+    
+    user_id = user_by_username['id']
+    db_instance.delete('users', user_id)
 
 @when(
     parsers.cfparse('uma requisição POST é enviada para "{req_url}" com os dados\n{data}'),

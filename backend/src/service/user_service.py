@@ -1,5 +1,6 @@
+from Authentication.token import create_jwt_token
 from schemas.user import UserCreateModel
-from db import database_user as db
+from db import database as db
 from pymongo.errors import DuplicateKeyError
 from fastapi import HTTPException, status
 
@@ -13,14 +14,14 @@ class UserService:
     return users
 
   # Retona user com base no id
-  @staticmethod
-  def get_user(user_id: str):
-    user = db_instance.find_by_id("users", user_id)
+  # @staticmethod
+  # def get_user(user_id: str):
+  #   user = db_instance.find_by_id("users", user_id)
 
-    if not user:
-      raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado")
+  #   if not user:
+  #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado")
 
-    return user
+  #   return user
   
   # Retorna user com base no nome de usuário
   @staticmethod
@@ -45,23 +46,19 @@ class UserService:
   # Adiciona um user ao banco de dados
   @staticmethod
   def add_user(user: UserCreateModel):
-    try:
-  
-      # verificando informações para criar usuário
-      UserService.check_user_requirements(user)
-      UserService.check_user_passwords(user)
-      UserService.check_user_unique_info(user)
-      
-      added_user = db_instance.add("users", user.model_dump())
-      return added_user
-    except DuplicateKeyError:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno do servidor")
+    # verificando informações para criar usuário
+    UserService.check_user_requirements(user)
+    UserService.check_user_passwords(user)
+    UserService.check_user_unique_info(user)
+    
+    added_user = db_instance.add("users", user.model_dump())
+    return added_user
 
   # Edita usuário no banco de dados
   @staticmethod
-  def edit_user(id: str, user: UserCreateModel):
+  def edit_user(username: str, user: UserCreateModel):
     try:
-      existing_user = db_instance.get_item_by_id("users", id)
+      existing_user = db_instance.get_by_username("users",username)
 
       if not existing_user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
@@ -77,6 +74,7 @@ class UserService:
       UserService.check_user_passwords(user)
 
       existing_user.update(user.model_dump())
+      id = existing_user["id"]
 
       # Salve as alterações no banco de dados
       edited_user = db_instance.edit("users", id, existing_user)
@@ -87,14 +85,14 @@ class UserService:
 
   # Deleta o user do banco de dados
   @staticmethod
-  def delete_user(id: str, password: str):
-    user = UserService.get_user(id)
+  def delete_user(username: str, password: str):
+    user = UserService.get_user_by_username(username)
     
     # verifica se as senhas fornecidas são iguais
     if user["password"] == password:
-      deleted_user = db_instance.delete("users", id)
+      deleted_user = db_instance.delete("users", user["id"])
     else:
-      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Senha incorreta. A conta não foi deletada.")
+      raise HTTPException(status_code=400, detail="Senha incorreta. A conta não foi deletada.")
     
     if not deleted_user:
       raise HTTPException(status_code=404, detail="Usuário não encontrado")
@@ -140,7 +138,22 @@ class UserService:
       raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Email indisponivel")
     
   # TESTE: Deleta todos os usuários do banco de cados
-  # @staticmethod
-  # def delete_all_users():
-  #   db_instance.delete_all_users()
+  @staticmethod
+  def delete_all_users():
+    db_instance.delete_all("users")
   
+  @staticmethod
+  def login(username: str):
+    user = db_instance.get_by_username("users",username)
+    
+    if user and user["password"] == user["repeated_password"]: 
+        # Criação do token JWT
+        token_data = {"sub": user["username"]}
+        access_token = create_jwt_token(token_data)
+        return {"access_token": access_token, "token_type": "bearer", "user": user}
+    else:
+      raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas",
+            headers={"WWW-Authenticate": "Bearer"},
+        )

@@ -1,8 +1,11 @@
 .button {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid var(--white);
+  border-radius: 15px;
   font-size: 1rem;
   cursor: pointer;
+  background-color: var(--red);
+  color: #FEEFDD;
+  font-family: 'Alegreya SC';
 }

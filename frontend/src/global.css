@@ -8,4 +8,12 @@
 html,
 body {
   height: 100%;
+  background-color: var(--white);
+}
+
+:root {
+  --red: #B20D30;
+  --white: #F0F0F0;
+  --gray: #2F2F2F;
+  --light-gray: #D9D9D9
 }
