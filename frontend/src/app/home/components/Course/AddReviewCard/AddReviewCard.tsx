@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddReviewCard.module.css'; // Import CSS module for styling
-import { on } from 'events';
 
 const AddReviewCard = ({ course, onCancel }) => {
   const [reviews, setReviews] = useState([]); // State to hold the fetched reviews
-  const [confirmationOpen, setConfirmationOpen] = useState(false); // State to track confirmation dialog open/close
-  const [reviewToDelete, setReviewToDelete] = useState(null); // State to store review ID to delete
-  const [addDialogOpen, setAddDialogOpen] = useState(false); // State to track add review dialog open/close
-  const [editDialogOpen, setEditDialogOpen] = useState(false); // State to track edit review dialog open/close
   const [newRating, setNewRating] = useState(0); // State to hold new review rating
   const [newComment, setNewComment] = useState(''); // State to hold new review comment
-  const [reviewToEdit, setReviewToEdit] = useState(null); // State to store review ID to edit
 
   // Function to handle submitting new review
   const submitNewReview = async () => {

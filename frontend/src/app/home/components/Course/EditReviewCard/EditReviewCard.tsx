@@ -43,7 +43,7 @@ const EditReviewCard = ({ course, onCancel }) => {
   return (
     <div>
       {/* Title outside the box */}
-      <h2>Editar Review</h2>
+      <h2>Meu Review</h2>
 
       <div className={styles.EditReviewCard}>
         <label htmlFor="updatedRating">Nota:</label>
