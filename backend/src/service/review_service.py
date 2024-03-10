@@ -81,3 +81,21 @@ class ReviewService:
       sorted_reviews = sorted(reviews, key=lambda x: x['time'], reverse=True)
       
       return sorted_reviews[:10]
+    
+    @staticmethod
+    def get_reviews_by_discipline(discipline: str):
+      reviews = db_instance.get_all_items("reviews")
+
+      reviews = [review for review in reviews if review['discipline'] == discipline]
+
+      return reviews
+
+    @staticmethod
+    def delete_all_discipline_reviews(discipline : str):
+      reviews = db_instance.get_all_items("reviews")
+
+      for review in reviews:
+        if(review["disipline"] == discipline):
+          db_instance.delete("reviews", str(review['_id']))
+        
+      return  db_instance.get_all_items("reviews")
