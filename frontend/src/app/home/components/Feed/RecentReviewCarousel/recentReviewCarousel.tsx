@@ -15,27 +15,23 @@ const Carousel = () => {
         const response = await fetch('http://localhost:8000/review/get_recent_reviews'); 
         if (response.ok) {
           const data = await response.json();
-          setReviews(data); 
           const disciplinesData = await Promise.all(data.map(fetchDisciplineName));
+          setReviews(data); 
           setDisciplines(disciplinesData); 
         }
       } catch (error) {
         console.error('Error fetching recent reviews:', error);
       }
     };
-
+  
     fetchRecentReviews();
-
+  
     const timer = setInterval(fetchRecentReviews, 30000);
     return () => {
       clearInterval(timer);
     };
   }, []);
-
-  if (reviews.length === 0) {
-    return null; 
-  }
-
+  
   const fetchDisciplineName = async (data) => {
     try {
       const response = await fetch(`http://localhost:8000/discipline/by_code/${data.discipline}`); 

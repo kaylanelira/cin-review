@@ -10,11 +10,13 @@ import AccountProfile from "./app/home/pages/AccountProfile";
 import { AuthProvider } from "./app/home/context/AuthContext/AuthContext";
 import Feed from "./app/home/pages/Feed";
 import SearchBar from "./app/home/pages/SearchBar";
+import DisciplineAndReview from "./app/home/pages/DisciplineAndReview";
 import DeleteAccount from "./app/home/pages/DeleteAccount";
 
 const router = createBrowserRouter([
   {
     path: "*",
+    Component: Login,
     Component: Login,
   },
   {
@@ -56,7 +58,11 @@ const router = createBrowserRouter([
   {
     path: "/add-discipline",
     Component: AddDisciplinePage,
-  }
+  },
+  {
+    path: "/discipline/:code",
+    Component: DisciplineAndReview,
+  },
 ]);
 
 export default function App() {

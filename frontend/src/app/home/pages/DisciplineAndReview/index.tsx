@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/navbar';
 import styles from './index.module.css'
-import InputRequired from "../../../../shared/components/InputRequired";
 import Button from "../../../../shared/components/Button";
 import Input from "../../../../shared/components/Input/input";
 
@@ -19,48 +18,6 @@ const DisciplineAndReview = () => {
   const [success_message, setSuccessMessage] = useState("");
   const storedUser = localStorage.getItem('user');
   const time = "string";
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const reviewData = {
-        username: JSON.parse(storedUser).username,
-        discipline: code,
-        rating: parseInt(rating), 
-        comment,
-        time,
-    };
-
-    try {
-      const response = await fetch('http://localhost:8000/review/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewData),
-      });
-
-      
-      if (response.status === 200) {
-        setSuccessMessage('Review cadastrada com sucesso!');
-        setErrorMessage('');
-
-        // Redirecionamento para outra página
-        // navigate("/tests")
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(`Erro ao cadastrar review: ${response.status} ${errorData.detail}`);
-        setSuccessMessage('');
-      }
-    } catch (error) {
-      console.error('Erro ao enviar a solicitação POST:', error);
-      setErrorMessage('Erro ao cadastrar review. Tente novamente mais tarde.');
-      setSuccessMessage('');
-    }
-  };
-
-
-
-
 
   useEffect(() => {
     const fetchDiscipline = async () => {
@@ -108,6 +65,44 @@ const DisciplineAndReview = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const reviewData = {
+        username: JSON.parse(storedUser).username,
+        discipline: code,
+        rating: parseInt(rating), 
+        comment,
+        time,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8000/review/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
+
+      
+      if (response.status === 200) {
+        setSuccessMessage('Review cadastrada com sucesso!');
+        setErrorMessage('');
+
+        // Redirecionamento para outra página
+        // navigate("/tests")
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(`Erro ao cadastrar review: ${response.status} ${errorData.detail}`);
+        setSuccessMessage('');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar a solicitação POST:', error);
+      setErrorMessage('Erro ao cadastrar review. Tente novamente mais tarde.');
+      setSuccessMessage('');
+    }
+  };
+
   return (
     <div>
       <section className={styles.container}>
@@ -136,8 +131,8 @@ const DisciplineAndReview = () => {
       <h1 className={styles.title}>CADASTRO DE REVIEW</h1>
       <form className={styles.formContainer} onSubmit={handleSubmit}>
         <div className={styles.formInputContainer}>
-          <InputRequired text="Comentário" value={comment} setInfo={setComment}/>
-          <InputRequired text="Nota" value={rating} setInfo={setRating}/>
+          <Input text="Comentário" value={comment} setInfo={setComment}/>
+          <Input text="Nota" value={rating} setInfo={setRating}/>
           
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.success}>{success_message}</p>}
