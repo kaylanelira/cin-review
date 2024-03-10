@@ -42,7 +42,7 @@ const Course = () => {
       case 'editReview':
         return <EditReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       default:
-        return null;
+        return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
     }
   };
 
