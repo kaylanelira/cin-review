@@ -5,6 +5,11 @@
   padding: 20px; /* Padding for content */
   margin-bottom: 10px;
   width: 600px; /* Constant width */
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Align children at the start and end of the container */
+  position: relative; /* Add relative positioning */
 }
 
 .rating {
@@ -26,7 +31,7 @@
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px; /* Margin to separate buttons from text */
+  margin-top: auto; /* Pushes the container to the bottom */
 }
 
 /* Individual button styles */

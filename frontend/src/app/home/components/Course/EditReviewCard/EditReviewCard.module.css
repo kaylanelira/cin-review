@@ -1,0 +1,37 @@
+.EditReviewCard {
+  background-color: #f9f9f9; /* Off-white background color */
+  border: 2px solid red; /* Red outline */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding for content */
+  margin-bottom: 10px;
+  width: 600px; /* Constant width */
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Align children at the start and end of the container */
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto; /* Pushes the container to the bottom */
+}
+
+/* Individual button styles */
+.yesButton,
+.noButton {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.noButton {
+  background-color: #ff6347; /* Red */
+}
+
+.yesButton {
+  background-color: #32cd32; /* Green */
+}
