@@ -1,0 +1,59 @@
+.MyReviewCard {
+  background-color: #f9f9f9; /* Off-white background color */
+  border: 2px solid red; /* Red outline */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding for content */
+  margin-bottom: 10px;
+  width: 600px; /* Constant width */
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Align children at the start and end of the container */
+  position: relative; /* Add relative positioning */
+}
+
+.rating {
+  font-size: 24px; /* Big font size for rating */
+  font-weight: bold;
+}
+
+.comment {
+  font-size: 14px; /* Small font size for comment */
+  margin-top: 10px; /* Add space between rating and comment */
+}
+
+.time {
+  position: absolute; /* Position time in the top right corner */
+  top: 10px;
+  right: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto; /* Pushes the container to the bottom */
+}
+
+/* Individual button styles */
+.deleteButton,
+.editButton,
+.addButton {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.deleteButton {
+  background-color: #ff6347; /* Red */
+}
+
+.editButton {
+  background-color: #4169e1; /* Blue */
+}
+
+.addButton {
+  background-color: #32cd32; /* Green */
+}
