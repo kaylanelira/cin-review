@@ -29,6 +29,7 @@ const EditReviewCard = ({ course, onCancel }) => {
       if (response.ok) {
         setUpdatedComment(''); // Reset updated comment
         setUpdatedRating(0); // Reset updated rating
+        window.location.reload();
       } else {
         console.error('Failed to update review:', response.statusText);
       }

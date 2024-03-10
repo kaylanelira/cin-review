@@ -13,7 +13,7 @@ describe('CardTopDiscipline component', () => {
     expect(disciplineElement).toBeInTheDocument();
     //Verificar link
     const linkElement = screen.getByRole('link');
-    expect(linkElement).toHaveAttribute('href', `/discipline/${disciplineCode}`);
+    expect(linkElement).toHaveAttribute('href', `/course/${disciplineCode}`);
     expect(linkElement).toHaveStyle({ textDecoration: 'none' });
   });
 });
