@@ -52,3 +52,32 @@
 .addButton {
   background-color: #32cd32; /* Green */
 }
+
+/* MyReviewCard.module.css */
+
+.warningDialog {
+  background-color: #ffe5b3; /* Light yellow background */
+  border: 1px solid #ffc966; /* Light orange border */
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.warningDialog p {
+  color: #ff6600; /* Dark orange text color */
+  margin-bottom: 10px;
+}
+
+.warningDialog button {
+  background-color: #ffc966; /* Light orange button background */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.warningDialog button:hover {
+  background-color: #ff9900; /* Darker orange on hover */
+}
