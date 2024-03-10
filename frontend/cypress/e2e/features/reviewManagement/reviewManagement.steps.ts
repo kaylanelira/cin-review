@@ -1,6 +1,7 @@
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 
 before(() => {
+  // create user
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/user/create_user',
@@ -24,9 +25,35 @@ before(() => {
       throw new Error(`Failed to create user. Status: ${response.status}`);
     }
   });
+
+  //create course
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/discipline/add',
+    body: {
+      name: 'Engenharia de Software e Sistemas',
+      code: 'ess',
+      department: 'Computer Science',
+      semester: 6,
+      professor: 'Breno Miranda',
+      description: 'Engenharia de Software e Sistemas é uma disciplina que aborda os princípios, técnicas e práticas relacionadas ao desenvolvimento de software e sistemas de grande escala. Ela envolve o estudo de métodos de engenharia de software, gerenciamento de projetos, design de sistemas, entre outros aspectos.'
+    },
+    failOnStatusCode: false // Do not fail the test on non-2xx response
+  }).then((response) => {
+    if (response.status === 409) {
+      // Discipline already exists, log a message and continue
+      cy.log('Discipline already exists, skipping discipline creation');
+    } else if (response.status !== 201) {
+      // Handle other non-successful status codes if needed
+      throw new Error(`Failed to create discipline. Status: ${response.status}`);
+    }
+  });
+  
+
 });
 
 after(() => {
+  // delete user
   cy.request({
     method: 'DELETE',
     url: 'http://localhost:8000/user/delete?username=test?password=test',
@@ -35,6 +62,16 @@ after(() => {
     // Check if the response status code is either 200 or 404
     expect(response.status).to.be.oneOf([200, 404]);
   });
+  // delete course
+  cy.request({
+    method: 'DELETE',
+    url: 'http://localhost:8000/discipline/by_code/ess',
+    failOnStatusCode: false // Prevent Cypress from failing the test on non-2xx status codes
+  }).then((response) => {
+    // Check if the response status code is either 200 or 404
+    expect(response.status).to.be.oneOf([200, 204, 404]);
+  });
+
 });
 
 Given('o usuário {string} não possui um review cadastrado para a cadeira {string}', (username, course) => {
