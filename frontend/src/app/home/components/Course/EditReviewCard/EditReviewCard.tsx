@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import styles from './EditReviewCard.module.css'; // Import CSS module for styling
 
-const EditReviewCard = ({ course, onCancel }) => {
-  const [updatedRating, setUpdatedRating] = useState(0); // State to hold updated review rating
-  const [updatedComment, setUpdatedComment] = useState(''); // State to hold updated review comment
 
-  // Function to handle updating the review
-  // Function to handle updating the review
+const EditReviewCard = ({ course, onCancel }) => {
+  const [updatedRating, setUpdatedRating] = useState(); // State to hold updated review rating
+  const [updatedComment, setUpdatedComment] = useState(''); // State to hold updated review comment
+  const [error, setError] = useState(''); // State to hold error message
+
   const updateReview = async () => {
+
+    if (isNaN(updatedRating)) {
+      setError('Por favor, insira uma nota.');
+      return;
+    }else{
+      setError('');
+    }
+
     try {
       // Get the user ID from local storage
       const user = JSON.parse(localStorage.getItem('user'));
@@ -51,6 +59,7 @@ const EditReviewCard = ({ course, onCancel }) => {
         <input type="number" id="updatedRating" value={updatedRating} onChange={(e) => setUpdatedRating(parseInt(e.target.value))} />
         <label htmlFor="updatedComment">Comentário:</label>
         <textarea id="updatedComment" value={updatedComment} onChange={(e) => setUpdatedComment(e.target.value)} />
+        <p className={styles.error}>{error}</p>
         <div className={styles.buttonContainer}>
           <button className={styles.noButton} onClick={onCancel}>Cancelar</button>
           <button className={styles.yesButton} onClick={updateReview}>Atualizar</button>

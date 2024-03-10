@@ -33,22 +33,26 @@ const MyReviewCard = ({ course, onDelete, onEdit, onAdd }) => {
       {reviews.length > 0 ? (
         reviews.map((review, index) => (
           <div key={index} className={styles.MyReviewCard}>
-            {/* Rating on the left */}
-            <div className={styles.rating}>{review.rating}</div>
+            {/* Time */}
+            <div className={styles.time}>{review.time}</div>
 
-            {/* Comment on the right */}
-            <div className={styles.comment}>{review.comment}</div>
+            <div className={styles.divider}>
+              {/* Rating on the left */}
+              <div className={styles.rating}>{review.rating}</div>
+              {/* Comment on the right */}
+              <div className={styles.comment}>{review.comment}</div>
+            </div>
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
-              <button onClick={onDelete} className={styles.deleteButton}>Delete</button>
-              <button onClick={onEdit} className={styles.editButton}>Edit</button>
+              <button onClick={onDelete} className={styles.deleteButton}>Apagar</button>
+              <button onClick={onEdit} className={styles.editButton}>Editar</button>
             </div>
           </div>
         ))
       ) : (
         <div className={styles.MyReviewCard}>
-          <p>Você ainda não cadastrou um review cadastrado para essa disciplina.</p>
+          <p id="noReviewMessage">Nenhum review cadastrado pelo usuário.</p>
           <div className={styles.buttonContainer}>
             <button onClick={onAdd} className={styles.addButton}>Add</button>
           </div>
