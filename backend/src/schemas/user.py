@@ -14,7 +14,6 @@ class UserModel(BaseModel):
   
 # Classe base do user para operações que requerem duas senhas iguais
 class UserCreateModel(BaseModel):
-  id: str
   name: str
   surname: Optional[str] = None
   username: str

@@ -5,7 +5,7 @@ import plus_icon from '../../../assets/plus-icon.png';
 
 const CardDiscipline = ({ disciplineCode, disciplineName, semester, added }) => {
   return (
-    <Link to={`/discipline/${disciplineCode}`} style={{ textDecoration: 'none' }}>    
+    <Link to={`/course/${disciplineCode}`} style={{ textDecoration: 'none' }}>    
       <div className={styles.card}>
           <div className={styles.discipline}>{disciplineName}</div>
           <div className={styles.cardDisciplineLeft}>
