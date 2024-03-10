@@ -14,14 +14,14 @@ router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @router.get(
-  "/get_user/{user_id}",
+  "/get_user/{user_username}",
   tags=['User'],
   response_model=UserModel,
   response_class=JSONResponse,
   summary="Get a specific user",
 )
-def get_user(user_id: str):
-  user = UserService.get_user(user_id)
+def get_user(user_username: str):
+  user = UserService.get_user_by_username(user_username)
   return user
   
 @router.post(
@@ -33,8 +33,7 @@ def get_user(user_id: str):
   summary="Create a user",
 )
 def create_user(user: UserCreateModel):
-  user_id = str(uuid.uuid4())
-  new_user = UserService.add_user(user, user_id)
+  new_user = UserService.add_user(user)
   return new_user
 
 @router.post(
@@ -58,24 +57,24 @@ def create_user_list(users: list[UserCreateModel]):
   return new_users
 
 @router.put(
-  "/update_user/{user_id}",
+  "/update_user/{username}",
   tags=['User'],
   response_model=UserCreateModel,
   response_class=JSONResponse,
   summary="Edit a user",
 )
-def update_user(user_id: str, updated_user: UserCreateModel):
-  updated_user = UserService.edit_user(user_id, updated_user)
+def update_user(username: str, updated_user: UserCreateModel):
+  updated_user = UserService.edit_user(username, updated_user)
   return updated_user
   
 @router.delete(
-  "/delete_user/{user_id}",
+  "/delete_user/{username}",
   tags=['User'],
   response_class=JSONResponse,
   summary="Delete a user",
 )
-def delete_user(user_id: str, password: str):
-  deleted_user = UserService.delete_user(user_id, password)
+def delete_user(username: str, password: str):
+  deleted_user = UserService.delete_user(username, password)
   return deleted_user
 
 @router.get(
