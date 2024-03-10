@@ -35,7 +35,7 @@ after(() => {
     // Check if the response status code is either 200 or 404
     expect(response.status).to.be.oneOf([200, 404]);
   });
-}
+});
 
 Given('o usuário {string} não possui um review cadastrado para a cadeira {string}', (username, course) => {
 
