@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     Component: DisciplinesPage,
   },
   {
-    path: "/edit-discipline/:id",
+    path: "/edit-discipline/:code",
     Component: EditDisciplinePage,
   },
   {
