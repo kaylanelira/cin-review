@@ -39,14 +39,14 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
-              <button onClick={onDelete} className={styles.deleteButton}>Delete</button>
-              <button onClick={onEdit} className={styles.editButton}>Edit</button>
+              <button onClick={onDelete} className={styles.deleteButton}>Apagar</button>
+              <button onClick={onEdit} className={styles.editButton}>Editar</button>
             </div>
           </div>
         ))
       ) : (
         <div className={styles.MyReviewCard}>
-          <p>Você ainda não cadastrou um review cadastrado para essa disciplina.</p>
+          <p id="noReviewMessage">Nenhum review cadastrado pelo usuário.</p>
           <div className={styles.buttonContainer}>
             <button onClick={onAdd} className={styles.addButton}>Add</button>
           </div>
