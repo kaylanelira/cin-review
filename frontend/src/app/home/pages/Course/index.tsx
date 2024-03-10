@@ -2,21 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/navbar';
 import styles from './index.module.css';
-import Button from "../../../../shared/components/Button";
-import Input from "../../../../shared/components/Input/input";
 import MyReviewCard from '../../components/Course/MyReviewCard/MyReviewCard';
+import DeleteReviewCard from '../../components/Course/DeleteReviewCard/DeleteReviewCard';
+import AddReviewCard from '../../components/Course/AddReviewCard/AddReviewCard';
+import EditReviewCard from '../../components/Course/EditReviewCard/EditReviewCard';
 import CourseInfo from "../../components/Course/CourseInfo/CourseInfo";
 
 const Course = () => {
   const { code } = useParams(); // Get the course code from the URL params
   const [course, setcourse] = useState({}); // State to hold course information
-  const [reviews, setReviews] = useState([]); // State to hold reviews for the course
-  const [comment, setComment] = useState(""); // State for the review comment
-  const [rating, setRating] = useState(""); // State for the review rating
-  const [error_message, setErrorMessage] = useState(""); // State for error messages
-  const [success_message, setSuccessMessage] = useState(""); // State for success messages
-  const storedUser = localStorage.getItem('user'); // Get user data from local storage
-  const time = "string"; // Placeholder for time (not used)
+  const [currentCard, setCurrentCard] = useState('myReview'); // State to manage the currently displayed card
 
   // Fetch course information when component mounts
   useEffect(() => {
@@ -35,12 +30,28 @@ const Course = () => {
     fetchcourse();
   }, [code]); // Fetch course whenever the code parameter changes
 
+  // Render the currently selected card
+  const renderCard = () => {
+    switch (currentCard) {
+      case 'myReview':
+        return <MyReviewCard onDelete={() => setCurrentCard('deleteReview')} onEdit={() => setCurrentCard('editReview')} onAdd={() => setCurrentCard('addReview')} />;
+      case 'deleteReview':
+        return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview') }/>;
+      case 'addReview':
+        return <AddReviewCard course={code} />;
+      case 'editReview':
+        return <EditReviewCard course={code} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       <section className={styles.container}>
         <Navbar />
         <CourseInfo course={course} />
-        <MyReviewCard course={code} />
+        {renderCard()}
       </section>
     </div>
   );

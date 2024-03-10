@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styles from './MyReviewCard.module.css'; // Import CSS module for styling
+import styles from './EditReviewCard.module.css'; // Import CSS module for styling
 
-const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
+const EditReviewCard = ({ onDelete, onEdit, onAdd }) => {
   const [reviews, setReviews] = useState([]); // State to hold the fetched reviews
 
   useEffect(() => {
@@ -30,12 +30,15 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
       {/* Review cards */}
       {reviews.length > 0 ? (
         reviews.map((review, index) => (
-          <div key={index} className={styles.MyReviewCard}>
+          <div key={index} className={styles.EditReviewCard}>
             {/* Rating on the left */}
             <div className={styles.rating}>{review.rating}</div>
 
             {/* Comment on the right */}
             <div className={styles.comment}>{review.comment}</div>
+
+            {/* Time in the top right corner */}
+            <div>{review.time}</div>
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
@@ -45,8 +48,8 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
           </div>
         ))
       ) : (
-        <div className={styles.MyReviewCard}>
-          <p>Você ainda não cadastrou um review cadastrado para essa disciplina.</p>
+        <div className={styles.EditReviewCard}>
+          <p>Nenhum review cadastrado ainda</p>
           <div className={styles.buttonContainer}>
             <button onClick={onAdd} className={styles.addButton}>Add</button>
           </div>
@@ -56,4 +59,4 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
   );
 };
 
-export default MyReviewCard;
+export default EditReviewCard;
