@@ -19,8 +19,9 @@ const DeleteReviewCard = ({ course, onCancel }) => {
         // Refresh reviews after successful deletion
         const updatedReviews = reviews.filter(review => review.id !== reviewToDelete);
         setReviews(updatedReviews);
+        window.location.reload();
       } else {
-        console.error('Failed to delete review:', response.statusText);
+        console.error('Failed to delete review:', response.statusText, course, user.username);
       }
     } catch (error) {
       console.error('Error deleting review:', error);
