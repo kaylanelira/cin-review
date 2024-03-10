@@ -34,7 +34,7 @@ const Course = () => {
   const renderCard = () => {
     switch (currentCard) {
       case 'myReview':
-        return <MyReviewCard onDelete={() => setCurrentCard('deleteReview')} onEdit={() => setCurrentCard('editReview')} onAdd={() => setCurrentCard('addReview')} />;
+        return <MyReviewCard course={code} onDelete={() => setCurrentCard('deleteReview')} onEdit={() => setCurrentCard('editReview')} onAdd={() => setCurrentCard('addReview')} />;
       case 'deleteReview':
         return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       case 'addReview':
@@ -42,7 +42,7 @@ const Course = () => {
       case 'editReview':
         return <EditReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       default:
-        return null;
+        return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
     }
   };
 

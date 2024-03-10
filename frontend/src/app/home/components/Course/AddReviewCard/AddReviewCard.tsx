@@ -32,6 +32,7 @@ const AddReviewCard = ({ course, onCancel }) => {
         setReviews(updatedReviews);
         setNewRating(0); // Reset new rating
         setNewComment(''); // Reset new comment
+        window.location.reload();
       } else {
         console.error('Failed to add review:', response.statusText);
       }

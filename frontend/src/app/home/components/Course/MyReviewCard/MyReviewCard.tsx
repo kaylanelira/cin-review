@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './MyReviewCard.module.css'; // Import CSS module for styling
 
-const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
+const MyReviewCard = ({ course, onDelete, onEdit, onAdd }) => {
   const [reviews, setReviews] = useState([]); // State to hold the fetched reviews
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:8000/review/get_all');
+        // Get the user ID from local storage
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await fetch(`http://localhost:8000/review/get_by_user_discipline?discipline=${course}&username=${user.username}`);
         if (response.ok) {
           const data = await response.json();
           setReviews(data); // Set reviews state with fetched data
@@ -39,14 +41,14 @@ const MyReviewCard = ({ onDelete, onEdit, onAdd }) => {
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
-              <button onClick={onDelete} className={styles.deleteButton}>Delete</button>
-              <button onClick={onEdit} className={styles.editButton}>Edit</button>
+              <button onClick={onDelete} className={styles.deleteButton}>Apagar</button>
+              <button onClick={onEdit} className={styles.editButton}>Editar</button>
             </div>
           </div>
         ))
       ) : (
         <div className={styles.MyReviewCard}>
-          <p>Você ainda não cadastrou um review cadastrado para essa disciplina.</p>
+          <p id="noReviewMessage">Nenhum review cadastrado pelo usuário.</p>
           <div className={styles.buttonContainer}>
             <button onClick={onAdd} className={styles.addButton}>Add</button>
           </div>
