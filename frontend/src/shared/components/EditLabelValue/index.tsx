@@ -10,9 +10,10 @@ const EditLabelValue = (props) => {
       <div className={styles.label}>{props.label}:</div>
       <div className={styles.value}>
         <input
+          id={props.id}
           className={styles.formInput}
           type={isPasswordVisible ? "text" : props.type || "text"}
-          defaultValue={isValueEmpty ? 'Não informado' : props.editedUser[props.propertyName]}
+          value={isValueEmpty ? 'Não informado' : props.editedUser[props.propertyName]}
           onChange={(e) =>
             props.setEditedUser({
               ...props.editedUser,

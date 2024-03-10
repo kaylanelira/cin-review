@@ -15,3 +15,7 @@ When('o usuário preenche o campo {string} com {string}', (fieldName, value) => 
 Then('o usuário ainda está na página {string}', (page) => {
   cy.url().should('include', page);
 });
+
+Then('o usuário vê a mensagem {string}', (message) => {
+  cy.contains(message);
+});

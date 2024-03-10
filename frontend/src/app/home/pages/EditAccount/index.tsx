@@ -107,14 +107,14 @@ const EditAccount = () => {
       <h1 className={styles.title}>EDITAR PERFIL</h1>
       <div className={styles.profileContainer}>
 
-        <EditLabelValue propertyName="name" label="Nome" value={user.name} editedUser={editedUser} setEditedUser={setEditedUser} />
-        <EditLabelValue propertyName="surname" label="Sobrenome" value={user.surname || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
-        <EditLabelValue propertyName="username" label="Nome de Usuário" value={user.username} editedUser={editedUser} setEditedUser={setEditedUser}/>
-        <EditLabelValue propertyName="email" label="Email" value={user.email} editedUser={editedUser} setEditedUser={setEditedUser} />
-        <EditLabelValue propertyName="password" label="Senha" value={user.password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
-        <EditLabelValue propertyName="repeated_password" label="Repita a Senha" value={user.repeated_password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
-        <EditLabelValue propertyName="phone_number" label="Número de Telefone" value={user.phone_number || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
-        <EditLabelValue propertyName="field_of_interest" label="Área de Interesse" value={user.field_of_interest || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue id="edit-account-name" propertyName="name" label="Nome" value={user.name} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue id="edit-account-surname" propertyName="surname" label="Sobrenome" value={user.surname || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue id="edit-account-username" propertyName="username" label="Nome de Usuário" value={user.username} editedUser={editedUser} setEditedUser={setEditedUser}/>
+        <EditLabelValue id="edit-account-email" propertyName="email" label="Email" value={user.email} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue id="edit-account-password" propertyName="password" label="Senha" value={user.password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
+        <EditLabelValue id="edit-account-repeated-password" propertyName="repeated_password" label="Repita a Senha" value={user.repeated_password} editedUser={editedUser} setEditedUser={setEditedUser} type="password"/>
+        <EditLabelValue id="edit-account-phone-number" propertyName="phone_number" label="Número de Telefone" value={user.phone_number || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
+        <EditLabelValue id="edit-account-interest" propertyName="field_of_interest" label="Área de Interesse" value={user.field_of_interest || 'Não informado'} editedUser={editedUser} setEditedUser={setEditedUser} />
         
         {error_message && <p className={styles.errorMessage}>{error_message}</p>}
         {success_message && <p className={styles.successMessage}>{success_message}</p>}
