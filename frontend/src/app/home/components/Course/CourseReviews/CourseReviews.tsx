@@ -1,17 +1,19 @@
-import styles from "./CourseReviews.module.css"; // Import the CSS module
+import styles from "./CourseReviews.module.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function CourseReviews(course, pgnumber) {
-  parseInt(pgnumber);
+function CourseReviews({ course, pgnumber }) {
+  const [reviews, setReviews] = useState([]); // Inicialize reviews como um estado
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const response = await fetch(
           `http://localhost:8000/displayreviews/recents/${course.code}/1`
         );
-        if (response.status === 404) {
-          const reviews = response.json();
+        if (response.status === 200) {
+          const reviewsData = await response.json();
+          setReviews(reviewsData); // Atualize o estado de reviews com os dados da resposta
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
