@@ -1,13 +1,13 @@
 .container {
-    display: flex;
-    width: 90vw;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5vw;
-  }
+  display: flex;
+  width: 90vw;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5vw;
+}
 
-.heading{
+.heading {
   position: relative;
   align-self: start;
   width: 55vw;
@@ -17,7 +17,7 @@
   margin-top: 30px;
 }
 
-.button{
+.button {
   width: 15vw;
   height: 3vw;
   margin: 10px;
@@ -27,4 +27,11 @@
   border-color: transparent;
   box-shadow: none;
   outline: none;
+}
+
+.disciplineInfo {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  position: relative; /* Ensure relative positioning for absolute child */
 }
