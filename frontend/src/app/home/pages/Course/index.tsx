@@ -36,11 +36,11 @@ const Course = () => {
       case 'myReview':
         return <MyReviewCard onDelete={() => setCurrentCard('deleteReview')} onEdit={() => setCurrentCard('editReview')} onAdd={() => setCurrentCard('addReview')} />;
       case 'deleteReview':
-        return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview') }/>;
+        return <DeleteReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       case 'addReview':
-        return <AddReviewCard course={code} />;
+        return <AddReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       case 'editReview':
-        return <EditReviewCard course={code} />;
+        return <EditReviewCard course={code} onCancel={() => setCurrentCard('myReview')} />;
       default:
         return null;
     }
