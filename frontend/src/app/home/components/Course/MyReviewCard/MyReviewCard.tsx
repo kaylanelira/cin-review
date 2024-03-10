@@ -33,11 +33,15 @@ const MyReviewCard = ({ course, onDelete, onEdit, onAdd }) => {
       {reviews.length > 0 ? (
         reviews.map((review, index) => (
           <div key={index} className={styles.MyReviewCard}>
-            {/* Rating on the left */}
-            <div className={styles.rating}>{review.rating}</div>
+            {/* Time */}
+            <div className={styles.time}>{review.time}</div>
 
-            {/* Comment on the right */}
-            <div className={styles.comment}>{review.comment}</div>
+            <div className={styles.divider}>
+              {/* Rating on the left */}
+              <div className={styles.rating}>{review.rating}</div>
+              {/* Comment on the right */}
+              <div className={styles.comment}>{review.comment}</div>
+            </div>
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
