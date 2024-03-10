@@ -65,13 +65,13 @@ const Login = () => {
       <form className={styles.formContainer} onSubmit={handleSubmit}>
 
         <div className={styles.formInputContainer}>
-          <Input text="NOME DE USUÁRIO" value={username} setInfo={setUsername}/>
-          <Input text="SENHA" type="password" value={password} setInfo={setPassword}/>
+          <Input data-cy="login-username" text="NOME DE USUÁRIO" value={username} setInfo={setUsername}/>
+          <Input data-cy="login-password" text="SENHA" type="password" value={password} setInfo={setPassword}/>
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.success}>{success_message}</p>}
         </div>
 
-        <Button data-cy="login" type="submit">
+        <Button data-cy="login-button" type="submit">
           Entrar
         </Button>
         
