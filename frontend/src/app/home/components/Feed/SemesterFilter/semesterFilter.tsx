@@ -14,7 +14,7 @@ const Filter = ({ onSelectChange }) => {
  
   return (
     <div className={styles.filter}>
-      <select id="semester" value={selectedSemester} onChange={handleSelectChange} className={styles.filterSelect}>
+      <select id="semester" value={selectedSemester} onChange={handleSelectChange} className={styles.filterSelect} data-cy="semesterFilter">
         <option value="">Filtre por semestre...</option>
         <option value="1">1° Semestre</option>
         <option value="2">2° Semestre</option>
