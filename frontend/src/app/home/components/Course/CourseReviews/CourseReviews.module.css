@@ -1,0 +1,59 @@
+.ReviewSection {
+    color: #2F2F2F;
+    text-align: center;
+    border: 4px solid #2F2F2F;
+    background-color: #FEEFDD;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+  }
+  
+  .singlereview{
+    color: #2F2F2F;
+    border: 1.5px solid #2F2F2F;
+    background-color: #FEEFDD;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+  }
+  
+  .review {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1rem 0;
+    margin: 1rem 0;
+  }
+  
+  .reviewuser{
+    font-weight: bold;
+    font-size: 120%;
+  }
+  
+  .reviewdate{
+    font-size: 95%;
+  }
+  
+  .reviewgrade{
+    font-weight: bold;
+    font-size: 300%;
+  }
+  
+  .NoReviewsFound{
+    color: #a00d30;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 200%;
+  }
+  
+  .MoreReviewsButton{
+    margin-top: 2rem;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+  }
