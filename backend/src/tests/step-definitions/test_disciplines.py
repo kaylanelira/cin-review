@@ -19,12 +19,14 @@ def test_add_discipline_success():
 def submit_discipline_forms(name : str, code : str, department : str, semester : int, professor : str, description : str):
     try:
         delete_result = DisciplineService.delete_discipline(code)
-        if debug:
-            print('scenario 1')
-            print(delete_result["detail"])  
+        # debug = True
+        # if debug:
+        # print('scenario 1')
+        # print(delete_result["detail"])  
     except HTTPException as e:
-        if debug:
-            print(e.detail)  
+        pass
+        # if debug:
+            # print(e.detail)  
     
     discipline = Discipline(
         name=name, 
@@ -34,41 +36,55 @@ def submit_discipline_forms(name : str, code : str, department : str, semester :
         professor=professor,
         description=description
     )
+    # print(discipline)
     discipline_result = DisciplineService.add_discipline(discipline)
-    if debug:
-        print(discipline_result)
+    # print(discipline_result)
+
+    # if debug:
+        # print(discipline_result)
+        # debug = False
     return discipline_result 
 
 @then(parsers.cfparse("a cadeira {name} deve estar presente na lista de cadeiras"))
 def discipline_is_in_list(name):
     all_disciplines = DisciplineService.get_all_disciplines()
     # if debug:
-    #     print(all_disciplines)
+        # print(all_disciplines)
+
     assert any(discipline['name'] == name for discipline in all_disciplines)
 
 @scenario('../features/disciplines.feature', "Falha na adição de uma nova cadeira devido a campo não preenchido")
 def test_add_discipline_failure_missing_fields():
-    if debug:
-        print('scenario 2')
+    # if debug:
+        # print('scenario 2')
     pass
 
 @then(parsers.cfparse("uma mensagem de confirmação é exibida: {message}"))
 def discipline_added_confirmation(discipline_result, message):
-    if debug:
-        print('message', message, 'discipline_result', discipline_result)
+    # if debug:
+        # print('message', message, 'discipline_result', discipline_result)
+    # if discipline_result['message'] is not None:
+        # print(f'discipline result{discipline_result["message"]}')
+        # print('NOT none')
+    # else:
+        # print('none')
+    # print('discipline result', discipline_result)
     assert discipline_result['message'] == message
     
 @then(parsers.cfparse("uma mensagem de erro é exibida: {message}"))
 def discipline_add_failure_missing_fields(discipline_result, message):
+    print('discipline result', discipline_result)
+
     if debug and discipline_result['message'] != message:
-        print('discipline_result', discipline_result['message'], 'message', message)
+        pass
+        # print('discipline_result', discipline_result['message'], 'message', message)
     assert discipline_result["message"] == message
     
 @then(parsers.cfparse("a cadeira {name} não deve estar presente na lista de cadeiras"))
 def discipline_is_not_in_list(name):
     all_disciplines = DisciplineService.get_all_disciplines()
-    if debug:
-        print(all_disciplines)
+    # if debug:
+        # print(all_disciplines)
     assert not any(discipline['name'] == name for discipline in all_disciplines)
 
 @scenario('../features/disciplines.feature', "Falha na adição de uma nova cadeira devido a Code e semestre repetidos")
@@ -80,11 +96,12 @@ def ensure_discipline_exists(code, semester):
     # Primeiro, deleta todas as disciplinas com o mesmo código para evitar duplicatas
     try:
         delete_result = DisciplineService.delete_discipline(code)
-        if debug:
-            print(delete_result["detail"])
+        # if debug:
+            # print(delete_result["detail"])
     except HTTPException as e:
-        if debug:
-            print(f"No disciplines found with the code {code} to delete. Proceeding to add the new discipline.")
+        # if debug:
+        pass
+            # print(f"No disciplines found with the code {code} to delete. Proceeding to add the new discipline.")
 
     new_discipline = Discipline(
         name='Nome da Cadeira',  
@@ -94,16 +111,16 @@ def ensure_discipline_exists(code, semester):
         professor='Nome do Professor',  
         description='Descrição da Cadeira'
     )
-    if debug:
-        print(new_discipline)
+    # if debug:
+        # print(new_discipline)
     msg = DisciplineService.add_discipline(new_discipline)
 
-    if debug:
-        print(msg)
+    # if debug:
+        # print(msg)
 
     all_disciplines = DisciplineService.get_all_disciplines()
-    if debug:
-        print('disciplinas', all_disciplines, 'code, semester', type(code), type(semester))
+    # if debug:
+        # print('disciplinas', all_disciplines, 'code, semester', type(code), type(semester))
     assert any(discipline['code'] == code and discipline['semester'] == int(semester) for discipline in all_disciplines), f"Disciplina com code {code} e semestre {semester} não foi encontrada após adição."
 
 
@@ -119,15 +136,15 @@ def submit_discipline_formul(name : str, code : str, department : str, semester 
         description=description
     )
     discipline_result = DisciplineService.add_discipline(discipline)
-    if debug:
-        print(discipline_result)
+    # if debug:
+        # print(discipline_result)
     return discipline_result 
 
 @then(parsers.cfparse('deve existir apenas uma cadeira com Code "{code}" e semestre "{semester}" no sistema'))
 def check_for_duplicate_discipline(code, semester):
     all_disciplines = DisciplineService.get_all_disciplines()
-    if debug:
-        print('all disciplines', all_disciplines)
+    # if debug:
+        # print('all disciplines', all_disciplines)
     filtered_disciplines = [discipline for discipline in all_disciplines if discipline['code'] == code and discipline['semester'] == int(semester)]
     assert len(filtered_disciplines) == 1, f"Encontrada mais de uma disciplina com Code {code} e semestre {semester}."
 
@@ -154,26 +171,26 @@ def submit_discipline_update_forms(code: str, name: str, new_code: str, departme
         
         # Get the discipline ID from the obtained discipline
         discipline_id = discipline['id']
-        print(discipline_id, update_data)
+        # print(discipline_id, update_data)
 
         # Update the discipline using the obtained ID and update data
         update_result = DisciplineService.update_discipline(discipline_id, update_data)
         
         # Optionally, print a success message
-        # print(f"Discipline {code} updated successfully.")
+        print(f"Discipline {code} updated successfully.")
         discipline_result = {'message': update_result['message']}
     except HTTPException as e:
-        print(f"Failed to update discipline {code}: {e.detail}")
+        # print(f"Failed to update discipline {code}: {e.detail}")
         raise e
-    if debug:
-        print('update_result["message"]', update_result['message'])
+    # if debug:
+        # print('update_result["message"]', update_result['message'])
     return discipline_result
 
 @then(parsers.cfparse('a cadeira com Code "{code}" deve refletir as novas informações na lista de cadeiras "{name}", "{department}", "{semester}", "{professor}", "{description}"'))
 def check_updated_discipline_info(code: str, name: str, department: str, semester: str, professor: str, description: str):
     all_disciplines = DisciplineService.get_all_disciplines()
-    if debug:
-        print('all disciplines after update', all_disciplines)
+    # if debug:
+        # print('all disciplines after update', all_disciplines)
 
     # Filtra para encontrar a cadeira com o código especificado
     updated_discipline = next((discipline for discipline in all_disciplines if discipline['code'] == code), None)
@@ -197,7 +214,7 @@ def check_semester_unchanged(code, semester):
     discipline = DisciplineService.get_discipline_by_code(code)
 
     assert discipline is not None, f"Cadeira com o código {code} não foi encontrada."
-    print("discipline['semester']", discipline['semester'], semester)
+    # print("discipline['semester']", discipline['semester'], semester)
     assert str(discipline['semester']) == semester, f"O semestre da cadeira com o código {code} foi alterado inesperadamente."
 
 @scenario('../features/disciplines.feature', "Falha na edição de cadeira devido a Code inexistente")
@@ -222,10 +239,11 @@ def ensure_multiple_disciplines_exist(code: str, discipline_number: int):
     try:
         res = DisciplineService.delete_discipline(code)
     except:
-        if debug:
-            print(res)
-    if debug:
-        print(int(discipline_number) + 1)
+        pass
+        # if debug:
+            # print(res)
+    # if debug:
+        # print(int(discipline_number) + 1)
     for semester in range(1, int(discipline_number) + 1):
         new_discipline = Discipline(
             name='Nome da Cadeira',
@@ -236,8 +254,8 @@ def ensure_multiple_disciplines_exist(code: str, discipline_number: int):
             description='Descrição da Cadeira'
         )
         add_result = DisciplineService.add_discipline(new_discipline)
-        if debug:
-            print(f"Cadeira adicionada: {add_result}")
+        # if debug:
+            # print(f"Cadeira adicionada: {add_result}")
     
     all_disciplines = DisciplineService.get_all_disciplines()
     added_disciplines = [discipline for discipline in all_disciplines if discipline['code'] == code]
@@ -247,13 +265,14 @@ def ensure_multiple_disciplines_exist(code: str, discipline_number: int):
 def usuario_solicita_delecao(code: str, discipline_result):
     try:
         msg = DisciplineService.delete_discipline(code)
-        print(msg['detail'])
+        # print(msg['detail'])
         discipline_result = str(msg['detail'])
-        if debug:
-            print(f"Resultado da deleção: {discipline_result}")
+        # if debug:
+            # print(f"Resultado da deleção: {discipline_result}")
     except HTTPException as e:
-        if debug:
-            print(f"Erro ao deletar cadeiras com o code {code}: {e.detail}")
+        pass
+        # if debug:
+            # print(f"Erro ao deletar cadeiras com o code {code}: {e.detail}")
     return discipline_result
 
 @then(parsers.cfparse('todas as cadeiras com o Code "{code}" são removidas do sistema'))
@@ -263,6 +282,6 @@ def discipline_code_removed(code: str):
 
 @then(parsers.cfparse("mensagem de confirmação é exibida: {message}"))
 def discipline_added_confirmation(discipline_result, message):
-    if debug:
-        print('message', message, 'discipline_result', discipline_result)
+    # if debug:
+        # print('message', message, 'discipline_result', discipline_result)
     assert discipline_result == message

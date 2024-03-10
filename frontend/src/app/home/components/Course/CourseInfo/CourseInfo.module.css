@@ -18,7 +18,7 @@
 
 .ratingContainer {
   width: 100px; /* Set width for rating container */
-  text-align: center; /* Center-align rating */
+  text-align: left; /* Center-align rating */
 }
 
 .rating {

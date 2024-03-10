@@ -3,11 +3,21 @@ import styles from './AddReviewCard.module.css'; // Import CSS module for stylin
 
 const AddReviewCard = ({ course, onCancel }) => {
   const [reviews, setReviews] = useState([]); // State to hold the fetched reviews
-  const [newRating, setNewRating] = useState(0); // State to hold new review rating
+  const [newRating, setNewRating] = useState(); // State to hold new review rating
   const [newComment, setNewComment] = useState(''); // State to hold new review comment
+  const [error, setError] = useState(''); // State to hold error message
 
   // Function to handle submitting new review
   const submitNewReview = async () => {
+
+    // se u usuario não tiver digitado nada
+    if (isNaN(newRating)) {
+     setError('Por favor, insira uma nota.');
+     return;
+    }else{
+      setError('');
+    }
+
     try {
       // Get the user ID from local storage
       const user = JSON.parse(localStorage.getItem('user'));
@@ -50,9 +60,10 @@ const AddReviewCard = ({ course, onCancel }) => {
 
       <div className={styles.AddReviewCard}>
         <label htmlFor="rating">Nota:</label>
-        <input type="number" id="rating" value={newRating} onChange={(e) => setNewRating(parseInt(e.target.value))} />
+        <input type="number" id="rating" value={newRating} min={0}  step="0.5" max={10} onChange={(e) => setNewRating(parseInt(e.target.value))} />
         <label htmlFor="comment">Comentário:</label>
         <textarea id="comment" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+        <p className={styles.error}>{error}</p>
         <div className={styles.buttonContainer}>
           <button className={styles.noButton} onClick={onCancel}>Cancelar</button>
           <button className={styles.yesButton} onClick={submitNewReview}>Enviar</button>

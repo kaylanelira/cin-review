@@ -24,9 +24,21 @@ const AddDisciplinePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui, implemente a lógica para adicionar uma nova disciplina
-    console.log(discipline); // Exemplo de ação, substitua pela sua lógica de adição
-    navigate('/disciplines'); // Redireciona o usuário para a lista de disciplinas após a adição
+    const response = await fetch('http://localhost:8000/discipline/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(discipline),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+      navigate('/disciplines');
+    } else {
+      const errorData = await response.json();
+      console.error(errorData.detail);
+    }
   };
 
   return (
@@ -66,7 +78,8 @@ const AddDisciplinePage = () => {
             </label>
           </div>
           <div className={styles.buttonContainer}>
-            <button type="submit" className={styles.editButton}>Confirmar Adição</button>
+            <button type="submit" onClick={handleSubmit} className={styles.editButton}>Confirmar Adição</button>
+
           </div>
         </form>
       </div>
