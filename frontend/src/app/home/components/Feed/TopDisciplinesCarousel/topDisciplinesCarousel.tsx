@@ -68,9 +68,7 @@ const Carousel = () => {
         {disciplines.map((discipline, index) => (
           discipline && (
             <div key={index}>
-              <Link to={`/discipline/${discipline[0]}`} style={{ textDecoration: 'none' }}>
-                <CardTopDiscipline discipline={discipline[1]} />
-              </Link>
+              <CardTopDiscipline disciplineCode={discipline[0]} disciplineName={discipline[1]}/>
             </div>
           )
         ))}
