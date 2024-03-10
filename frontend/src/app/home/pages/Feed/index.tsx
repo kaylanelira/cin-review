@@ -76,13 +76,12 @@ const Feed = () => {
         {currentDisciplines.length > 0 ? (
           currentDisciplines.map((discipline, index) => (
           <div key={index}>
-            <Link to={`/course/${discipline.code}`} style={{ textDecoration: 'none' }}>
             <CardDiscipline 
-              discipline={discipline.name}
+              disciplineCode={discipline.code}
+              disciplineName={discipline.name}
               semester={`${discipline.semester}° Período`}
               added={true}
               />
-            </Link>
           </div>
           ))
           ) : (
