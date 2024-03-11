@@ -12,8 +12,15 @@ const AddReviewCard = ({ course, onCancel }) => {
 
     // se u usuario não tiver digitado nada
     if (isNaN(newRating)) {
-     setError('Por favor, insira uma nota.');
-     return;
+      setError('Por favor, insira uma nota.');
+      return;
+    } else {
+      setError('');
+    }
+
+    if (newRating < 0 || newRating > 10) {
+      setError('Por favor, insira uma nota entre 0 e 10.');
+      return;
     }else{
       setError('');
     }
@@ -60,7 +67,7 @@ const AddReviewCard = ({ course, onCancel }) => {
 
       <div className={styles.AddReviewCard}>
         <label htmlFor="rating">Nota:</label>
-        <input type="number" id="rating" value={newRating} min={0}  step="0.5" max={10} onChange={(e) => setNewRating(parseInt(e.target.value))} />
+        <input type="number" id="rating" value={newRating} min={0} step="0.5" max={10} onChange={(e) => setNewRating(parseInt(e.target.value))} />
         <label htmlFor="comment">Comentário:</label>
         <textarea id="comment" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
         <p className={styles.error}>{error}</p>

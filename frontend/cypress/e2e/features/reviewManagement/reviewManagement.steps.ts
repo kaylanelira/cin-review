@@ -98,7 +98,7 @@ Then('é possível ver o review com nota {string} e comentário {string}', (rati
   cy.contains(`${comment}`).should('exist');
 });
 
-Given('o usuário {string} possui um review cadastrado para a cadeira {string} com nota {string} e comentário {string}', (username, course) => {
+Given('o usuário {string} possui um review cadastrado para a cadeira {string} com nota {string} e comentário {string}', (username, course, rating, comment) => {
 
   // delete previous reviews
   cy.request({
@@ -116,8 +116,8 @@ Given('o usuário {string} possui um review cadastrado para a cadeira {string} c
     body: {
       discipline: course,
       username: username,
-      rating: 5,
-      comment: 'Test comment'
+      rating: rating,
+      comment: comment
     }
   }).then((response) => {
     expect(response.status).to.equal(200);
@@ -126,4 +126,8 @@ Given('o usuário {string} possui um review cadastrado para a cadeira {string} c
 
 Then('é possível ver a mensagem {string}', (message) => {
   cy.contains(message).should('exist');
+});
+
+Then('não é possível ver o campo {string}', (campoID) => {
+  cy.get(`input[id="${campoID}"]`).should('not.exist');
 });
