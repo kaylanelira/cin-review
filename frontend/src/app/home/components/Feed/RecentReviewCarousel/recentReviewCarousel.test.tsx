@@ -7,7 +7,7 @@ describe('Carousel component', () => {
     global.fetch = vi.fn()
       .mockResolvedValueOnce({ 
         ok: true,
-        json: () => Promise.resolve([{ discipline: 'ESS', comment: 'Great review', username: 'user1' }]),
+        json: () => Promise.resolve([{ course: 'ESS', comment: 'Great review', username: 'user1' }]),
       })
       .mockResolvedValueOnce({ 
         ok: true,

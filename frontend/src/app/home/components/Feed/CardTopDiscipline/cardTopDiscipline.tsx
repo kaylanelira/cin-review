@@ -1,14 +1,14 @@
 import styles from './cardTopDiscipline.module.css';
 import { Link } from 'react-router-dom';
 
-const CardTopDiscipline = ({ disciplineCode, disciplineName }) => {
+const CardTopCourse = ({ courseCode, courseName }) => {
   return (
-    <Link to={`/course/${disciplineCode}`} style={{ textDecoration: 'none' }}>        
+    <Link to={`/course/${courseCode}`} style={{ textDecoration: 'none' }}>        
     <div className={styles.card}>
-      <div className={styles.discipline}>{disciplineName}</div>
+      <div className={styles.course}>{courseName}</div>
     </div>
     </Link>
   );
 };
 
-export default CardTopDiscipline;
+export default CardTopCourse;

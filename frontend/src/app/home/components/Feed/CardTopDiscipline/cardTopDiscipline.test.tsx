@@ -1,19 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import CardTopDiscipline from './cardTopDiscipline';
+import CardTopCourse from './cardTopDiscipline';
 
-describe('CardTopDiscipline component', () => {
+describe('CardTopCourse component', () => {
   test('renders with initial state', () => {
-    const disciplineCode = 'ESS';
-    const disciplineName = 'Engenharia de Software e Sistemas';
-    render(<Router><CardTopDiscipline disciplineCode={disciplineCode} disciplineName={disciplineName} /></Router>);
+    const courseCode = 'ESS';
+    const courseName = 'Engenharia de Software e Sistemas';
+    render(<Router><CardTopCourse courseCode={courseCode} courseName={courseName} /></Router>);
     
     //Verificar texto
-    const disciplineElement = screen.getByText(disciplineName);
-    expect(disciplineElement).toBeInTheDocument();
+    const courseElement = screen.getByText(courseName);
+    expect(courseElement).toBeInTheDocument();
     //Verificar link
     const linkElement = screen.getByRole('link');
-    expect(linkElement).toHaveAttribute('href', `/course/${disciplineCode}`);
+    expect(linkElement).toHaveAttribute('href', `/course/${courseCode}`);
     expect(linkElement).toHaveStyle({ textDecoration: 'none' });
   });
 });

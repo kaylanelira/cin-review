@@ -11,14 +11,14 @@ When('busca por cadeira com {string}', (searchQuery) => {
 });
 
 Then('é possível ver no carrossel Em Alta:', (datatable) => {
-    cy.get('[data-cy="topDisciplinesSection"]').should('exist');
-    cy.get('[data-cy="topDisciplinesCard"]').should('exist');
+    cy.get('[data-cy="topCoursesSection"]').should('exist');
+    cy.get('[data-cy="topCoursesCard"]').should('exist');
     
     let totalCardSelectors = 0;
 
     datatable.hashes().forEach(row => {
         const { discipline } = row;
-        const cardSelector = `[data-cy="topDisciplinesCard"]`;
+        const cardSelector = `[data-cy="topCoursesCard"]`;
     
         cy.get(cardSelector).each(card => {
             const cardText = card.text();
@@ -28,7 +28,7 @@ Then('é possível ver no carrossel Em Alta:', (datatable) => {
         })
     })
     cy.then(() => {
-        cy.get('[data-cy="topDisciplinesCard"]').its('length').should('eq', totalCardSelectors);
+        cy.get('[data-cy="topCoursesCard"]').its('length').should('eq', totalCardSelectors);
     });
 });
 
@@ -44,7 +44,7 @@ Then('é possível ver no carrossel Mais Recente:', (datatable) => {
     
         cy.get(cardSelector).each(card => {
             const cardText = card.text();
-            if (cardText.includes(username) && cardText.includes(discipline) && cardText.includes(comment)) {
+            if (cardText.includes(username) && cardText.includes(discipline) && cardText.includes(comment)) { 
                 totalCardSelectors++;
             }
         })
@@ -55,13 +55,13 @@ Then('é possível ver no carrossel Mais Recente:', (datatable) => {
 });
 
 Then('é possível ver as disciplinas:', (datatable) => {
-    cy.get('[data-cy="disciplinesCard"]').should('exist');
+    cy.get('[data-cy="coursesCard"]').should('exist');
     
     let totalCardSelectors = 0;
 
     datatable.hashes().forEach(row => {
         const { name, semester } = row;
-        const cardSelector = `[data-cy="disciplinesCard"]`;
+        const cardSelector = `[data-cy="coursesCard"]`;
     
         cy.get(cardSelector).each(card => {
             const cardText = card.text();
@@ -71,6 +71,6 @@ Then('é possível ver as disciplinas:', (datatable) => {
         })
     })
     cy.then(() => {
-        cy.get('[data-cy="disciplinesCard"]').its('length').should('eq', totalCardSelectors);
+        cy.get('[data-cy="coursesCard"]').its('length').should('eq', totalCardSelectors);
     });
 });

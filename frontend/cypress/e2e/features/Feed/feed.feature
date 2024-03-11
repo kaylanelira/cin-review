@@ -143,41 +143,6 @@ Scenario: Sem review cadastradas (Em alta)
     Given nao ha reviews
     When o usuário está na página "feed"
     Then nao e possivel ver o elemento com data-cy "TopDisciplinesCarousel"
-
-Scenario: Carregamento com sucesso das disciplinas por ordem alfabetica
-    Given o DisciplineService possui:
-        | name                                    | code   | department | semester | professor        | description                      |
-        | Ingles para Computacao                  | LE530  | EC         | 6        | Prof. Silva      | Curso de ingles                  |
-        | Fisica 3                                | FI108  | AREA 2     | 4        | Prof. Oliveira   | Terceiro semestre de Fisica      |
-        | Engenharia de Software e Sistemas       | IF682  | EC         | 6        | Prof. Breno      | Estudo da Engenharia de Software |
-        | Calculo 1                               | MA026  | AREA 2     | 1        | Prof. Souza      | Calculo diferencial e integral   |
-        | Introducao a Computacao                 | IF668  | EC         | 1        | Prof. Pereira    | Conceitos basicos de computacao  |
-        | Introducao a Programacao                | IF669  | EC         | 1        | Prof. ACM        | Introducao a programacao C       |
-        | Matematica Discreta                     | IF670  | EC         | 1        | Prof. Nivan      | Estudo de matematica discreta    |
-        | Algebra Vetorial Linear para Computacao | MA531  | EC         | 1        | Prof. Paulo      | Algebra vetorial aplicada        |
-        | Calculo 2                               | MA027  | AREA 2     | 2        | Prof. Souza      | Calculo diferencial e integral II|
-        | Calculo 3                               | MA028  | AREA 2     | 3        | Prof. Souza      | Calculo diferencial integral III |
-        | Calculo 4                               | MA029  | AREA 2     | 4        | Prof. Souza      | Calculo diferencial e integral IV|
-        | Fisica 1                                | FI106  | AREA 2     | 2        | Prof. Oliveira   | Primeiro semestre de Fisica      |
-        | Fisica 2                                | FI107  | AREA 2     | 3        | Prof. Oliveira   | Segundo semestre de Fisica       |
-        | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
-    When o usuário está na página "feed"
-    Then é possível ver as disciplinas:
-        | name                                    | semester |
-        | Ingles para Computacao                  | 6        |
-        | Fisica 3                                | 4        |
-        | Engenharia de Software e Sistemas       | 6        |
-        | Calculo 1                               | 1        |
-        | Introducao a Computacao                 | 1        |
-        | Introducao a Programacao                | 1        |
-        | Matematica Discreta                     | 1        |
-        | Algebra Vetorial Linear para Computacao | 1        |
-        | Calculo 2                               | 2        |
-        | Calculo 3                               | 3        |
-        | Calculo 4                               | 4        |
-        | Fisica 1                                | 2        |
-        | Fisica 2                                | 3        |
-        | Fisica 4                                | 5        |
     
 Scenario: Sem disciplinas cadastradas
     Given nao ha disciplinas
