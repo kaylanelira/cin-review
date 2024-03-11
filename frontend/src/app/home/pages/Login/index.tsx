@@ -43,7 +43,7 @@ const Login = () => {
 
         setSuccessMessage('Login bem-sucedido!');
         setErrorMessage('');
-        navigate("/profile");
+        navigate("/feed");
       } else {
         const errorData = await response.json();
         console.error('Erro no login:', errorData);
