@@ -64,14 +64,14 @@ const AccountProfile = () => {
         <ShowLabelValue label="Área de Interesse" value={user.field_of_interest || 'Não informado'} />
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Button data-cy="create" onClick={handleLogout}>
+          <Button data-cy="logout" onClick={handleLogout}>
             Logout
           </Button>
-          <Button data-cy="create" onClick={openDeleteModal}>
-            Deletar Perfil
+          <Button data-cy="delete" onClick={openDeleteModal}>
+            Deletar
           </Button>
-          <Button data-cy="create" onClick={() => navigate('/edit-account')}>
-            Editar Perfil
+          <Button data-cy="edit" onClick={() => navigate('/edit-account')}>
+            Editar
           </Button>
         </div>
 

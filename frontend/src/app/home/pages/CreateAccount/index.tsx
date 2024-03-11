@@ -75,14 +75,14 @@ const CreateAccount = () => {
       <form className={styles.formContainer} onSubmit={handleSubmit}>
 
         <div className={styles.formInputContainer}>
-          <Input text="Nome" value={name} setInfo={setName}/>
-          <Input text="Sobrenome" value={surname} setInfo={setSurname}/>
-          <Input text="Nome de Usuário" value={username} setInfo={setUsername}/>
-          <Input text="E-mail" value={email} setInfo={setEmail}/>
-          <Input text="Senha" value={password} setInfo={setPassword} type="password"/>
-          <Input text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
-          <Input text="Número de Telefone" value={phoneNumber} setInfo={setPhoneNumber}/>
-          <Input text="Área de Interesse" value={fieldOfInterest} setInfo={setFieldOfInterest}/>
+          <Input id="create-account-name" text="Nome" value={name} setInfo={setName}/>
+          <Input id="create-account-surname" text="Sobrenome" value={surname} setInfo={setSurname}/>
+          <Input id="create-account-username" text="Nome de Usuário" value={username} setInfo={setUsername}/>
+          <Input id="create-account-email" text="E-mail" value={email} setInfo={setEmail}/>
+          <Input id="create-account-password" text="Senha" value={password} setInfo={setPassword} type="password"/>
+          <Input id="create-account-repeated-password" text="Repita a Senha" value={repeatedPassword} setInfo={setRepeatedPassword} type="password"/>
+          <Input id="create-account-phone-number" text="Número de Telefone" value={phoneNumber} setInfo={setPhoneNumber}/>
+          <Input id="create-account-interest" text="Área de Interesse" value={fieldOfInterest} setInfo={setFieldOfInterest}/>
 
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.successMessage}>{success_message}</p>}
