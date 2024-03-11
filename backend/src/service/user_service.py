@@ -81,7 +81,7 @@ class UserService:
 
       return edited_user
     except DuplicateKeyError:
-      raise HTTPException(status_code=500, detail="Erro interno do servidor")
+      raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno do servidor")
 
   # Deleta o user do banco de dados
   @staticmethod
@@ -92,10 +92,10 @@ class UserService:
     if user["password"] == password:
       deleted_user = db_instance.delete("users", user["id"])
     else:
-      raise HTTPException(status_code=400, detail="Senha incorreta. A conta não foi deletada.")
+      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Senha incorreta. A conta não foi deletada.")
     
     if not deleted_user:
-      raise HTTPException(status_code=404, detail="Usuário não encontrado")
+      raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado")
     
     return deleted_user
   

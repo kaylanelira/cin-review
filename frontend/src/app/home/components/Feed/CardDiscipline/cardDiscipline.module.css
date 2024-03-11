@@ -10,11 +10,11 @@
     align-items: center;
   }
   
-  .discipline {
+  .course {
     font-weight: bold;
   }
 
-  .cardDisciplineLeft{
+  .cardCourseLeft{
     display: inline-flex;
     align-items: center;
     font-weight: bold;

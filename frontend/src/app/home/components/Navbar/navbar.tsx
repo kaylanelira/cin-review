@@ -4,6 +4,7 @@ import styles from './navbar.module.css';
 import search_icon from '../../assets/search-icon.svg';
 
 const Navbar: React.FC = () => {
+  //Realizar a pesquisa pela serch bar
   const [searchQuery, setSearchQuery] = useState('');
   
   const handleSearch = () => {
@@ -36,7 +37,7 @@ const Navbar: React.FC = () => {
     </div>
     <div className={styles.navbarRight}>
       <div className={styles.anim}>
-        <Link to="/tests" className={styles.tab}>Biblioteca</Link>
+        <Link to="/feed" className={styles.tab}>Biblioteca</Link>
       </div>
       <div className={styles.anim}>
         <Link to="/profile" className={styles.tab}>Perfil</Link>

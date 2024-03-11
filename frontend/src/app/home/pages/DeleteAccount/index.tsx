@@ -73,7 +73,7 @@ const DeleteAccount = () => {
           <h2 className={styles.subtitle}>Não é possível desfazer essa ação</h2>
           <p className={styles.paragraph}>Confirme a exclusão utilizando sua senha</p>
           
-          <Input text="Senha" value={passwordInput} setInfo={setPasswordInput} type="password"/>
+          <Input id="delete-account-password" text="Senha" value={passwordInput} setInfo={setPasswordInput} type="password"/>
           
           {error_message && <p className={styles.errorMessage}>{error_message}</p>}
           {success_message && <p className={styles.successMessage}>{success_message}</p>}

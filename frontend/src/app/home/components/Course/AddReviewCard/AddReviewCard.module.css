@@ -35,3 +35,9 @@
 .yesButton {
   background-color: #32cd32; /* Green */
 }
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

@@ -12,6 +12,7 @@ const CourseInfo = ({ course }) => {
         if (response.ok) {
           const data = await response.json();
           setReviews(data.filter(review => review.discipline === course.code)); // Filter reviews for the current course
+          console.log('Reviews:', reviews);
         }
       } catch (error) {
         console.error('Error fetching reviews:', error);

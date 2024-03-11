@@ -71,7 +71,7 @@ const Login = () => {
           {success_message && <p className={styles.success}>{success_message}</p>}
         </div>
 
-        <Button data-cy="login" type="submit">
+        <Button data-cy="login-button" type="submit">
           Entrar
         </Button> 
         

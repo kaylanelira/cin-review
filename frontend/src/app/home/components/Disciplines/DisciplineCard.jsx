@@ -4,7 +4,7 @@ import styles from './DisciplineCard.module.css';
 
 const DisciplineCard = ({ discipline }) => {
   return (
-    <Link to={`/edit-discipline/${discipline.id}`} className={styles.card}> 
+    <Link to={`/edit-discipline/${discipline.code}`} className={styles.card}> 
       <h3>{discipline.name} - {discipline.code}</h3>
       <p>{discipline.department}</p>
       <p><strong>Semestre:</strong> {discipline.semester}</p>

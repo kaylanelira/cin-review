@@ -19,7 +19,7 @@ describe('Navbar component', () => {
     expect(bibliotecaText).toBeInTheDocument();
     //Verificar link
     const bibliotecaLink = bibliotecaText.closest('a');
-    expect(bibliotecaLink).toHaveAttribute('href', `/tests`);
+    expect(bibliotecaLink).toHaveAttribute('href', `/feed`);
 
     //Verificar texto
     const profileText = screen.getByText('Perfil');

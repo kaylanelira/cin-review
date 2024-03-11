@@ -3,7 +3,7 @@ from service.review_service import ReviewService, db_instance
 from service.discipline_service import DisciplineService
 from tests.utils import utils
 
-debug = True
+debug = False
 
 # Scenario 1 =====================================================================================
 @scenario(scenario_name="Carregamento com sucesso das reviews mais recentes", feature_name="../features/feed.feature")
@@ -25,7 +25,7 @@ def add_review_to_ReviewService(client, context, data):
             ReviewService.delete_review(review_data['_id'])
 
     for review_data in review_data_list:
-        req_url = f'/review/add_review'
+        req_url = f'/review/add'
         response = client.post(req_url, json=review_data)
         if debug:
             print(f"Resposta do servidor (status {response.status_code}): {response.text}")
@@ -58,7 +58,17 @@ def check_response_json(context):
     sorted_reviews = sorted(reviews, key=lambda x: x['time'], reverse=True)
     recent_reviews = sorted_reviews[:10]
     response_json = context["response"].json()
-    assert recent_reviews == response_json
+    recent_reviews_json = [
+        {
+            'username': review['username'],
+            'discipline': review['discipline'],
+            'rating': review['rating'],
+            'comment': review['comment'],
+            'time': review['time']
+        }
+        for review in recent_reviews
+    ]
+    assert recent_reviews_json == response_json
 
     return context    
 
