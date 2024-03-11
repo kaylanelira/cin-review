@@ -115,6 +115,10 @@ Then('o usuário ainda está na página {string}', (page) => {
   cy.url().should('include', page);
 });
 
+Then('o usuário vê a mensagem {string}', (message) => {
+  cy.contains(message);
+});
+
 Then("é possível ver {string}", (text) => {
   cy.contains(`${text}`).should("be.visible");
 });
