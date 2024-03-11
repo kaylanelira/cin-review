@@ -5,6 +5,7 @@
     "cypress/e2e/features/common-step-definitions/*.ts",
     "cypress/e2e/features/reviewManagement/*.ts",
     "cypress/e2e/features/Feed/*.ts",
-    "cypress/e2e/features/login/*.ts"
+    "cypress/e2e/features/login/*.ts",
+    "cypress/e2e/features/Account/*.ts"
   ]
 }
