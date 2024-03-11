@@ -62,7 +62,7 @@ const Carousel = () => {
   };
   
   return (
-    <div>
+    <div data-cy="TopDisciplinesCarousel">
       <h2 className={styles.heading}>Em Alta</h2>
       <Slider {...settings} className={styles.carousel}>
         {disciplines.map((discipline, index) => (

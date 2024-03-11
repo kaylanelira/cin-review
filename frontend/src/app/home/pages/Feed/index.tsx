@@ -65,14 +65,14 @@ const Feed = () => {
       <section className={styles.container}>
       <Navbar />
       <div className={styles.carousel}>
-        <RecentReviewCarousel />
+        <RecentReviewCarousel/>
       </div> 
       <div className={styles.carousel}>
         <TopDisciplinesCarousel />
       </div>
       <h2 className={styles.heading}>Cadeiras</h2>
       <div className={styles.disciplines}>
-        <SemesterFilter onSelectChange={handleSemesterChange}/>
+        <SemesterFilter onSelectChange={handleSemesterChange} />
         {currentDisciplines.length > 0 ? (
           currentDisciplines.map((discipline, index) => (
           <div key={index}>
