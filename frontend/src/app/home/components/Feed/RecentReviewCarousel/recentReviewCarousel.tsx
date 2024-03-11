@@ -58,9 +58,10 @@ const Carousel = () => {
   };
 
   return (
+    <div data-cy="recentReviewsSection">
     <Slider {...settings} className={styles.carousel} data-cy="RecentReviewCarousel">
       {reviews.map((review, index) => (
-        <div key={index} data-cy={index}>
+        <div key={index} data-cy="recentReviewsCard">
           <CardRecentReview 
             discipline={disciplines[index]}
             review={review.comment}
@@ -69,6 +70,7 @@ const Carousel = () => {
         </div>
       ))}
     </Slider>
+    </div>
   );
 };
 

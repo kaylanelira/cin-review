@@ -48,7 +48,7 @@ Scenario: Carregamento com sucesso das reviews mais recentes
         | Fisica 2                                | FI107  | AREA 2     | 3        | Prof. Oliveira   | Segundo semestre de Fisica       |
         | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
     When o usuário está na página "feed"
-    #Then é possível ver no carrossel:
+    Then é possível ver no carrossel Mais Recente:
         | username  | discipline                        | comment       |
         | usuario1  | Ingles para Computacao            | Comentário 1  |
         | usuario2  | Ingles para Computacao            | Comentário 2  |
@@ -121,7 +121,7 @@ Scenario: Carregamento com sucesso das cadeiras Em Alta
         | Fisica 2                                | FI107  | AREA 2     | 3        | Prof. Oliveira   | Segundo semestre de Fisica       |
         | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
     When o usuário está na página "feed"
-    #Then é possível ver:
+    Then é possível ver no carrossel Em Alta:
         | discipline                        |
         | Ingles para Computacao            |
         | Fisica 3                          |
@@ -162,7 +162,7 @@ Scenario: Carregamento com sucesso das disciplinas por ordem alfabetica
         | Fisica 2                                | FI107  | AREA 2     | 3        | Prof. Oliveira   | Segundo semestre de Fisica       |
         | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
     When o usuário está na página "feed"
-    #Then é possível ver:
+    Then é possível ver as disciplinas:
         | name                                    | semester |
         | Ingles para Computacao                  | 6        |
         | Fisica 3                                | 4        |
@@ -203,7 +203,13 @@ Scenario: Aplicacao do filtro por periodo com sucesso
         | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
     When o usuário está na página "feed"
     And semestre "1" é selecionado no filtro
-    #Then o status da resposta deve ser "200"
+    Then é possível ver as disciplinas:
+        | name                                    | semester |
+        | Calculo 1                               | 1        |
+        | Introducao a Computacao                 | 1        |
+        | Introducao a Programacao                | 1        |
+        | Matematica Discreta                     | 1        |
+        | Algebra Vetorial Linear para Computacao | 1        |
 
 Scenario: Aplicacao do filtro por periodo sem sucesso
     Given o DisciplineService possui:
@@ -244,7 +250,14 @@ Scenario: Busca pelo nome da disciplina com sucesso
         | Fisica 2                                | FI107  | AREA 2     | 3        | Prof. Oliveira   | Segundo semestre de Fisica       |
         | Fisica 4                                | FI109  | AREA 2     | 5        | Prof. Oliveira   | Quarto semestre de Fisica        |
     When busca por cadeira com "is"
-    #Then o status da resposta deve ser "200"
+    Then é possível ver as disciplinas:
+        | name                                    | semester |
+        | Fisica 3                                | 4        |
+        | Engenharia de Software e Sistemas       | 6        |
+        | Matematica Discreta                     | 1        |
+        | Fisica 1                                | 2        |
+        | Fisica 2                                | 3        |
+        | Fisica 4                                | 5        |  
     
 Scenario: Busca pelo nome da disciplina sem sucesso
     Given o DisciplineService possui:

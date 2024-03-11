@@ -62,12 +62,12 @@ const Carousel = () => {
   };
   
   return (
-    <div data-cy="TopDisciplinesCarousel">
+    <div data-cy="topDisciplinesSection">
       <h2 className={styles.heading}>Em Alta</h2>
       <Slider {...settings} className={styles.carousel}>
         {disciplines.map((discipline, index) => (
           discipline && (
-            <div key={index}>
+            <div key={index} data-cy="topDisciplinesCard">
               <CardTopDiscipline disciplineCode={discipline[0]} disciplineName={discipline[1]}/>
             </div>
           )
