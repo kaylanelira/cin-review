@@ -16,6 +16,13 @@ const EditReviewCard = ({ course, onCancel }) => {
       setError('');
     }
 
+    if (updatedRating < 0 || updatedRating > 10) {
+      setError('Por favor, insira uma nota entre 0 e 10.');
+      return;
+    }else{
+      setError('');
+    }
+
     try {
       // Get the user ID from local storage
       const user = JSON.parse(localStorage.getItem('user'));
