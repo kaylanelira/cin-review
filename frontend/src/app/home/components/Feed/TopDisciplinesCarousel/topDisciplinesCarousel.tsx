@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import CardTopDiscipline from '../CardTopDiscipline/cardTopDiscipline'; 
+import CardTopCourse from '../CardTopDiscipline/cardTopDiscipline'; 
 import styles from "./topDisciplinesCarousel.module.css";
 
 const Carousel = () => {
-  const [disciplines, setDisciplines] = useState([]);
+  const [courses, setCourses] = useState([]);
 
+  //Pegar os cursos com mais reviews, retorna uma array com códigos das disciplinas
   useEffect(() => {
-    const fetchTopDisciplines = async () => {
+    const fetchTopCourses = async () => {
       try {
         const response = await fetch('http://localhost:8000/review/get_disciplines_by_most_reviews'); 
         if (response.ok) {
           const data = await response.json();
-          const disciplinesData = await Promise.all(data.map(fetchDisciplineName));
-          setDisciplines(disciplinesData.filter(discipline => discipline)); 
+          const coursesData = await Promise.all(data.map(fetchCourseName));
+          setCourses(coursesData.filter(course => course)); 
         }
       } catch (error) {
-        console.error('Error fetching top disciplines:', error);
+        console.error('Error fetching top courses:', error);
       }
     };
 
-    fetchTopDisciplines();
+    fetchTopCourses();
 
-    const timer = setInterval(fetchTopDisciplines, 30000);
+    const timer = setInterval(fetchTopCourses, 30000); //Atualiza a cada 30 segundos
     return () => {
       clearInterval(timer);
     };
   }, []);
 
-  const fetchDisciplineName = async (code) => {
+  //Cada código será usado para pegar o nome da disciplina referente
+  const fetchCourseName = async (code) => {
     try {
       const response = await fetch(`http://localhost:8000/discipline/by_code/${code}`);
       if (response.ok) {
@@ -39,18 +40,20 @@ const Carousel = () => {
         return [code, name];
       }
     } catch (error) {
-      console.error('Error fetching discipline:', error);
+      console.error('Error fetching course:', error);
     }
     return null;
   };
 
-  if (disciplines.length === 0) {
+  //Se não houver reviews, a seção não deve aparecer
+  if (courses.length === 0) {
     return null; 
   }
 
+  //Configurações do carrossel
   const settings = {
     dots: true,
-    infinite: disciplines.length > 1,
+    infinite: courses.length > 1,
     speed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -62,13 +65,13 @@ const Carousel = () => {
   };
   
   return (
-    <div data-cy="TopDisciplinesCarousel">
+    <div data-cy="topCoursesSection">
       <h2 className={styles.heading}>Em Alta</h2>
       <Slider {...settings} className={styles.carousel}>
-        {disciplines.map((discipline, index) => (
-          discipline && (
-            <div key={index}>
-              <CardTopDiscipline disciplineCode={discipline[0]} disciplineName={discipline[1]}/>
+        {courses.map((course, index) => (
+          course && (
+            <div key={index} data-cy="topCoursesCard">
+              <CardTopCourse courseCode={course[0]} courseName={course[1]}/>
             </div>
           )
         ))}

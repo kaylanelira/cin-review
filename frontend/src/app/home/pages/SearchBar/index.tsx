@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import CardDiscipline from '../../components/Feed/CardDiscipline/cardDiscipline';
+import { useParams } from 'react-router-dom';
+import CardCourse from '../../components/Feed/CardDiscipline/cardDiscipline';
 import Navbar from '../../components/Navbar/navbar';
 import styles from './index.module.css'
 
@@ -8,8 +8,9 @@ const SearchResults = () => {
   const { searchQuery } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const disciplinesPerPage = 15;
+  const coursesPerPage = 15;
 
+  //Buscar disciplinas com trecho especificado em seu nome
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
@@ -26,10 +27,10 @@ const SearchResults = () => {
     fetchSearchResults();
   }, [searchQuery]);
 
-  
-  const indexOfLastDiscipline = currentPage * disciplinesPerPage;
-  const indexOfFirstDiscipline = indexOfLastDiscipline - disciplinesPerPage;
-  const currentDisciplines = searchResults.slice(indexOfFirstDiscipline, indexOfLastDiscipline);
+  //Define quantas disciplinas serão exibidas, se há necessidade de outra "seção"
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = searchResults.slice(indexOfFirstCourse, indexOfLastCourse);
   
   const handleClick = (type) => {
     if (type === 'prev') {
@@ -44,14 +45,14 @@ const SearchResults = () => {
       <section className={styles.container}>
       <Navbar />
       <h1 className={styles.heading}>Resultados da Pesquisa</h1>
-      <div className={styles.disciplines}>
-        {currentDisciplines.length > 0 ? (
-          currentDisciplines.map((discipline, index) => (
+      <div className="courses">
+        {currentCourses.length > 0 ? (
+          currentCourses.map((course, index) => (
           <div key={index}>
-            <CardDiscipline 
-              disciplineCode={discipline.code}
-              disciplineName={discipline.name}
-              semester={`${discipline.semester}° Período`}
+            <CardCourse 
+              courseCode={course.code}
+              courseName={course.name}
+              semester={`${course.semester}° Período`}
               added={true}
               />
           </div>
@@ -63,7 +64,7 @@ const SearchResults = () => {
       </div>
       <div>
           {currentPage > 1 && <button onClick={() => handleClick('prev')} className={styles.button}>Anterior</button>}
-          {searchResults.length > currentPage * disciplinesPerPage && <button onClick={() => handleClick('next')} className={styles.button}>Próxima</button>}
+          {searchResults.length > currentPage * coursesPerPage && <button onClick={() => handleClick('next')} className={styles.button}>Próxima</button>}
         </div>
       </section>
     </div>     

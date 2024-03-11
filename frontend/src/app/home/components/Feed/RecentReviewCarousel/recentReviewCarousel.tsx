@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -7,17 +7,18 @@ import CardRecentReview from '../CardRecentReview/cardRecentReview';
 
 const Carousel = () => {
   const [reviews, setReviews] = useState([]);
-  const [disciplines, setDisciplines] = useState([]);
+  const [courses, setCourses] = useState([]);
 
+  //Pegar reviews mais recentes (com o código da disciplina), é preciso pegar as disciplinas ("join") para pegar o nome da disciplina
   useEffect(() => {
     const fetchRecentReviews = async () => {
       try {
         const response = await fetch('http://localhost:8000/review/get_recent_reviews'); 
         if (response.ok) {
           const data = await response.json();
-          const disciplinesData = await Promise.all(data.map(fetchDisciplineName));
+          const coursesData = await Promise.all(data.map(fetchCourseName));
           setReviews(data); 
-          setDisciplines(disciplinesData); 
+          setCourses(coursesData); 
         }
       } catch (error) {
         console.error('Error fetching recent reviews:', error);
@@ -26,13 +27,14 @@ const Carousel = () => {
   
     fetchRecentReviews();
   
-    const timer = setInterval(fetchRecentReviews, 30000);
+    const timer = setInterval(fetchRecentReviews, 30000); //A cada 30 segundos a lista é atualizada
     return () => {
       clearInterval(timer);
     };
   }, []);
   
-  const fetchDisciplineName = async (data) => {
+  //De acordo com cada código disponível, pega-se a disciplina referente e retorna apenas o nome
+  const fetchCourseName = async (data) => {
     try {
       const response = await fetch(`http://localhost:8000/discipline/by_code/${data.discipline}`); 
       if (response.ok) {
@@ -40,10 +42,11 @@ const Carousel = () => {
         return name;
       }
     } catch (error) {
-      console.error('Error fetching discipline:', error);
+      console.error('Error fetching course:', error);
     }
   };
 
+  //Configurações do carrossel
   const settings = {
     dots: true,
     infinite: reviews.length > 1,
@@ -58,17 +61,19 @@ const Carousel = () => {
   };
 
   return (
+    <div data-cy="recentReviewsSection">
     <Slider {...settings} className={styles.carousel} data-cy="RecentReviewCarousel">
       {reviews.map((review, index) => (
-        <div key={index} data-cy={index}>
+        <div key={index} data-cy="recentReviewsCard">
           <CardRecentReview 
-            discipline={disciplines[index]}
+            course={courses[index]}
             review={review.comment}
             student={review.username}
           />
         </div>
       ))}
     </Slider>
+    </div>
   );
 };
 
